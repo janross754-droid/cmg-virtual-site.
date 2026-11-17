@@ -144,3 +144,165 @@ th {
     width: 100%;
   }
 }
+
+/* CMG VIRTUAL NEURAL HACKER INTERFACE */
+
+.hacker-panel {
+  background: linear-gradient(145deg, #07140d, #020604 75%);
+  border: 1px solid rgba(0,255,130,.35);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 0 28px rgba(0,255,130,.12);
+  overflow: hidden;
+}
+
+.hacker-header,
+.terminal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #00ff88;
+}
+
+.system-status {
+  color: #00ff88;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.hacker-title {
+  text-align: center;
+  padding: 25px 5px;
+}
+
+.hacker-icon {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+  color: #00ff88;
+  font-size: 45px;
+  box-shadow: 0 0 25px rgba(0,255,136,.35);
+  animation: neuralPulse 2s infinite;
+}
+
+.hacker-title h2 {
+  color: #00ff88;
+  font-size: 23px;
+  letter-spacing: 2px;
+  margin: 18px 0 8px;
+}
+
+.hacker-title p {
+  color: #86aa96;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.scan-terminal {
+  position: relative;
+  background: #020805;
+  border: 1px solid rgba(0,255,136,.25);
+  border-radius: 12px;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.terminal-top {
+  border-bottom: 1px solid rgba(0,255,136,.2);
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+.scan-terminal p {
+  color: #b0d9bd;
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.scan-terminal p span {
+  color: #00ff88;
+  margin-right: 8px;
+}
+
+.scanner-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.scanner-metrics div {
+  text-align: center;
+  background: #091a10;
+  border: 1px solid rgba(0,255,136,.2);
+  border-radius: 10px;
+  padding: 14px 5px;
+}
+
+.scanner-metrics strong {
+  display: block;
+  color: #00ff88;
+  font-size: 22px;
+}
+
+.scanner-metrics span {
+  display: block;
+  color: #91b49d;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.hacker-upload {
+  background: #07150d;
+  border: 1px dashed #00ff88;
+  border-radius: 13px;
+  margin: 18px 0;
+  min-height: 125px;
+}
+
+.hacker-upload strong {
+  color: #00ff88;
+  letter-spacing: 1px;
+}
+
+.hacker-upload span {
+  color: #91b49d;
+}
+
+.hacker-button {
+  background: linear-gradient(100deg, #00a85b, #00ff88);
+  color: #001a0c;
+  font-weight: 900;
+  letter-spacing: 1px;
+  min-height: 52px;
+  box-shadow: 0 0 22px rgba(0,255,136,.2);
+}
+
+.hacker-disclaimer {
+  color: #789484;
+  font-size: 10px;
+  line-height: 1.6;
+  border-top: 1px solid rgba(0,255,136,.15);
+  margin-top: 20px;
+  padding-top: 12px;
+}
+
+@keyframes neuralPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(0,255,136,.2); }
+  50% { box-shadow: 0 0 32px rgba(0,255,136,.6); }
+}
+
+@media(max-width: 480px) {
+  .hacker-panel { padding: 14px; }
+  .hacker-title h2 { font-size: 19px; }
+  .scanner-metrics { gap: 6px; }
+}
