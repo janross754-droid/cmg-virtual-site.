@@ -452,7 +452,13 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "Could not load payment requests.");
-        setMessage("adminMsg", `${result.payments.length} payment request(s) found.`);
+        const pendingCount = result.payments.filter((payment) => String(payment.status || "").toLowerCase() === "pending").length;
+        result.payments.sort((left, right) => {
+          const leftPending = String(left.status || "").toLowerCase() === "pending" ? 1 : 0;
+          const rightPending = String(right.status || "").toLowerCase() === "pending" ? 1 : 0;
+          return rightPending - leftPending || new Date(right.created_at || 0) - new Date(left.created_at || 0);
+        });
+        setMessage("adminMsg", `${pendingCount} pending approval(s) · ${result.payments.length} total request(s) found.`);
         if (!result.payments.length) {
           $("adminPayments").innerHTML = '<div class="empty-state">No payment requests yet. New customer submissions will appear here.</div>';
           return;
@@ -469,8 +475,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           email.textContent = payment.user_email || "";
           customer.append(name, email);
           const status = document.createElement("span");
-          status.className = `status-pill ${payment.status === "pending" ? "pending" : payment.status === "approved" ? "approved" : "rejected"}`;
-          status.textContent = payment.status;
+          const paymentStatus = String(payment.status || "unknown").toLowerCase();
+          status.className = `status-pill ${paymentStatus === "pending" ? "pending" : paymentStatus === "approved" ? "approved" : "rejected"}`;
+          status.textContent = paymentStatus;
           head.append(customer, status);
           const details = document.createElement("div");
           details.className = "admin-payment-details";
@@ -504,7 +511,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
             noProof.textContent = "No payment screenshot was attached to this request.";
             card.append(noProof);
           }
-          if (payment.status === "pending") {
+          if (paymentStatus === "pending") {
             const actions = document.createElement("div");
             actions.className = "admin-actions";
             const approve = document.createElement("button");

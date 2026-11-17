@@ -40,7 +40,7 @@ exports.handler = async (event) => {
     const result = [];
     for (const payment of payments || []) {
       const [profiles, packageRows] = await Promise.all([
-        supabase("/rest/v1/profiles?id=eq." + encodeURIComponent(payment.user_id) + "&select=email,full_name,phone_number", {}, service, url),
+        supabase("/rest/v1/profiles?id=eq." + encodeURIComponent(payment.user_id) + "&select=full_name,phone_number", {}, service, url),
         supabase("/rest/v1/packages?id=eq." + encodeURIComponent(payment.package_id) + "&select=name,credits", {}, service, url)
       ]);
       const profile = profiles?.[0] || {};
@@ -48,7 +48,7 @@ exports.handler = async (event) => {
       const screenshot_url = await signedProofUrl(payment.screenshot_path, url, service);
       result.push({
         ...payment,
-        user_email: profile.email || payment.user_id,
+        user_email: payment.user_id,
         profile_name: profile.full_name || null,
         profile_phone: profile.phone_number || null,
         package_name: pkg.name || "Package",
