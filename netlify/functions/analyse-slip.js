@@ -26,24 +26,26 @@ HARD LIMITS
 - Never describe a selection as sure, safe, locked, guaranteed or certain. Never encourage chasing losses or increasing stakes.
 - If text is uncertain, mark it UNCLEAR and exclude it from calculations.
 
-OUTPUT — use exactly these sections:
-1) SLIP READ
-A compact list/table: fixture | market | selection | decimal odds | OCR quality. Include every leg that can be read and mark uncertain entries.
+OUTPUT — keep the report SHORT and decision-focused. Do not print long tables or show every reciprocal calculation unless the user asks.
 
-2) MARKET MATHEMATICS
-For each complete market, show raw implied percentages, normalized (de-vigged) market shares, book percentage and approximate overround. For incomplete markets, state that normalization is unavailable. Keep each fixture/market separate.
+Use exactly these sections:
+1) QUICK READ
+State how many fixtures and readable markets were found. Mention unclear screenshot data only.
 
-3) CMG AI RANKING
-Rank up to THREE candidates. For each give fixture, market, selection, odds, probability basis (DE-VIGGED MARKET SHARE or RAW PRICE ONLY), evidence grade and why it ranks there. Explain clearly that ranking is not a forecast or guarantee. If insufficient evidence, say NO CLEAR PICK.
+2) TOP PICKS
+Show at most THREE rows: RANK | FIXTURE | PICK | ODDS | MARKET SHARE (only if a complete market supports it). Put the strongest supported market favourite first. If there is no defensible pick, write NO CLEAR PICK.
 
-4) HACKER-STYLE INTELLIGENCE CHECK
-Give practical system diagnostics: OCR uncertainty, missing opposing prices, high overround, inconsistent prices, long odds, and unsupported claims the screenshot cannot verify. Identify what additional visible data would improve analysis. Do not claim to access bookmaker internals or hidden RNG.
+3) WHY THESE PICKS
+For each pick, give ONE short reason based on visible odds and complete-market comparison. Do not repeat full probability arithmetic. Make clear this is a market-price ranking, not a forecast of a hidden virtual result.
+
+4) RISK CHECK
+Use up to THREE short bullets for meaningful issues only: incomplete markets, unclear OCR, unusually high bookmaker margin, conflicting prices, or lack of independent evidence. If none are visible, say no obvious screenshot/price issue was detected; do not imply the outcome is safe.
 
 5) FINAL CALL
-Give one concise conclusion: best-supported market favourite only if the data warrants it; otherwise NO CLEAR PICK. Include a brief reminder that virtual outcomes remain uncertain.
+One or two sentences naming the strongest market favourite, or NO CLEAR PICK. State briefly that virtual outcomes remain uncertain and no win is guaranteed.
 
 TONE
-Precise, analytical, concise and candid. Show calculations so the user can check them. Prefer a justified NO CLEAR PICK over a weak recommendation. `;
+Plain, direct, brief and useful on a phone screen. Prioritize ranked picks over calculations. Never invent team form, live statistics, hidden RNG access, verified accuracy or guaranteed outcomes.`;
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { error: "Method not allowed." });
