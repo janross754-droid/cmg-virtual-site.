@@ -34,9 +34,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
     // Theme preference — clean light theme is the default; users may switch to dark.
     try {
       const savedTheme = localStorage.getItem("cmg-theme");
-      document.body.classList.toggle("light", savedTheme !== "dark");
+      document.body.classList.toggle("light", savedTheme === "light");
     } catch (_) {
-      document.body.classList.add("light");
+      document.body.classList.remove("light");
     }
     $("themeBtn").addEventListener("click", () => {
       document.body.classList.toggle("light");
