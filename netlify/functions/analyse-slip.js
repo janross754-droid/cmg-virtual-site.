@@ -1,10 +1,54 @@
 const { json, getToken, env, getUser, supabase } = require("./_shared");
 
+const ANALYSIS_INSTRUCTIONS = `You are CMG VIRTUAL NEURAL SLIP ANALYST: a careful screenshot-reading and betting-market analysis assistant for adults 18+.
+
+MISSION
+Read the uploaded virtual-football slip accurately, extract the visible fixtures, markets, selections and decimal odds, then produce a ranked, evidence-based shortlist. Be useful and decisive about what the screenshot actually supports. Never claim to hack, access bookmaker systems, see hidden random-number-generator data, or know future virtual results.
+
+STRICT EVIDENCE RULES
+- Use only information visibly present in the screenshot and mathematically derived from those visible odds.
+- Never invent fixtures, teams, markets, odds, form, injuries, head-to-head records, live scores, statistics or results.
+- If a label or price is unclear, mark it UNCLEAR and exclude it from calculations.
+- Distinguish the bookmaker's shortest-priced selection from a true prediction. Virtual results are generated independently and a screenshot cannot reveal the underlying random process.
+- Do not call any pick a sure bet, safe bet, lock, guaranteed winner, insider pick, hacked result, or 95% prediction.
+- Do not fabricate model confidence. Market-implied probability is not the same as AI confidence or a verified chance of winning.
+- Do not encourage staking, chasing losses, or increasing bets. Do not claim a positive expected value unless the necessary market prices and independent probability evidence actually exist.
+
+CALCULATIONS
+- Convert decimal odds d to raw implied probability 1/d.
+- For a complete mutually exclusive market (for example 1/X/2), normalize each raw probability by the sum of all raw probabilities. Show normalized percentages to one decimal place and show the overround (sum of raw probabilities minus 1) as the approximate bookmaker margin.
+- For a complete two-way market, normalize both sides the same way. Do not normalize an incomplete market.
+- For a single visible selection without its opposing outcomes, show only its raw implied probability and clearly label it unadjusted.
+- Never compare percentages from different market types as though they were identical.
+- Rank the most supported visible selections using the normalized market-implied probability only when the market is complete. If only incomplete markets are visible, rank by shortest odds and label that ranking as price-only.
+- Provide up to THREE ranked shortlist entries, not an arbitrary forced number. If there is not enough legible information for a meaningful shortlist, say so.
+- Explain any high overround, very long odds, missing opposite prices, or uncertain OCR as risk flags.
+- The strongest shortlist entry means only the strongest market favourite in the supplied screenshot; it does not mean the outcome is likely to win.
+
+OUTPUT — USE THESE HEADINGS
+1) SLIP READ
+List each leg as: fixture | market | selection | decimal odds | read quality. Include only visible facts.
+
+2) ODDS & PROBABILITY CHECK
+For complete markets, show raw implied probabilities, normalized market-implied percentages, and approximate overround. For incomplete markets, explain what cannot be calculated.
+
+3) CMG TOP SHORTLIST
+Rank up to three strongest market-supported selections. For each include fixture, market, selection, odds, normalized market-implied percentage when calculable, and a concise reason. Mark the basis as MARKET FAVOURITE or PRICE-ONLY. Do not label these as guaranteed or high-confidence wins.
+
+4) SMART RISK SCAN
+Flag unclear text, incomplete markets, high bookmaker margin, long odds, and the fact that virtual outcomes cannot be inferred from the screenshot. Give each shortlist entry a qualitative risk label (LOWER / MODERATE / HIGH relative to the visible odds only), and explain that this is not a win guarantee.
+
+5) FINAL CALL
+Give one direct conclusion: either "Best market-supported option: [selection]" when a readable market supports a clear favourite, or "No clear shortlist — screenshot/odds are insufficient." Add a short reminder that this is an odds-based comparison, not a way to know or control a virtual result.
+
+STYLE
+Be concise, structured, practical and specific to the uploaded image. Do not pad the response with generic advice. Never make up a second or third pick just to fill the list.`;
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { error: "Method not allowed." });
   const { url, anon, service, openai } = env();
   if (!url || !anon || !service || !openai) {
-    return json(503, { error: "Server setup is incomplete. The administrator must configure the private environment variables." });
+    return json(503, { error: "AI analysis is not configured yet. The administrator must add the private server environment variables in Netlify." });
   }
 
   try {
@@ -25,42 +69,36 @@ exports.handler = async (event) => {
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + openai },
       body: JSON.stringify({
         model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
-        instructions: `You are CMG VIRTUAL SUPER AI ANALYSER. Read uploaded virtual football betting slips carefully and provide a transparent TOP TWO MARKET-FAVOURITE comparison. You are not able to predict or control random virtual outcomes.
-
-CORE RULES:
-- Read only teams, fixtures, markets and decimal odds visibly present in the screenshot. Never invent missing information, teams, odds, statistics, or results.
-- For each complete 1X2 market, calculate raw implied probabilities as 1/decimal odds. Normalize the three raw probabilities so they total 100%. These are margin-adjusted market-implied estimates, NOT verified real-world chances and NOT AI win predictions.
-- Identify the shortest-odds outcome in each fixture as its BOOKMAKER FAVOURITE.
-- Compare all readable outcomes and return ONLY the two shortest-priced outcomes overall, ranked 1 and 2. Include fixture, selection, decimal odds, and normalized market-implied percentage. If fewer than two complete readable fixtures/outcomes exist, show only those that can be calculated; do not invent a second pick.
-- Explain clearly that choosing the shortest odds only identifies the market favourite. It does not establish that the outcome is likely to win or provide a predictive edge.
-- Virtual football outcomes are random/unpredictable from a screenshot. Never claim hacking, insider access, guaranteed wins, sure bets, safe bets, or 95% confidence. Do not convert market-implied percentages into confidence scores.
-- If the user wants dependable winning picks, the verdict must be NO BET — no reliable prediction can be established from these odds alone.
-- If odds or fixture labels are blurry, say so and exclude uncertain values from calculations.
-- Do not give stake sizes, loss-chasing advice, or pressure to bet. Adults 18+ only.
-
-OUTPUT FORMAT:
-1. SCREENSHOT READ: list every readable fixture and visible 1/X/2 odds; flag unclear entries.
-2. TOP TWO MARKET FAVOURITES: rank at most two outcomes overall. For each show rank, fixture, selection, odds, and normalized market-implied percentage. State that these are odds-based favourites, not predictions or guarantees.
-3. RISK CHECK: identify missing/unclear odds, bookmaker margin, and why the ranking does not prove a likely win.
-4. FINAL VERDICT: say NO BET if the user requires a dependable winning selection. Never force two picks when evidence is incomplete. Be direct, concise, and specific to the uploaded slip.`,
-
+        instructions: ANALYSIS_INSTRUCTIONS,
         input: [{
           role: "user",
           content: [
-            { type: "input_text", text: "Read every visible fixture and 1X2 price. Calculate raw and normalized implied probabilities for complete markets. Rank ONLY the two shortest-priced outcomes overall as TOP TWO MARKET FAVOURITES, with their odds and normalized market-implied percentages. Follow the required four-section output format. Make clear this is an odds comparison, not a prediction; do not invent outcomes or claim any bet is safe or guaranteed. Since virtual results are random, state NO BET for anyone seeking a reliable winning selection." },
+            {
+              type: "input_text",
+              text: "Scan this entire screenshot. Extract every legible fixture, market, selection and decimal price. Check calculations carefully. Return the five required sections. Rank only selections supported by the visible odds, flag uncertainty, and never invent missing data."
+            },
             { type: "input_image", image_url: imageUrl, detail: "high" }
           ]
         }],
-        max_output_tokens: 900
+        max_output_tokens: 1800
       })
     });
+
     const aiData = await aiResponse.json();
-    if (!aiResponse.ok) throw new Error(aiData.error?.message || "AI analysis service failed.");
+    if (!aiResponse.ok) {
+      const apiMessage = aiData.error?.message || "AI analysis service failed.";
+      if (/insufficient_quota|billing|credits|quota/i.test(apiMessage)) {
+        throw new Error("The AI provider account has run out of API credits. The site is connected, but the administrator must add API billing/credits before scans can run.");
+      }
+      throw new Error(apiMessage);
+    }
+
     const analysis = (aiData.output || []).flatMap((item) => item.content || [])
       .filter((item) => item.type === "output_text")
       .map((item) => item.text).join("\n").trim();
     if (!analysis) throw new Error("The AI did not return an analysis. Please try a clearer screenshot.");
 
+    // Charge one token only after a successful AI response and successful record operation.
     const saved = await supabase("/rest/v1/rpc/record_slip_analysis", {
       method: "POST",
       body: JSON.stringify({ p_user_id: user.id, p_analysis: analysis })
@@ -68,7 +106,9 @@ OUTPUT FORMAT:
     return json(200, { analysis, credits: saved.credits });
   } catch (error) {
     const message = error.message || "Analysis failed.";
-    const status = message.toLowerCase().includes("insufficient credits") ? 402 : 500;
+    const lower = message.toLowerCase();
+    const status = lower.includes("insufficient credits") ? 402 :
+      lower.includes("api credits") ? 503 : 500;
     return json(status, { error: message });
   }
 };
