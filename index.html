@@ -77,34 +77,90 @@
 
     <!-- STEP 2: Dashboard -->
     <section id="step2" class="flow-step hidden" aria-labelledby="step2Title">
-      <div class="dashboard-heading">
-        <div><span class="step-kicker">STEP 2 OF 4 · YOUR DASHBOARD</span><h1 id="step2Title">Hey 👋, <span id="userName">there</span>!</h1><p>Welcome to your CMG VIRTUAL workspace.</p></div>
-        <button id="logoutBtn" class="btn ghost small" type="button">Log out</button>
-      </div>
-      <div class="balance-card">
-        <div><span id="balanceStatus" class="balance-label low-balance">LOW BALANCE</span><strong id="creditCount">0</strong><span class="balance-sub">Your available tokens</span></div>
-        <button id="buyTokensBtn" class="btn primary full" type="button">BUY TOKENS <span aria-hidden="true">→</span></button>
-      </div>
-      <div class="dashboard-section-title"><div><span class="eyebrow">YOUR SERVICES</span><h2>Choose your game</h2></div></div>
-      <div class="service-list">
-        <article class="service-card"><div class="service-icon">⚽</div><div class="service-copy"><h3>LIVE GAMES · Instant Virtuals</h3><p>Instant virtuals screenshot analysis</p></div><button class="btn secondary service-open" type="button" data-service="LIVE GAMES · Instant Virtuals">Open</button></article>
-        <article class="service-card"><div class="service-icon">🍾</div><div class="service-copy"><h3>Spin the Bottle Package</h3><p>Upload a screenshot for analysis</p></div><button class="btn secondary service-open" type="button" data-service="Spin the Bottle">Open</button></article>
-        <article class="service-card"><div class="service-icon">✈️</div><div class="service-copy"><h3>Aviator Package</h3><p>Upload a screenshot for analysis</p></div><button class="btn secondary service-open" type="button" data-service="Aviator">Open</button></article>
-      </div>
+  <div class="dashboard-heading">
+    <div>
+      <span class="step-kicker">CMG VIRTUAL · NEURAL SYSTEM</span>
+      <h1 id="step2Title">Welcome, <span id="userName">there</span></h1>
+      <p>Your virtual analysis command centre.</p>
+    </div>
+    <button id="logoutBtn" class="btn ghost small" type="button">Log out</button>
+  </div>
 
-      <button id="backToServices" class="btn ghost full hidden" type="button">← Back to games</button>
-      <div id="analysisWorkspace" class="card analysis-card hidden">
-        <div class="section-title-left"><span class="eyebrow">CMG AI ANALYSIS</span><h2 id="analysisTitle">Analyse a screenshot</h2><p>Upload a clear image. The AI will report visible information and uncertainty; it cannot guarantee or know random game outcomes.</p></div>
-        <label class="upload-zone" for="slipFile"><span class="upload-icon">↑</span><strong>Choose a screenshot</strong><span>PNG, JPG or WEBP · maximum 6 MB</span><input id="slipFile" type="file" accept="image/png,image/jpeg,image/webp"></label>
-        <button id="analyseBtn" class="btn primary full" type="button" disabled>Analyse screenshot · 1 token</button>
-        <p id="analysisMsg" class="message" role="status" aria-live="polite"></p>
-        <div id="analysisResult" class="analysis-result hidden"></div>
-      </div>
-      <div id="analysisHistory" class="card history-card hidden"><div class="section-title-left"><span class="eyebrow">YOUR RECORDS</span><h2>Recent analysis</h2></div><div id="historyList" class="history-list"><p class="muted">No analyses yet.</p></div></div>
-      <div class="dashboard-bottom"><span id="profileMsg" class="message"></span><button id="backToAccount" class="text-btn" type="button">Account settings / log out</button></div>
-    </section>
+   <div class="balance-card">
+    <div>
+      <span id="balanceStatus" class="balance-label low-balance">TOKEN BALANCE</span>
+      <strong id="creditCount">0</strong>
+      <span class="balance-sub">Available tokens</span>
+    </div>
+    <button id="buyTokensBtn" class="btn primary full" type="button">BUY TOKENS →</button>
+  </div>
 
-    <!-- STEP 3: Packages, deliberately stacked vertically -->
+  <div class="hacker-panel">
+    <div class="hacker-header">
+      <span class="eyebrow">⌬ CMG NEURAL SCANNER</span>
+      <span class="system-status">● SYSTEM ONLINE</span>
+    </div>
+
+    <div class="hacker-title">
+      <div class="hacker-icon">⌬</div>
+      <h2>VIRTUAL INTELLIGENCE</h2>
+      <p>SPORTYBET INSTANT VIRTUALS · ANALYSIS CORE</p>
+    </div>
+
+    <div class="scan-terminal">
+      <div class="terminal-top">
+        <span>CMG://NEURAL/CORE</span>
+        <span>READY</span>
+      </div>
+      <p><span>01</span> IMAGE RECOGNITION MODULE READY</p>
+      <p><span>02</span> MARKET ANALYSIS MODULE READY</p>
+      <p><span>03</span> ODDS INTELLIGENCE STANDBY</p>
+      <p><span>04</span> RISK DETECTION STANDBY</p>
+      <div class="scan-line"></div>
+    </div>
+
+    <div class="scanner-metrics">
+      <div><strong>01</strong><span>SCAN</span></div>
+      <div><strong>02</strong><span>ANALYSE</span></div>
+      <div><strong>03</strong><span>RANK</span></div>
+    </div>
+
+    <label class="upload-zone hacker-upload" for="slipFile">
+      <span class="upload-icon">⌁</span>
+      <strong>UPLOAD VIRTUAL SLIP</strong>
+      <span>PNG · JPG · WEBP · MAXIMUM 6 MB</span>
+      <input id="slipFile" type="file" accept="image/png,image/jpeg,image/webp">
+    </label>
+
+    <button id="analyseBtn" class="btn primary full hacker-button" type="button" disabled>
+      ⌬ START NEURAL SCAN · 1 TOKEN
+    </button>
+
+    <p id="analysisMsg" class="message" role="status" aria-live="polite"></p>
+    <div id="analysisResult" class="analysis-result hidden"></div>
+
+    <div class="hacker-disclaimer">
+      Analysis uses visible screenshot information and odds. It cannot access hidden random-number-generator data or guarantee outcomes.
+    </div>
+  </div>
+
+  <div id="analysisHistory" class="card history-card hidden">
+    <div class="section-title-left">
+      <span class="eyebrow">SYSTEM RECORDS</span>
+      <h2>Recent analysis</h2>
+    </div>
+    <div id="historyList" class="history-list">
+      <p class="muted">No analyses yet.</p>
+    </div>
+  </div>
+
+  <div class="dashboard-bottom">
+    <span id="profileMsg" class="message"></span>
+    <button id="backToAccount" class="text-btn" type="button">Account settings / log out</button>
+  </div>
+</section>
+
+   <!-- STEP 3: Packages, deliberately stacked vertically -->
     <section id="step3" class="flow-step hidden" aria-labelledby="step3Title">
       <div class="step-intro"><span class="step-kicker">STEP 3 OF 4</span><h1 id="step3Title">Prediction Packages</h1><p>Choose the token package that suits you. Your balance increases only after an administrator verifies your payment.</p></div>
       <div class="package-balance"><span>YOUR CURRENT BALANCE</span><strong><b id="packageBalance">0</b> tokens</strong></div>
