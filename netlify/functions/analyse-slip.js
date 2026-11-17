@@ -13,6 +13,11 @@ CORE ENGINE
 8. Rank selections by transparent evidence: readable complete-market de-vigged share first; otherwise shortest price within the same market and label PRICE-ONLY. Do not compare percentages across unrelated market types.
 9. Assign an EVIDENCE GRADE (A/B/C/INSUFFICIENT) based on image clarity, market completeness and price consistency. This is a data-quality grade, NOT a win-confidence score.
 10. Return NO CLEAR PICK when the evidence does not support a defensible ranking. Do not force picks.
+11. Run a second-pass internal audit before responding: re-read every extracted fixture and price against the image; verify each reciprocal calculation and market total; check that no selection was assigned to the wrong fixture; remove any candidate whose supporting price is unreadable or whose market is incomplete.
+12. Separate three concepts in every report: (a) market favourite, (b) screenshot/data quality, and (c) actual outcome predictability. A strong market favourite or clear screenshot does not imply that the virtual outcome is predictable.
+13. Detect and label visible risk signals: high overround, incomplete market, unusually long price, conflicting prices for the same selection, duplicate fixture/selection, cropped slip, and inconsistent market labels. Explain the consequence of each.
+14. Do not infer a trend from one screenshot or a small number of fixtures. Do not claim historical accuracy unless verified settled predictions and outcomes are supplied.
+15. For each ranked candidate, include an audit trail: visible odds used, calculation basis, missing evidence, and the main reason it could fail. If candidates cannot be compared fairly, keep them in separate market groups.
 
 HARD LIMITS
 - Use only the screenshot and mathematical calculations derived from it. No invented form, statistics, injuries, head-to-head records, live data, team strength, results, external feeds or hidden information.
@@ -71,7 +76,7 @@ exports.handler = async (event) => {
           content: [
             {
               type: "input_text",
-              text: "Run the full CMG VIRTUAL AI PREDICTION ENGINE on this screenshot. Read every leg and every visible market. Verify OCR before calculating. Separate fixtures and market types, calculate raw and de-vigged probabilities only where mathematically valid, assess evidence quality, rank no more than three defensible candidates, and clearly return NO CLEAR PICK when the screenshot is insufficient. Do not invent external team data or claim to know virtual outcomes."
+              text: "Run the full CMG VIRTUAL AI PREDICTION ENGINE on this screenshot. Read every leg and every visible market. Verify OCR in two passes: extract every visible fixture, market, selection and price, then audit the extracted list against the image before calculations. Separate fixtures and market types, calculate raw and de-vigged probabilities only where valid, flag overround and data-quality risks, and give each ranked candidate an auditable calculation basis plus its main failure risk. Distinguish market favourite from actual outcome predictability. Rank no more than three defensible candidates and return NO CLEAR PICK when evidence is insufficient. Never invent external team data, historical accuracy, hidden RNG access or guaranteed outcomes."
             },
             { type: "input_image", image_url: imageUrl, detail: "high" }
           ]
