@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f1f7fa">
+  <meta name="theme-color" content="#050505">
   <meta name="description" content="CMG VIRTUAL — virtual football screenshot analysis and responsible-use tools.">
-  <title>CMG VIRTUAL | Your prediction workspace</title>
+  <title>CMG VIRTUAL | The Virtual Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -92,14 +92,15 @@
         <article class="service-card"><div class="service-icon">✈️</div><div class="service-copy"><h3>Aviator Package</h3><p>Upload a screenshot for analysis</p></div><button class="btn secondary service-open" type="button" data-service="Aviator">Open</button></article>
       </div>
 
-      <div id="analysisWorkspace" class="card analysis-card">
+      <button id="backToServices" class="btn ghost full hidden" type="button">← Back to games</button>
+      <div id="analysisWorkspace" class="card analysis-card hidden">
         <div class="section-title-left"><span class="eyebrow">CMG AI ANALYSIS</span><h2 id="analysisTitle">Analyse a screenshot</h2><p>Upload a clear image. The AI will report visible information and uncertainty; it cannot guarantee or know random game outcomes.</p></div>
         <label class="upload-zone" for="slipFile"><span class="upload-icon">↑</span><strong>Choose a screenshot</strong><span>PNG, JPG or WEBP · maximum 6 MB</span><input id="slipFile" type="file" accept="image/png,image/jpeg,image/webp"></label>
         <button id="analyseBtn" class="btn primary full" type="button" disabled>Analyse screenshot · 1 token</button>
         <p id="analysisMsg" class="message" role="status" aria-live="polite"></p>
         <div id="analysisResult" class="analysis-result hidden"></div>
       </div>
-      <div class="card history-card"><div class="section-title-left"><span class="eyebrow">YOUR RECORDS</span><h2>Recent analysis</h2></div><div id="historyList" class="history-list"><p class="muted">No analyses yet.</p></div></div>
+      <div id="analysisHistory" class="card history-card hidden"><div class="section-title-left"><span class="eyebrow">YOUR RECORDS</span><h2>Recent analysis</h2></div><div id="historyList" class="history-list"><p class="muted">No analyses yet.</p></div></div>
       <div class="dashboard-bottom"><span id="profileMsg" class="message"></span><button id="backToAccount" class="text-btn" type="button">Account settings / log out</button></div>
     </section>
 
@@ -146,5 +147,29 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const dashboardParts = [document.querySelector(".dashboard-heading"), document.querySelector(".balance-card"), document.querySelector(".dashboard-section-title"), document.querySelector(".service-list"), document.querySelector(".dashboard-bottom")];
+      const workspace = document.getElementById("analysisWorkspace");
+      const history = document.getElementById("analysisHistory");
+      const back = document.getElementById("backToServices");
+      document.querySelectorAll(".service-open").forEach(function (button) {
+        button.addEventListener("click", function () {
+          const name = button.dataset.service || "Instant Virtuals";
+          document.getElementById("analysisTitle").textContent = "Analyse " + name;
+          dashboardParts.forEach(function (part) { if (part) part.classList.add("hidden"); });
+          workspace.classList.remove("hidden");
+          history.classList.remove("hidden");
+          back.classList.remove("hidden");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+      back.addEventListener("click", function () {
+        workspace.classList.add("hidden"); history.classList.add("hidden"); back.classList.add("hidden");
+        dashboardParts.forEach(function (part) { if (part) part.classList.remove("hidden"); });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  </script>
 </body>
 </html>
