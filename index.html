@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111b">
+  <meta name="description" content="CMG VIRTUAL — cautious virtual football screenshot analysis and odds education.">
+  <title>CMG VIRTUAL | AI Football Analysis</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="CMG VIRTUAL home"><span class="brand-mark">CMG</span><span>VIRTUAL</span></a>
+    <nav class="nav-links"><a href="#how">How it works</a><a href="#analysis">AI analysis</a><a href="#account">Account</a><a id="adminNavLink" class="hidden" href="#adminDashboard">Admin Dashboard</a></nav>
+    <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle light and dark theme">☼</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="pulse"></span> VIRTUAL FOOTBALL ANALYSIS</span>
+        <h1>Think clearly.<br><span class="gradient-text">Play responsibly.</span></h1>
+        <p>Use AI to read virtual football screenshots, understand the displayed markets and odds, and spot uncertainty before making a decision.</p>
+        <div class="hero-actions"><a class="btn primary" href="#account">Get started</a><a class="btn ghost" href="#how">How it works <span>↗</span></a></div>
+        <p class="small-note">No guaranteed wins. Virtual match outcomes are unpredictable.</p>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-top"><span class="live-dot"></span> CMG AI ANALYSIS <span class="panel-tag">DEMO PREVIEW</span></div>
+        <div class="match-preview">
+          <div class="team"><div class="team-badge">FC</div><span>Virtual FC</span></div>
+          <div class="versus"><strong>VS</strong><small>Virtual fixture</small></div>
+          <div class="team"><div class="team-badge alt">SC</div><span>City SC</span></div>
+        </div>
+        <div class="odds-row"><span>Example market</span><b>1X2</b><span class="odds-pill">Odds vary</span></div>
+        <div class="risk-meter"><div class="risk-label"><span>Evidence quality</span><b>Requires data</b></div><div class="meter"><i></i></div></div>
+        <div class="preview-foot">Illustrative interface only — not a live prediction.</div>
+      </div>
+    </section>
+
+    <section id="how" class="section">
+      <div class="section-heading"><span class="eyebrow">SIMPLE WORKFLOW</span><h2>Analysis, not promises.</h2><p>CMG VIRTUAL helps interpret what is visible. It does not claim to know random outcomes.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">⌕</div><h3>Read your screenshot</h3><p>Extract visible fixtures, markets and odds from a clear image.</p></article>
+        <article class="feature-card"><div class="feature-icon">％</div><h3>Understand the odds</h3><p>Explain implied probability and the limits of the available information.</p></article>
+        <article class="feature-card"><div class="feature-icon">◇</div><h3>Assess the risk</h3><p>Flag unclear information, risky combinations and situations where the best choice is no bet.</p></article>
+      </div>
+    </section>
+
+    <section id="account" class="section account-section">
+      <div class="section-heading"><span class="eyebrow">YOUR CMG ACCOUNT</span><h2>Sign in to your workspace.</h2><p>Create an account to access analysis and your credit balance.</p></div>
+      <div class="account-grid">
+        <div class="card auth-card">
+          <div class="tabs"><button type="button" class="tab active" data-mode="signup">Create account</button><button type="button" class="tab" data-mode="login">Log in</button></div>
+          <form id="authForm">
+            <label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <label for="password">Password</label><input id="password" type="password" autocomplete="new-password" minlength="6" placeholder="At least 6 characters" required>
+            <button id="authSubmit" class="btn primary full" type="submit">Create account</button>
+            <button id="forgotBtn" class="text-btn" type="button">Forgot password?</button>
+            <p id="authMsg" class="message" role="status"></p>
+          </form>
+        </div>
+        <div class="card account-info">
+          <div id="signedOutInfo">
+            <div class="info-symbol">✦</div><h3>Your analysis workspace</h3><p>After signing in, you can upload a virtual football screenshot, view the AI's cautious analysis and review your previous reports.</p>
+            <ul><li>Private account and profile</li><li>Credit balance and payment requests</li><li>Saved analysis history</li></ul>
+          </div>
+          <div id="userPanel" class="hidden">
+            <div class="user-head"><div><span class="eyebrow">SIGNED IN</span><h3 id="userEmail">Your account</h3></div><button id="logoutBtn" class="btn ghost small" type="button">Log out</button></div>
+            <div class="credit-box"><span>Available analysis credits</span><strong id="creditCount">…</strong></div>
+            <p id="profileMsg" class="message"></p>
+            <button id="buyStarter" class="btn primary full" type="button">View credit package</button>
+            <button id="adminDashboardBtn" class="btn secondary full hidden" type="button">Open Admin Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="analysis" class="section workspace-section">
+      <div class="section-heading"><span class="eyebrow">AI WORKSPACE</span><h2>Analyse a virtual football screenshot.</h2><p>The AI reports only what it can read. It will not invent a winning pick or label a bet guaranteed or safe.</p></div>
+      <div class="workspace-grid">
+        <div class="card upload-card">
+          <label class="upload-zone" for="slipFile"><span class="upload-icon">↑</span><strong>Choose a screenshot</strong><span>PNG, JPG or WEBP · maximum 6 MB</span><input id="slipFile" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <button id="analyseBtn" class="btn primary full" type="button" disabled>Analyse screenshot · 1 credit</button>
+          <p id="analysisMsg" class="message" role="status"></p>
+          <div id="analysisResult" class="analysis-result hidden"></div>
+        </div>
+        <div class="card package-card" id="paymentSection">
+          <span class="eyebrow">CREDIT PACKAGE</span><h3>Starter package</h3><div class="price">GH₵50 <small>/ 10 credits</small></div>
+          <p>Send the package payment to the MTN Mobile Money account below. After paying, enter your transaction reference. Tokens are added only after the administrator verifies the payment.</p>
+          <div class="payment-details" aria-label="MTN Mobile Money payment details"><p><strong>MTN Mobile Money</strong></p><p>Number: <strong>0550204222</strong></p><p>Account name: <strong>PRINCE AFFUL</strong></p><p>Amount: <strong>GH₵50</strong></p><small>Confirm the recipient name before sending. Do not send money if the details shown in your MoMo app do not match.</small></div>
+          <form id="paymentForm">
+            <label for="network">Payment network</label><select id="network"><option>MTN MoMo</option></select>
+            <label for="txRef">Transaction reference</label><input id="txRef" type="text" placeholder="Enter transaction reference" required>
+            <button class="btn secondary full" type="submit">Submit for verification</button>
+            <p id="paymentMsg" class="message" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section history-section">
+      <div class="section-heading compact"><span class="eyebrow">YOUR RECORDS</span><h2>Recent analysis</h2></div>
+      <div id="historyList" class="card history-list"><p class="muted">Log in to see your analysis history.</p></div>
+    </section>
+
+    <section id="adminDashboard" class="section admin-section hidden">
+      <div class="section-heading compact"><span class="eyebrow">ADMINISTRATION</span><h2>Admin Dashboard</h2><p>Verify each payment in your MTN MoMo account before approving it. Approval automatically adds the package tokens to the customer once.</p></div>
+      <div class="card"><div class="admin-toolbar"><h3>Payment Review</h3><button id="loadAdmin" class="btn secondary" type="button">Refresh payment requests</button></div><p id="adminMsg" class="message" role="status"></p><div id="adminPayments"><p class="muted">Loading payment requests…</p></div></div>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#"><span class="brand-mark">CMG</span><span>VIRTUAL</span></a><p>For information and entertainment. 18+ only. No outcome is guaranteed. Please gamble responsibly.</p><span>© <span id="year"></span> CMG VIRTUAL</span></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
