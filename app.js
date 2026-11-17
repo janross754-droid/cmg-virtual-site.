@@ -1,6 +1,6 @@
 // CMG VIRTUAL browser configuration — use the Supabase project previously supplied for the live site.
-const SUPABASE_URL = "https://uhxcporbimiswpaqnoww.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_cnVPqQamfu1_rtcuvXDAOg_ASO5dBbO";
+const SUPABASE_URL = "https://qusfqdtnfxbbubcekroc.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD";
 
 (() => {
   const $ = (id) => document.getElementById(id);
