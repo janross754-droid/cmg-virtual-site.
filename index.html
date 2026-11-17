@@ -203,29 +203,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/app.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const dashboardParts = [document.querySelector(".dashboard-heading"), document.querySelector(".balance-card"), document.querySelector(".dashboard-section-title"), document.querySelector(".service-list"), document.querySelector(".dashboard-bottom")];
-      const workspace = document.getElementById("analysisWorkspace");
-      const history = document.getElementById("analysisHistory");
-      const back = document.getElementById("backToServices");
-      document.querySelectorAll(".service-open").forEach(function (button) {
-        button.addEventListener("click", function () {
-          const name = button.dataset.service || "Instant Virtuals";
-          document.getElementById("analysisTitle").textContent = "Analyse " + name;
-          dashboardParts.forEach(function (part) { if (part) part.classList.add("hidden"); });
-          workspace.classList.remove("hidden");
-          history.classList.remove("hidden");
-          back.classList.remove("hidden");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-      });
-      back.addEventListener("click", function () {
-        workspace.classList.add("hidden"); history.classList.add("hidden"); back.classList.add("hidden");
-        dashboardParts.forEach(function (part) { if (part) part.classList.remove("hidden"); });
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    });
-  </script>
 </body>
 </html>
