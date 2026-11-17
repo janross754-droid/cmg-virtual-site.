@@ -343,11 +343,63 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       $("analyseBtn").disabled = !currentUser || !$("slipFile").files.length;
     });
 
+    async function runLocalSlipScan(file) {
+      if (!window.Tesseract) {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+          script.onload = resolve;
+          script.onerror = () => reject(new Error("The free OCR scanner could not load. Check your internet connection and try again."));
+          document.head.appendChild(script);
+        });
+      }
+      if (!window.Tesseract || typeof window.Tesseract.recognize !== "function") {
+        throw new Error("The free OCR scanner is unavailable in this browser.");
+      }
+      setMessage("analysisMsg", "FREE LOCAL SCAN: reading the slip image…");
+      const result = await window.Tesseract.recognize(file, "eng", {
+        logger: (progress) => {
+          if (progress.status === "recognizing text" && Number.isFinite(progress.progress)) {
+            setMessage("analysisMsg", "FREE LOCAL SCAN: reading image " + Math.round(progress.progress * 100) + "%…");
+          }
+        }
+      });
+      const text = String(result?.data?.text || "").trim();
+      if (!text) throw new Error("No readable text was found. Try a sharper screenshot with the odds enlarged.");
+      const odds = [...new Set((text.match(/\b(?:1\.0[1-9]|[1-9]\d?\.\d{2})\b/g) || [])
+        .map(Number).filter((value) => value > 1 && value <= 100))].sort((a, b) => a - b);
+      const lines = [
+        "CMG VIRTUAL — FREE LOCAL OCR REPORT",
+        "",
+        "SCREENSHOT TEXT",
+        text.slice(0, 2600),
+        "",
+        "ODDS SCAN"
+      ];
+      if (odds.length) {
+        odds.slice(0, 20).forEach((odd, index) => {
+          lines.push((index + 1) + ". " + odd.toFixed(2) + " odds — raw implied probability " + (100 / odd).toFixed(1) + "%");
+        });
+        lines.push("", "PRICE ORDER: the shortest visible decimal prices are listed first. This is a bookmaker-price comparison only.");
+      } else {
+        lines.push("No clear decimal odds were detected. Please upload a sharper image.");
+      }
+      lines.push("", "IMPORTANT: This free local scan reads visible text and sorts detected odds. It does not identify hidden virtual results or calculate a verified chance of winning. Check each extracted price against the original slip.");
+      return lines.join("\n");
+    }
+
     $("analyseBtn").addEventListener("click", async () => {
       const file = $("slipFile").files[0];
       if (!currentUser || !file) return;
       if (currentCredits < 1) {
-        setMessage("analysisMsg", "Your balance is low. Buy a token package and wait for admin approval before analysing.", true);
+        try {
+          const localReport = await runLocalSlipScan(file);
+          $("analysisResult").textContent = localReport;
+          $("analysisResult").classList.remove("hidden");
+          setMessage("analysisMsg", "Free local OCR scan completed. No token was used. Buy tokens to access the full AI analysis.");
+        } catch (error) {
+          setMessage("analysisMsg", error.message || "Local scan failed.", true);
+        }
         return;
       }
       const button = $("analyseBtn");
@@ -368,6 +420,13 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           body: JSON.stringify({ image: base64, mimeType: file.type })
         });
         const result = await response.json();
+        if (!response.ok && /AI provider account has run out of API credits|AI analysis is not configured/i.test(result.error || "")) {
+          const localReport = await runLocalSlipScan(file);
+          $("analysisResult").textContent = localReport;
+          $("analysisResult").classList.remove("hidden");
+          setMessage("analysisMsg", "Free local OCR scan completed. The full AI service needs its server API billing configured. No token was charged.");
+          return;
+        }
         if (!response.ok) throw new Error(result.error || "Analysis failed.");
         $("analysisResult").textContent = result.analysis;
         $("analysisResult").classList.remove("hidden");
