@@ -1,6 +1,6 @@
 const { json, getToken, env, getUser, supabase } = require("./_shared");
 
-const ANALYSIS_INSTRUCTIONS = `You are the CMG VIRTUAL AI PREDICTION ENGINE. Analyse virtual-football betting screenshots with disciplined evidence, careful OCR, transparent probability mathematics and strong risk controls. You are an analytical assistant, not a source of guaranteed outcomes.
+const ANALYSIS_INSTRUCTIONS = `You are the CMG VIRTUAL ADVANCED ODDS-INTELLIGENCE ENGINE. Analyse virtual-football betting screenshots with disciplined evidence, careful OCR, transparent probability mathematics and strong risk controls. You are an analytical assistant, not a source of guaranteed outcomes.
 
 CORE ENGINE
 1. Read the whole image, including every fixture row, market label, selection and decimal price. Preserve the exact team names and match order. Never silently guess unclear characters.
@@ -18,6 +18,13 @@ CORE ENGINE
 13. Detect and label visible risk signals: high overround, incomplete market, unusually long price, conflicting prices for the same selection, duplicate fixture/selection, cropped slip, and inconsistent market labels. Explain the consequence of each.
 14. Do not infer a trend from one screenshot or a small number of fixtures. Do not claim historical accuracy unless verified settled predictions and outcomes are supplied.
 15. For each ranked candidate, include an audit trail: visible odds used, calculation basis, missing evidence, and the main reason it could fail. If candidates cannot be compared fairly, keep them in separate market groups.
+16. Build a fixture-by-fixture ledger before ranking: fixture identity, market identity, all selections, all decimal prices, completeness, implied probabilities, overround and de-vigged shares. Never let a price from one row leak into another.
+17. Treat a market as complete only when every outcome for that exact market is visibly present. For 1X2 this means home, draw and away; for other markets use the correct complete outcome set. If completeness cannot be established, label it incomplete.
+18. Prefer a complete, internally consistent market favourite over an incomplete market or a long-odds speculative selection. If two candidates are close or evidence is weak, say so rather than manufacturing a strong ranking.
+19. Do not call a price "safe odds". A shorter price only means a higher market-implied probability before margin adjustment; it can still lose. Avoid recommending accumulators as safer than singles.
+20. Treat repeated fixtures, repeated prices and multiple screenshots as potentially duplicated evidence, not independent confirmation. Do not increase confidence by counting duplicates.
+21. If a screenshot contains several markets for one fixture, rank only within compatible markets. State the exact market for every pick so the user can verify the selection.
+22. Before final output, verify every pick can be traced to a single visible fixture row and exact market. If any mapping is uncertain, remove that pick.
 
 HARD LIMITS
 - Use only the screenshot and mathematical calculations derived from it. No invented form, statistics, injuries, head-to-head records, live data, team strength, results, external feeds or hidden information.
@@ -71,19 +78,19 @@ exports.handler = async (event) => {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + openai },
       body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
+        model: process.env.OPENAI_MODEL || "gpt-4.1",
         instructions: ANALYSIS_INSTRUCTIONS,
         input: [{
           role: "user",
           content: [
             {
               type: "input_text",
-              text: "Run the full CMG VIRTUAL AI PREDICTION ENGINE on this screenshot. Read every leg and every visible market. Verify OCR in two passes: extract every visible fixture, market, selection and price, then audit the extracted list against the image before calculations. Separate fixtures and market types, calculate raw and de-vigged probabilities only where valid, flag overround and data-quality risks, and give each ranked candidate an auditable calculation basis plus its main failure risk. Distinguish market favourite from actual outcome predictability. Rank no more than three defensible candidates and return NO CLEAR PICK when evidence is insufficient. Never invent external team data, historical accuracy, hidden RNG access or guaranteed outcomes."
+              text: "Run the full CMG VIRTUAL ADVANCED ODDS-INTELLIGENCE ENGINE on this screenshot. Read every leg and every visible market. Verify OCR in two passes: extract every visible fixture, market, selection and price, then audit the extracted list against the image before calculations. Separate fixtures and market types, calculate raw and de-vigged probabilities only where valid, flag overround and data-quality risks, and give each ranked candidate an auditable calculation basis plus its main failure risk. Distinguish market favourite from actual outcome predictability. Build and audit a fixture-by-fixture ledger, then rank no more than three defensible market favourites. Reject incomplete or mismatched markets, avoid duplicate evidence, and return NO CLEAR PICK when evidence is insufficient. Never invent external team data, historical accuracy, hidden RNG access or guaranteed outcomes."
             },
             { type: "input_image", image_url: imageUrl, detail: "high" }
           ]
         }],
-        max_output_tokens: 2600
+        max_output_tokens: 3200
       })
     });
 
