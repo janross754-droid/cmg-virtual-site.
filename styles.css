@@ -1955,3 +1955,189 @@ a, .gradient-text, .eyebrow, .step-kicker, .game-category,
 .historical-breakdown-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-color,rgba(255,255,255,.1));font-size:.85rem}
 .historical-breakdown-row b{color:var(--accent,#ff3030);font-variant-numeric:tabular-nums}
 .historical-insights .compact-prediction-disclaimer{display:block;margin-top:12px;line-height:1.5}
+
+
+/* CMG VIRTUAL — Virtual Hub-inspired black, green and red visual system.
+   CSS-only layer: preserves existing markup, JavaScript, authentication and payment flows. */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  color-scheme: dark;
+  --bg:#000;
+  --surface:#080a08;
+  --surface2:#111411;
+  --text:#f5f8f5;
+  --muted:#9ba99d;
+  --line:#252925;
+  --cyan:#00d66b;
+  --blue:#00d66b;
+  --red:#ff001e;
+  --danger:#ff3348;
+  --shadow:0 18px 48px rgba(0,0,0,.42);
+}
+html,body,body.light {
+  color-scheme:dark !important;
+  background:#000 !important;
+  color:var(--text) !important;
+}
+body {
+  font-family:'DM Sans',sans-serif;
+  background:
+    radial-gradient(ellipse at 50% -15%,rgba(255,0,30,.10),transparent 38%),
+    #000 !important;
+}
+.topbar {
+  min-height:76px;
+  background:rgba(0,0,0,.97) !important;
+  border-bottom:1px solid rgba(255,0,30,.22) !important;
+}
+.brand { font-family:'Barlow Condensed',sans-serif; font-size:23px; letter-spacing:.06em; }
+.brand-mark {
+  width:44px;height:44px;border-radius:50%;
+  background:#ed001b !important;color:#fff !important;
+  box-shadow:0 0 25px rgba(255,0,30,.2) !important;
+  font:900 18px 'Anton',sans-serif;
+}
+.header-step,.eyebrow,.step-kicker,.system-status,.panel-tag { color:#ff5265 !important; }
+.pulse,.live-dot { background:#00df70 !important;box-shadow:0 0 12px #00df70 !important; }
+h1,h2,h3,.signup-heading h1,.dashboard-welcome h1,.dashboard-section-title h2,
+.scanner-main-title h2,.marketing-copy h1,.marketing-section-heading h2,.marketing-bottom h2 {
+  font-family:'Anton','Barlow Condensed',sans-serif !important;
+  font-weight:400 !important;
+  letter-spacing:.005em !important;
+  text-transform:uppercase;
+}
+.marketing-home {
+  background:
+    radial-gradient(ellipse at 80% 10%,rgba(255,0,30,.10),transparent 33%),
+    #000 !important;
+  color:#f5f8f5 !important;
+}
+.marketing-copy h1,.marketing-section-heading h2,.marketing-bottom h2 {
+  font-family:'Anton','Barlow Condensed',sans-serif !important;
+  letter-spacing:.01em !important;
+}
+.marketing-copy h1 span,.marketing-section-heading h2 span,.marketing-bottom h2 span,
+.marketing-proof strong,.marketing-steps article>b { color:#ff001e !important; }
+.marketing-cta {
+  background:#00d66b !important;color:#00190b !important;
+  border-radius:999px;box-shadow:0 8px 24px rgba(0,214,107,.18);
+}
+.marketing-visual,.marketing-steps article,.marketing-bottom {
+  background:#080a08 !important;border-color:#292d29 !important;
+}
+.marketing-eyebrow { color:#00d66b !important; }
+.marketing-eyebrow i,.visual-top i { background:#00d66b;box-shadow:0 0 12px #00d66b; }
+.app-shell { color:var(--text); }
+.card,.hero-panel,.feature-card,.balance-card,.hacker-panel,.plan-card,
+.payment-card,.package-balance,.auth-card,.signup-card,.game-card,
+.history-result-card,.admin-section,.admin-payment-card {
+  background:#080a08 !important;
+  border:1px solid #292d29 !important;
+  box-shadow:var(--shadow);
+  color:var(--text) !important;
+}
+.signup-card { border-radius:24px; }
+.free-ribbon,.credit-box,.dashboard-balance,.payment-details,.upload-locked {
+  background:#03150a !important;
+  border:1px solid rgba(0,214,107,.55) !important;
+}
+.free-ribbon strong,.credit-box strong,.price,.plan-price,
+.balance-card #creditCount,.dashboard-credit-line strong,
+.scanner-metrics strong,.compact-pick>b,.compact-prediction-heading span {
+  color:#00df70 !important;
+}
+.signup-card form label,label { color:#aab8ac !important; }
+input,select,textarea,.phone-input,.signup-card form input,
+.signup-card form select {
+  color:#f4f8f4 !important;background:#080808 !important;
+  border:1px solid #292929 !important;border-radius:18px !important;
+  min-height:52px;
+}
+input::placeholder,textarea::placeholder { color:#68736a !important;opacity:1; }
+input:focus,select:focus,textarea:focus {
+  border-color:#00d66b !important;
+  box-shadow:0 0 0 3px rgba(0,214,107,.12) !important;
+}
+.auth-switch,.tabs { background:#050505 !important;border:1px solid #252525; }
+.auth-tab.active,.tab.active {
+  color:#00190b !important;background:#00d66b !important;
+}
+.btn,.btn.primary,.hacker-button,.dashboard-buy,.game-action,
+.signup-card #authSubmit,.scanner-topup {
+  background:#00d66b !important;background-image:none !important;
+  border:1px solid #00d66b !important;color:#00170a !important;
+  border-radius:999px !important;box-shadow:0 7px 20px rgba(0,214,107,.14) !important;
+  font-family:'DM Sans',sans-serif;font-weight:900;
+}
+.btn.ghost,.btn.secondary,.game-action.secondary-action,
+.marketing-secondary,.copy-payment-btn {
+  color:#ff5265 !important;background:#080808 !important;
+  border:1px solid rgba(255,0,30,.55) !important;
+}
+.icon-btn {
+  color:#f5f8f5;background:#050505;border:1px solid #292929;
+}
+.dashboard-welcome h1 span,.dashboard-section-title .dashboard-live-dot i,
+.game-category,.game-tag,.popular-tag,.history-status,
+.history-clear-btn,.password-toggle,.auth-switch-line button {
+  color:#ff344c !important;
+}
+.game-card-featured {
+  background:linear-gradient(135deg,#00b957,#007d3d) !important;
+  border-color:#00df70 !important;color:#00170a !important;
+}
+.game-card-featured .game-category,.game-card-featured .game-card-copy h3,
+.game-card-featured .game-card-foot { color:#fff !important; }
+.game-card-featured .game-card-stats span {
+  color:#fff;border-color:rgba(255,255,255,.3);background:rgba(0,0,0,.12);
+}
+.game-card-featured .game-action {
+  color:#00d66b !important;background:#000 !important;border-color:#000 !important;
+}
+.game-card-aviator {
+  background:linear-gradient(145deg,#211013,#0a0809) !important;
+  border-color:rgba(255,0,30,.35) !important;
+}
+.plan-card.featured { border-color:#00d66b !important; }
+.popular-tag { background:rgba(0,214,107,.12) !important;color:#00df70 !important; }
+.upload-zone,.hacker-upload {
+  background:#030d07 !important;border:1px dashed rgba(0,214,107,.6) !important;
+}
+.upload-icon,.hacker-icon,.scanner-step-number { color:#00df70 !important; }
+.hacker-icon,.scanner-step-number {
+  background:rgba(0,214,107,.09) !important;border-color:rgba(0,214,107,.4) !important;
+}
+.hacker-panel:before,.scan-line,.step-track-line span {
+  background:linear-gradient(90deg,transparent,#00d66b,#ff001e,transparent) !important;
+}
+.scan-terminal,.analysis-result {
+  background:#050805 !important;border-color:rgba(0,214,107,.32) !important;
+}
+.terminal-top,.scan-terminal p span { color:#00df70 !important; }
+.scan-terminal p { color:#c1cec3 !important; }
+.payment-details { background:#100809 !important;border-color:rgba(255,0,30,.5) !important; }
+.payment-details .momo-number,.payment-details .momo-name { color:#ff5265 !important; }
+.payment-details .copy-payment-btn { color:#f4f8f4 !important; }
+.admin-section { background:#070907 !important; }
+.admin-payment-card { background:#0a0a0a !important; }
+.status-pill.approved { color:#00df70 !important; }
+.status-pill.pending,.status-pill.rejected { color:#ff5265 !important; }
+footer { background:#000 !important;border-top:1px solid #242424; }
+body.light { color-scheme:dark !important; }
+body.light .topbar,body.light .card,body.light .signup-card,
+body.light .payment-card,body.light .plan-card,body.light .hacker-panel,
+body.light .game-card,body.light .admin-section {
+  background:#080a08 !important;color:#f5f8f5 !important;
+}
+body.light input,body.light select,body.light textarea {
+  background:#080808 !important;color:#f5f8f5 !important;
+}
+@media(max-width:760px) {
+  .topbar { min-height:68px; }
+  .brand { font-size:20px; }
+  .brand-mark { width:40px;height:40px; }
+  .app-shell { padding-top:20px; }
+  .dashboard-heading h1,.signup-heading h1 { font-size:clamp(29px,9vw,40px) !important; }
+  .game-card-featured { border-radius:18px !important; }
+}
