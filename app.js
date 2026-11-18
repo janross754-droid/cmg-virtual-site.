@@ -354,7 +354,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           user_id: currentUser.id,
           package_id: pkg.id,
           amount: pkg.price,
-          network: "Telecel / Vodafone",
+          network: "MTN MoMo",
           transaction_reference: reference,
           payer_name: payerName,
           payer_phone: "+233" + payerPhoneDigits.slice(1),
@@ -544,7 +544,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
             ["Tokens", `${payment.credits || 0}`],
             ["Sender number", payment.payer_phone || "Not supplied"],
             ["Transaction ID", payment.transaction_reference || "Not supplied"],
-            ["Network", payment.network || "Telecel / Vodafone"],
+            ["Network", payment.network || "MTN MoMo"],
             ["Submitted", payment.created_at ? new Date(payment.created_at).toLocaleString() : ""]
           ];
           info.forEach(([label, value]) => {
