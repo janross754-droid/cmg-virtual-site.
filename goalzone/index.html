@@ -110,36 +110,26 @@ list.addEventListener('keydown',e=>{const row=e.target.closest('[data-fixture-id
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeFilter=b.textContent.trim();render();}));
 
 const leagueSelect=document.getElementById('leagueSelect'),tableBody=document.getElementById('tableBody'),tableStatus=document.getElementById('tableStatus');
-let currentLeagueSeasonsPromise;
-async function getCurrentLeagueSeason(leagueId){
- if(!currentLeagueSeasonsPromise){
-  currentLeagueSeasonsPromise=fetch(API_URL+'?endpoint=leagues&current=true').then(async r=>{
-   const d=await r.json();
-   if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error('Could not check the competition season.');
-   return Array.isArray(d.response)?d.response:[];
-  });
- }
- const leagues=await currentLeagueSeasonsPromise;
- const entry=leagues.find(x=>String(x.league?.id)===String(leagueId));
- const current=entry?.seasons?.find(s=>s.current===true);
- if(!current?.year)throw new Error('The provider has not confirmed the current season for this competition.');
- return current.year;
-}
 async function loadStandings(){
  const league=leagueSelect.value;
- tableStatus.textContent='Checking the official current season…';
+ tableStatus.textContent='Checking seasons available on the API-Football free plan…';
  tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Loading…</td></tr>';
  try{
-  const season=await getCurrentLeagueSeason(league);
-  tableStatus.textContent='Loading verified standings…';
-  const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+encodeURIComponent(season));
-  const d=await r.json();
-  if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error(d.error||('Provider response: '+JSON.stringify(d.errors||d.message||d)));
-  const groups=d.response?.[0]?.league?.standings||[];
-  const rows=groups.flat();
-  if(!rows.length){tableStatus.textContent='No published standings were returned for this competition and season.';tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Standings are not available yet.</td></tr>';return;}
+  let d=null,seasonUsed=null,lastError='';
+  for(const season of [2024,2023,2022]){
+   const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+season);
+   const candidate=await r.json();
+   if(!r.ok||candidate.errors&&Object.keys(candidate.errors).length){
+    lastError=JSON.stringify(candidate.errors||candidate.message||candidate);
+    continue;
+   }
+   const candidateRows=(candidate.response?.[0]?.league?.standings||[]).flat();
+   if(candidateRows.length){d=candidate;seasonUsed=season;break;}
+  }
+  if(!d)throw new Error(lastError||'No standings were returned for seasons 2022–2024.');
+  const rows=(d.response?.[0]?.league?.standings||[]).flat();
   const leagueName=d.response?.[0]?.league?.name||leagueSelect.options[leagueSelect.selectedIndex].text;
-  tableStatus.textContent=leagueName+' · '+season+' season · '+rows.length+' clubs';
+  tableStatus.textContent=leagueName+' · '+seasonUsed+' season · Historical standings (latest available on free plan) · '+rows.length+' clubs';
   tableBody.innerHTML=rows.map(t=>'<tr><td>'+safe(t.rank)+'</td><td><div class="club-cell">'+(t.team?.logo?'<img src="'+safe(t.team.logo)+'" alt="">':'')+'<span>'+safe(t.team?.name||'Unknown club')+'</span></div></td><td>'+safe(t.all?.played??'—')+'</td><td>'+safe(t.all?.win??'—')+'</td><td>'+safe(t.all?.draw??'—')+'</td><td>'+safe(t.all?.lose??'—')+'</td><td>'+safe(t.goalsDiff??'—')+'</td><td><b>'+safe(t.points??'—')+'</b></td></tr>').join('');
  }catch(e){tableStatus.textContent='Unable to load standings: '+(e.message||'Please try again.');tableBody.innerHTML='<tr><td colspan="8" class="table-empty">No standings displayed because the data could not be verified.</td></tr>';}
 }
