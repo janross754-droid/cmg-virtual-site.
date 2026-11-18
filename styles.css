@@ -1802,3 +1802,84 @@ body.light .signup-card form input, body.light .signup-card form select {
 }
 body.light .scan-terminal { background:#211820; }
 body.light .marketing-home { color:#f8f4f6; }
+
+
+/* CMG VIRTUAL — true black theme + stronger, more readable typography */
+:root {
+  --bg: #000000;
+  --surface: #090909;
+  --surface2: #111111;
+  --line: #30272d;
+}
+html, body {
+  background: #000 !important;
+}
+body {
+  background: #000 !important;
+  color: #f8f4f6;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.topbar {
+  background: rgba(0,0,0,.97) !important;
+  border-bottom-color: rgba(255,88,117,.28);
+}
+footer { background: #000 !important; }
+.card, .hero-panel, .feature-card, .balance-card, .hacker-panel,
+.plan-card, .payment-card, .package-balance, .auth-card,
+.signup-card, .game-card, .history-result-card {
+  background: #090909 !important;
+  border-color: #30272d;
+}
+.dashboard-balance { background: #090909 !important; }
+input, select, textarea, .phone-input,
+.signup-card form input, .signup-card form select {
+  background: #080808 !important;
+}
+.auth-switch, .tabs, .scan-terminal {
+  background: #050505 !important;
+}
+.step-dot b { background: #050505; }
+
+/* Larger, heavier text throughout — keep existing coral/amber text and button colors. */
+body, p, li, label, input, select, textarea, button {
+  font-weight: 700;
+}
+.nav-links { font-size: 14px; font-weight: 700; }
+label, .signup-card form label { font-size: 13px; font-weight: 800; }
+input, select, textarea { font-size: 16px; font-weight: 700; }
+.btn, .dashboard-buy, .game-action { font-size: 14px; font-weight: 900; }
+.step-intro p, .dashboard-heading p, .dashboard-welcome p,
+.scanner-main-title p, .upload-locked p, .package-card > p,
+.account-info p, .account-info li, .feature-card p {
+  font-size: 15px;
+  font-weight: 600;
+}
+.muted, .field-hint, .fine-print, .small-note,
+.upload-zone span:not(.upload-icon), .scanner-step small,
+.upload-locked > small, .game-card-foot, .history-item small,
+.history-item p, .history-report, .compact-pick > span,
+.compact-pick > small, .compact-prediction-note,
+.compact-prediction-disclaimer {
+  font-size: 12px;
+  font-weight: 600;
+}
+.dashboard-section-title h2 { font-size: 23px; font-weight: 800; }
+.game-card-copy h3 { font-size: 17px; font-weight: 800; }
+.game-category, .game-tag, .system-status, .step-kicker,
+.eyebrow, .step-intro .step-kicker {
+  font-size: 11px;
+  font-weight: 900;
+}
+.compact-prediction-heading strong { font-size: 17px; font-weight: 800; }
+.compact-pick > strong { font-size: 17px; font-weight: 800; }
+.compact-pick > span { font-size: 14px; }
+.compact-pick > b { font-size: 15px; font-weight: 900; }
+.scanner-step strong { font-size: 14px; font-weight: 800; }
+.upload-locked > strong, .upload-zone strong { font-size: 16px; font-weight: 800; }
+@media(max-width:520px) {
+  body { font-size: 16px; }
+  .dashboard-welcome p, .step-intro p, .scanner-main-title p { font-size: 14px; }
+  .btn, .dashboard-buy, .game-action { font-size: 14px; }
+}
