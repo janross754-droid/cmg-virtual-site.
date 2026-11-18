@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body class="light">
+<body class="light landing-mode">
   <header class="topbar">
     <a class="brand" href="#top" aria-label="CMG VIRTUAL home"><span class="brand-mark">CMG</span><span>VIRTUAL</span></a>
     <div class="topbar-right">
@@ -244,6 +244,17 @@
 
   <footer><a class="brand" href="#top"><span class="brand-mark">CMG</span><span>VIRTUAL</span></a><p>18+ only. Virtual game outcomes are unpredictable. AI analysis is informational and does not guarantee wins. Please gamble responsibly.</p><span>© <span id="year"></span> CMG VIRTUAL</span></footer>
 
+
+  <script>
+    document.querySelectorAll('.marketing-cta').forEach(function(link) {
+      link.addEventListener('click', function(event) {
+        event.preventDefault();
+        document.body.classList.remove('landing-mode');
+        document.querySelector('.marketing-home')?.setAttribute('hidden', '');
+        document.querySelector('#step1')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/app.js"></script>
 </body>
