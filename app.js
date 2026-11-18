@@ -254,6 +254,20 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
 
     // Step 2 -> Step 3
     $("buyTokensBtn").addEventListener("click", () => setStep(3));
+    document.querySelectorAll("[data-game-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.gameAction;
+        const notice = $("dashboardNotice");
+        if (action === "instant") {
+          notice.textContent = "Upload a clear virtual football screenshot below to start your AI-assisted analysis.";
+          $("instantScanner").scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (action === "codes") {
+          notice.textContent = "Code Drop requests are not connected yet. This section is a preview; no booking code is currently issued or verified.";
+        } else if (action === "aviator") {
+          notice.textContent = "Aviator outcomes are unpredictable. CMG does not provide guaranteed crash points or cash-out signals.";
+        }
+      });
+    });
     $("backToDashboard").addEventListener("click", () => setStep(2));
     $("backToPackages").addEventListener("click", () => setStep(3));
 
