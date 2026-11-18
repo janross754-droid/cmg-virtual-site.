@@ -294,6 +294,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         await saveProfileDetails();
         await loadProfile();
         await loadHistory();
+        await loadHistoricalPerformance();
         let rememberedStep = 2;
         try {
           const savedStep = Number(sessionStorage.getItem("cmg-active-step"));
