@@ -97,7 +97,7 @@ exports.handler = async (event) => {
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + openai },
       body: JSON.stringify({
         model: "gpt-6.1-terra",
-        reasoning: { effort: "high" },
+        reasoning: { effort: "low" },
         instructions: ANALYSIS_INSTRUCTIONS,
         input: [{
           role: "user",
@@ -109,7 +109,7 @@ exports.handler = async (event) => {
             { type: "input_image", image_url: imageUrl, detail: "high" }
           ]
         }],
-        max_output_tokens: 4200
+        max_output_tokens: 1800
       })
     });
 
