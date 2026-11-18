@@ -103,6 +103,17 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
     $("phoneNumber").addEventListener("input", updatePhoneCountry);
     updatePhoneCountry();
 
+    function syncUploadAccess() {
+      const unlocked = Boolean(currentUser && currentCredits >= 1);
+      const fileInput = $("slipFile");
+      if (fileInput) { fileInput.disabled = !unlocked; if (!unlocked) fileInput.value = ""; }
+      $("uploadLocked")?.classList.toggle("hidden", unlocked);
+      $("slipUploadZone")?.classList.toggle("hidden", !unlocked);
+      if ($("scannerCreditCount")) $("scannerCreditCount").textContent = String(currentCredits);
+      if ($("lockedCreditCount")) $("lockedCreditCount").textContent = String(currentCredits);
+      $("analyseBtn").disabled = !unlocked || !fileInput?.files.length;
+      $("analyseBtn").textContent = "GET PREDICTION · 1 CREDIT";
+    }
     async function loadProfile() {
       const { data, error } = await db.from("profiles")
         .select("credits,role,full_name,phone_number")
@@ -121,6 +132,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       $("packageBalance").textContent = String(currentCredits);
       $("balanceStatus").textContent = currentCredits < 1 ? "LOW BALANCE" : "TOKENS AVAILABLE";
       $("balanceStatus").classList.toggle("low-balance", currentCredits < 1);
+      syncUploadAccess();
       const meta = currentUser.user_metadata || {};
       const name = data.full_name || meta.full_name || currentUser.email?.split("@")[0] || "there";
       $("userName").textContent = name.split(/\s+/)[0];
@@ -149,8 +161,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         return;
       }
       $("historyList").replaceChildren();
+      $("predictionCount").textContent = String(data?.length || 0);
       if (!data?.length) {
-        $("historyList").innerHTML = '<p class="muted">No analyses yet. Your completed reports will appear here.</p>';
+        $("historyList").innerHTML = '<p class="muted">No predictions yet. Upload a screenshot to get started.</p>';
         return;
       }
       data.forEach((item) => {
@@ -184,7 +197,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         $("adminNavLink").classList.add("hidden");
         setStep(1);
       }
-      $("analyseBtn").disabled = !currentUser || !$("slipFile").files.length;
+      syncUploadAccess();
     }
 
     // Step 1: signup and login
@@ -254,6 +267,8 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
 
     // Step 2 -> Step 3
     $("buyTokensBtn").addEventListener("click", () => setStep(3));
+    $("scannerTopUp").addEventListener("click", () => setStep(3));
+    $("lockedTopUp").addEventListener("click", () => setStep(3));
     document.querySelectorAll("[data-game-action]").forEach((button) => {
       button.addEventListener("click", () => {
         const action = button.dataset.gameAction;
@@ -389,6 +404,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
 
     // Screenshot analysis — existing Netlify function and one-token debit are preserved.
     $("slipFile").addEventListener("change", () => {
+      if (currentCredits < 1) { $("slipFile").value = ""; setMessage("analysisMsg", "Uploads are locked. Buy at least 1 credit to continue.", true); syncUploadAccess(); return; }
       const file = $("slipFile").files[0];
       const allowed = ["image/png", "image/jpeg", "image/webp"];
       if (file && (!allowed.includes(file.type) || file.size > 6 * 1024 * 1024)) {
@@ -397,7 +413,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       } else {
         setMessage("analysisMsg", file ? "Screenshot selected. Analysis uses 1 token." : "");
       }
-      $("analyseBtn").disabled = !currentUser || !$("slipFile").files.length;
+      $("analyseBtn").disabled = !currentUser || currentCredits < 1 || !$("slipFile").files.length;
     });
 
     async function runLocalSlipScan(file) {
@@ -448,17 +464,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
     $("analyseBtn").addEventListener("click", async () => {
       const file = $("slipFile").files[0];
       if (!currentUser || !file) return;
-      if (currentCredits < 1) {
-        try {
-          const localReport = await runLocalSlipScan(file);
-          $("analysisResult").textContent = localReport;
-          $("analysisResult").classList.remove("hidden");
-          setMessage("analysisMsg", "Free local OCR scan completed. No token was used. Buy tokens to access the full AI analysis.");
-        } catch (error) {
-          setMessage("analysisMsg", error.message || "Local scan failed.", true);
-        }
-        return;
-      }
+      if (currentCredits < 1) { setMessage("analysisMsg", "Uploads are locked. Buy at least 1 credit to get a prediction.", true); syncUploadAccess(); return; }
       const button = $("analyseBtn");
       button.disabled = true;
       setMessage("analysisMsg", "Analysing screenshot. Please wait…");
@@ -493,7 +499,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       } catch (error) {
         setMessage("analysisMsg", error.message || "Analysis failed. Please try again.", true);
       } finally {
-        button.disabled = !currentUser || !$("slipFile").files.length;
+        button.disabled = !currentUser || currentCredits < 1 || !$("slipFile").files.length;
       }
     });
 
