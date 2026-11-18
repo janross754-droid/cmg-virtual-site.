@@ -621,6 +621,80 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       }
     });
 
+    async function loadHistoricalPerformance() {
+      const message = $("historicalMsg");
+      const list = $("historicalRows");
+      if (!currentUser) return;
+      try {
+        const { data } = await db.auth.getSession();
+        if (!data.session) throw new Error("Please log in again.");
+        const response = await fetch("/.netlify/functions/historical-results", {
+          headers: { Authorization: "Bearer " + data.session.access_token }
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Could not load historical results.");
+        $("historicalTotal").textContent = String(result.total);
+        $("historicalHitRate").textContent = result.hitRate === null ? "—" : result.hitRate + "%";
+        $("historicalDrawMisses").textContent = String(result.drawMisses);
+        list.replaceChildren();
+        if (!result.rows.length) {
+          const empty = document.createElement("p");
+          empty.className = "muted";
+          empty.textContent = "No settled fixtures imported yet.";
+          list.append(empty);
+          return;
+        }
+        result.rows.slice(0, 20).forEach((row) => {
+          const item = document.createElement("div");
+          item.className = "historical-row";
+          const title = document.createElement("strong");
+          title.textContent = row.fixture + " · " + row.home_score + "-" + row.away_score;
+          const detail = document.createElement("small");
+          detail.textContent = row.league + " · " + row.selection + " @" + row.odds + " · " + row.market + " · " + (row.selection_correct ? "CORRECT" : "INCORRECT");
+          item.append(title, detail);
+          list.append(item);
+        });
+      } catch (error) {
+        if (message) setMessage("historicalMsg", error.message || "Historical results could not be loaded.", true);
+      }
+    }
+
+    $("refreshHistoricalBtn")?.addEventListener("click", loadHistoricalPerformance);
+    $("importHistoricalBtn")?.addEventListener("click", async () => {
+      const button = $("importHistoricalBtn");
+      const raw = $("historicalImport").value.trim();
+      if (!raw) { setMessage("historicalMsg", "Paste at least one settled fixture row first.", true); return; }
+      button.disabled = true;
+      setMessage("historicalMsg", "Checking and saving settled results…");
+      try {
+        const { data } = await db.auth.getSession();
+        if (!data.session) throw new Error("Please log in again.");
+        const entries = raw.split(/\r?\n/).filter(Boolean).map((line, index) => {
+          const cells = line.split("\\t").map(value => value.trim());
+          if (cells.length !== 9) throw new Error("Line " + (index + 1) + " must contain 9 tab-separated fields.");
+          return {
+            ticket_id: cells[0], match_date: cells[1] || null, league: cells[2],
+            fixture: cells[3], market: cells[4] || "1X2", selection: cells[5],
+            odds: cells[6], home_score: cells[7], away_score: cells[8]
+          };
+        });
+        const response = await fetch("/.netlify/functions/historical-results", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + data.session.access_token },
+          body: JSON.stringify({ entries })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Could not save historical results.");
+        $("historicalImport").value = "";
+        setMessage("historicalMsg", result.saved + " fixture(s) saved; " + result.duplicates + " duplicate(s) skipped.");
+        await loadHistoricalPerformance();
+      } catch (error) {
+        setMessage("historicalMsg", error.message || "Import failed. Check the rows and try again.", true);
+      } finally {
+        button.disabled = false;
+      }
+    });
+
     // Admin payment review queue
     $("loadAdmin").addEventListener("click", async () => {
       $("adminPayments").replaceChildren();
