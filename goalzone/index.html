@@ -14,10 +14,12 @@
 
 .match[data-fixture-id]{cursor:pointer}.match[data-fixture-id]:hover{background:#f7faff}
 .detail-backdrop{position:fixed;inset:0;background:#102b5277;z-index:20;display:none;align-items:center;justify-content:center;padding:16px}.detail-backdrop.open{display:flex}.detail-modal{width:min(720px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:16px}.detail-head{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:16px;display:flex;justify-content:space-between;align-items:center}.detail-head h2{font:800 17px Manrope;margin:0}.detail-close{border:0;border-radius:50%;width:34px;height:34px;font-size:20px}.detail-content{padding:16px}.detail-score{display:flex;justify-content:space-around;align-items:center;text-align:center;padding:12px 0 20px}.detail-team{flex:1;font-weight:800;font-size:14px}.detail-team img{display:block;width:38px;height:38px;object-fit:contain;margin:0 auto 7px}.detail-goals{font:800 26px Manrope}.detail-section{border-top:1px solid var(--line);padding:14px 0}.detail-section h3{font:800 12px Manrope;color:#536781;margin:0 0 10px;text-transform:uppercase}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:12px;color:#52647d}.detail-empty{color:#8795a8;font-size:12px;padding:8px 0}.statline{display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;align-items:center;padding:7px 0;font-size:12px}.statbar{height:6px;background:#edf2f8;border-radius:8px;overflow:hidden;display:flex}.statbar span:first-child{background:var(--blue)}.statbar span:last-child{background:#9eb4d2}
+
+.table-panel{margin:14px 0;overflow:hidden}.table-heading{padding:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.table-heading h2{font:800 18px Manrope;margin:0}.table-heading p{font-size:11px;color:var(--muted);margin:5px 0 0}.table-heading select{max-width:52%;border:1px solid var(--line);border-radius:9px;padding:9px;background:#fff;color:var(--ink);font:600 12px 'DM Sans',sans-serif}.table-scroll{overflow-x:auto}.standings{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}.standings th{background:#fbfcfe;color:#8290a3;font-size:10px;padding:11px 8px;text-align:right}.standings th:nth-child(1),.standings td:nth-child(1){text-align:center;width:30px}.standings th:nth-child(2),.standings td:nth-child(2){text-align:left}.standings td{padding:11px 8px;border-top:1px solid #eff2f7;text-align:right;font-weight:600}.club-cell{display:flex;align-items:center;gap:8px;min-width:130px}.club-cell img{width:20px;height:20px;object-fit:contain}.table-status{padding:10px 16px;color:var(--muted);font-size:11px}.table-empty{text-align:center!important;color:#8795a8;padding:22px!important}.standings tr:hover td{background:#f8faff}
 </style>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="logo" href="#"><span class="mark">G</span>GOALZONE</a><nav class="nav"><a class="active" href="#scores">Scores</a><a href="#fixtures">Fixtures</a><a href="#leagues">Leagues</a></nav><span class="topright">FOOTBALL · WORLDWIDE</span></div></header>
+<header class="top"><div class="topin"><a class="logo" href="#"><span class="mark">G</span>GOALZONE</a><nav class="nav"><a class="active" href="#scores">Scores</a><a href="#fixtures">Fixtures</a><a href="#tables">Tables</a></nav><span class="topright">FOOTBALL · WORLDWIDE</span></div></header>
 <div class="wrap" id="scores">
 <aside class="panel side" id="leagues"><h3>POPULAR LEAGUES</h3>
 <a class="competition selected" href="#scores"><span class="flag">🌍</span>All matches</a>
@@ -33,7 +35,13 @@
 <div class="tabs"><button class="tab active">ALL</button><button class="tab">LIVE</button><button class="tab">UPCOMING</button><button class="tab">FINISHED</button></div>
 <div class="panel status" id="feedStatus"><span class="dot"></span><span><b>Connecting to football data…</b> Please wait.</span></div>
 <section id="fixtureList"><div class="panel matchgroup"><div class="grouphead">⚽ MATCH CENTRE</div><div class="match"><div class="time">—</div><div class="teams"><div class="team">Loading verified fixtures…</div></div><div class="score muted">—</div></div></div></section>
-<div class="panel status">GOALZONE will show confirmed scores, kickoff times, match events and competition tables. No sample scores are being presented as live results.</div>
+
+<section id="tables" class="panel table-panel">
+ <div class="table-heading"><div><h2>League tables</h2><p>Official standings supplied by API-Football</p></div><select id="leagueSelect" aria-label="Choose league"><option value="39">Premier League</option><option value="140">La Liga</option><option value="135">Serie A</option><option value="78">Bundesliga</option><option value="61">Ligue 1</option><option value="2">Champions League</option></select></div>
+ <div id="tableStatus" class="table-status">Choose a competition to load its standings.</div>
+ <div class="table-scroll"><table class="standings"><thead><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead><tbody id="tableBody"><tr><td colspan="8" class="table-empty">Loading league standings…</td></tr></tbody></table></div>
+</section>
+<div class="panel status">GOALZONE shows confirmed football data. Some competitions may not publish standings until their season begins.</div>
 </main>
 <aside class="panel right"><h3>ABOUT GOALZONE</h3><p>Your football companion for live scores, fixtures, results and match statistics.</p><div class="feature"><b>Live match centre</b><span>Goals, cards, substitutions and match clock</span></div><div class="feature"><b>League tables</b><span>Standings, form and team records</span></div><div class="feature"><b>Match details</b><span>Possession, shots and key events where provided</span></div></aside>
 </div>
@@ -100,6 +108,27 @@ list.addEventListener('click',e=>{const row=e.target.closest('[data-fixture-id]'
 list.addEventListener('keydown',e=>{const row=e.target.closest('[data-fixture-id]');if(row&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openDetails(row.dataset.fixtureId);}});
 
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeFilter=b.textContent.trim();render();}));
+
+const leagueSelect=document.getElementById('leagueSelect'),tableBody=document.getElementById('tableBody'),tableStatus=document.getElementById('tableStatus');
+async function loadStandings(){
+ const league=leagueSelect.value,season=new Date().getFullYear();
+ tableStatus.textContent='Loading verified standings…';
+ tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Loading…</td></tr>';
+ try{
+  const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+season);
+  const d=await r.json();
+  if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error(d.error||'Standings could not be loaded.');
+  const groups=d.response?.[0]?.league?.standings||[];
+  const rows=groups.flat();
+  if(!rows.length){tableStatus.textContent='No published standings were returned for this competition and season.';tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Standings are not available yet.</td></tr>';return;}
+  const leagueName=d.response?.[0]?.league?.name||leagueSelect.options[leagueSelect.selectedIndex].text;
+  tableStatus.textContent=leagueName+' · '+season+' season · '+rows.length+' clubs';
+  tableBody.innerHTML=rows.map(t=>'<tr><td>'+safe(t.rank)+'</td><td><div class="club-cell">'+(t.team?.logo?'<img src="'+safe(t.team.logo)+'" alt="">':'')+'<span>'+safe(t.team?.name||'Unknown club')+'</span></div></td><td>'+safe(t.all?.played??'—')+'</td><td>'+safe(t.all?.win??'—')+'</td><td>'+safe(t.all?.draw??'—')+'</td><td>'+safe(t.all?.lose??'—')+'</td><td>'+safe(t.goalsDiff??'—')+'</td><td><b>'+safe(t.points??'—')+'</b></td></tr>').join('');
+ }catch(e){tableStatus.textContent='Unable to load standings: '+(e.message||'Please try again.');tableBody.innerHTML='<tr><td colspan="8" class="table-empty">No standings displayed because the data could not be verified.</td></tr>';}
+}
+leagueSelect.addEventListener('change',loadStandings);
+
 load();
+loadStandings();
 </script>
 </body></html>
