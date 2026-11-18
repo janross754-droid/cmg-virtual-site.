@@ -155,22 +155,22 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
 
     function compactPredictionCard(analysis) {
       const source = String(analysis || "");
-      const picksSection = source.match(/TOP PICKS[\\s\\S]*?(?=\\n\\s*(?:3\\)|WHY THESE PICKS|WHY|RISK CHECK|FINAL CALL)|$)/i);
+      const picksSection = source.match(/TOP PICKS[\s\S]*?(?=\n\s*(?:3\)|WHY THESE PICKS|WHY|RISK CHECK|FINAL CALL)|$)/i);
       const section = picksSection ? picksSection[0] : source;
       const picks = [];
-      for (const line of section.split(/\\r?\\n/)) {
-        const clean = line.replace(/^\\s*[-*•]\\s*/, "").trim();
-        if (!clean || /^(?:RANK|[-| ]+)$/.test(clean) || /^\\|?\\s*RANK\\b/i.test(clean)) continue;
+      for (const line of section.split(/\r?\n/)) {
+        const clean = line.replace(/^\s*[-*•]\s*/, "").trim();
+        if (!clean || /^(?:RANK|[-| ]+)$/.test(clean) || /^\|?\s*RANK\b/i.test(clean)) continue;
         const cells = clean.split("|").map(x => x.trim()).filter(Boolean);
-        if (cells.length >= 4 && /^\\d+$/.test(cells[0])) {
+        if (cells.length >= 4 && /^\d+$/.test(cells[0])) {
           const fixture = cells[1];
           const pick = cells[2];
-          const odds = cells[3].match(/\\d+(?:\\.\\d+)?/)?.[0];
-          const share = cells[4]?.match(/\\d+(?:\\.\\d+)?%?/)?.[0] || "";
+          const odds = cells[3].match(/\d+(?:\.\d+)?/)?.[0];
+          const share = cells[4]?.match(/\d+(?:\.\d+)?%?/)?.[0] || "";
           if (fixture && pick && odds) picks.push({ fixture, pick, odds, share });
           continue;
         }
-        const match = clean.match(/^\\d+\\s*[.)|]\\s*([A-Z0-9]+\\s+vs\\s+[A-Z0-9]+)\\s*[|—-]+\\s*(.+?)\\s*[|@]+\\s*(\\d+(?:\\.\\d+)?)(?:\\s*[|—-]+\\s*(\\d+(?:\\.\\d+)?%?))?$/i);
+        const match = clean.match(/^\d+\s*[.)|]\s*([A-Z0-9]+\s+vs\s+[A-Z0-9]+)\s*[|—-]+\s*(.+?)\s*[|@]+\s*(\d+(?:\.\d+)?)(?:\s*[|—-]+\s*(\d+(?:\.\d+)?%?))?$/i);
         if (match) picks.push({ fixture: match[1], pick: match[2], odds: match[3], share: match[4] || "" });
       }
       const wrap = document.createElement("div");
