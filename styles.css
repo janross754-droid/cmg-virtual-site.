@@ -1883,3 +1883,53 @@ input, select, textarea { font-size: 16px; font-weight: 700; }
   .dashboard-welcome p, .step-intro p, .scanner-main-title p { font-size: 14px; }
   .btn, .dashboard-buy, .game-action { font-size: 14px; }
 }
+
+
+/* CMG VIRTUAL — pure red accent theme */
+:root {
+  --cyan: #ff0000;
+  --blue: #ff0000;
+  --red: #ff0000;
+  --accent: #ff0000;
+  --accent2: #ff0000;
+}
+.btn.primary, .btn, .hacker-button, .dashboard-buy, .game-action,
+.signup-card #authSubmit, .auth-tab.active {
+  background: #ff0000 !important;
+  background-image: none !important;
+  border-color: #ff0000 !important;
+  color: #fff !important;
+  box-shadow: 0 0 14px rgba(255,0,0,.22);
+}
+a, .gradient-text, .eyebrow, .step-kicker, .game-category,
+.game-tag, .dashboard-welcome h1 span, .dashboard-balance .balance-label,
+.dashboard-section-title .dashboard-live-dot i, .popular-tag,
+.upload-icon, .hacker-icon, .terminal-top, .scanner-step-number,
+.scanner-topup, .password-toggle, .auth-switch-line button,
+.marketing-proof strong, .marketing-steps article>b, .visual-result b,
+.history-clear-btn, .compact-pick > b {
+  color: #ff0000 !important;
+}
+.gradient-text {
+  background: none !important;
+  -webkit-text-fill-color: #ff0000 !important;
+}
+.step-track-line span, .scan-line, .hacker-panel:before,
+.scan-terminal:before, .dashboard-live-dot i {
+  background: #ff0000 !important;
+  box-shadow: 0 0 12px rgba(255,0,0,.42);
+}
+.topbar, .card, .hero-panel, .feature-card, .balance-card,
+.hacker-panel, .plan-card, .payment-card, .package-balance,
+.auth-card, .signup-card, .game-card, .history-result-card {
+  --accent: #ff0000;
+  --accent2: #ff0000;
+}
+.popular-tag, .scanner-step-number, .scanner-topup,
+.history-clear-btn, .upload-locked {
+  border-color: rgba(255,0,0,.42) !important;
+}
+.game-card-featured {
+  border-color: rgba(255,0,0,.55) !important;
+  background: linear-gradient(150deg,#1b0909,#090909) !important;
+}
