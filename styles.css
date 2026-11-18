@@ -1933,3 +1933,14 @@ a, .gradient-text, .eyebrow, .step-kicker, .game-category,
   border-color: rgba(255,0,0,.55) !important;
   background: linear-gradient(150deg,#1b0909,#090909) !important;
 }
+
+
+/* Historical performance ledger */
+.historical-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin:16px 0; }
+.historical-stats > div { background:#101010; border:1px solid #30272d; border-radius:12px; padding:12px 8px; min-width:0; }
+.historical-stats strong { display:block; color:#ff0000; font-size:22px; font-weight:900; }
+.historical-stats small, .historical-row small { display:block; color:#b9b2b5; font-size:11px; line-height:1.4; }
+#historicalImport { width:100%; margin:8px 0; resize:vertical; min-height:130px; }
+.historical-row { display:flex; flex-direction:column; gap:3px; padding:10px 0; border-bottom:1px solid #30272d; }
+.historical-row strong { font-size:14px; }
+#historicalPerformance { margin-top:18px; }
