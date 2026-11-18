@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="GOALZONE — football scores, fixtures, match events and league tables.">
+<title>GOALZONE — Live Football Scores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1769e0;--navy:#102b52;--ink:#172b46;--muted:#718198;--line:#e7edf5;--bg:#f4f7fb;--white:#fff;--green:#16a36a;--red:#e34d59;--shadow:0 8px 28px #16365d0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}button,a{font:inherit}button{cursor:pointer}.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.topin{max-width:1180px;margin:auto;padding:14px 20px;display:flex;align-items:center;gap:28px}.logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--navy);font:800 23px Manrope,sans-serif;letter-spacing:-1px}.mark{background:var(--blue);color:white;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:16px}.nav{display:flex;gap:22px;flex:1}.nav a{color:#61728a;text-decoration:none;font-size:14px;font-weight:700}.nav a.active,.nav a:hover{color:var(--blue)}.topright{font-size:12px;color:var(--muted)}.wrap{max-width:1180px;margin:24px auto;padding:0 20px;display:grid;grid-template-columns:220px minmax(0,1fr) 250px;gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.side{padding:16px;height:max-content}.side h3,.right h3{font-size:12px;color:#8a98aa;letter-spacing:1px;margin:2px 0 13px}.competition{display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:9px;color:#435671;font-size:13px;font-weight:700;text-decoration:none}.competition:hover,.competition.selected{background:#edf4ff;color:var(--blue)}.flag{width:23px;height:23px;border-radius:50%;background:#eef2f7;display:grid;place-items:center;font-size:13px}.main{min-width:0}.headline{display:flex;align-items:center;justify-content:space-between;margin:0 0 15px}.headline h1{font:800 22px Manrope;margin:0}.date{color:var(--muted);font-size:12px}.tabs{display:flex;gap:7px;overflow:auto;padding:5px 0 15px}.tab{border:1px solid var(--line);background:white;color:#62748c;border-radius:20px;padding:8px 15px;font-size:12px;font-weight:800;white-space:nowrap}.tab.active{background:var(--blue);border-color:var(--blue);color:#fff}.status{padding:13px 15px;display:flex;align-items:center;gap:9px;color:#63748a;font-size:12px;margin-bottom:13px}.dot{width:8px;height:8px;border-radius:50%;background:#f2aa35}.matchgroup{margin-bottom:13px;overflow:hidden}.grouphead{padding:12px 15px;background:#fbfcfe;border-bottom:1px solid var(--line);font-size:12px;font-weight:800;color:#536781;display:flex;justify-content:space-between}.match{display:grid;grid-template-columns:55px minmax(0,1fr) 48px;gap:12px;align-items:center;padding:14px 15px;border-bottom:1px solid #eff2f7}.match:last-child{border:0}.time{text-align:center;font-size:11px;color:#7f8da1}.teams{display:grid;gap:8px}.team{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700}.crest{width:20px;height:20px;border-radius:50%;background:#edf2f8;display:grid;place-items:center;font-size:11px}.score{text-align:right;font:800 14px Manrope;line-height:1.8}.muted{color:#9aa6b5}.right{padding:16px;height:max-content}.empty{padding:16px;border:1px dashed #dce5f0;border-radius:10px;text-align:center;color:#8291a5;font-size:12px;line-height:1.6}.right p{font-size:12px;color:var(--muted);line-height:1.6}.feature{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.feature b{display:block;font-size:13px;margin-bottom:5px}.feature span{font-size:11px;color:var(--muted)}footer{text-align:center;color:#94a1b1;font-size:11px;padding:28px}
+@media(max-width:900px){.wrap{grid-template-columns:190px minmax(0,1fr)}.right{display:none}}@media(max-width:620px){.topin{padding:11px 14px;gap:14px}.nav{gap:14px}.nav a{font-size:12px}.topright{display:none}.wrap{display:block;margin:16px auto;padding:0 12px}.side{display:none}.headline h1{font-size:19px}.match{padding:13px 10px;grid-template-columns:45px minmax(0,1fr) 38px;gap:8px}.team{font-size:12px}.status{font-size:11px}.right{display:block;margin-top:14px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="logo" href="#"><span class="mark">G</span>GOALZONE</a><nav class="nav"><a class="active" href="#scores">Scores</a><a href="#fixtures">Fixtures</a><a href="#leagues">Leagues</a></nav><span class="topright">FOOTBALL · WORLDWIDE</span></div></header>
+<div class="wrap" id="scores">
+<aside class="panel side" id="leagues"><h3>POPULAR LEAGUES</h3>
+<a class="competition selected" href="#scores"><span class="flag">🌍</span>All matches</a>
+<a class="competition" href="#scores"><span class="flag">🏴</span>Premier League</a>
+<a class="competition" href="#scores"><span class="flag">🇪🇸</span>La Liga</a>
+<a class="competition" href="#scores"><span class="flag">🇮🇹</span>Serie A</a>
+<a class="competition" href="#scores"><span class="flag">🇩🇪</span>Bundesliga</a>
+<a class="competition" href="#scores"><span class="flag">🇫🇷</span>Ligue 1</a>
+<a class="competition" href="#scores"><span class="flag">⭐</span>Champions League</a>
+<a class="competition" href="#scores"><span class="flag">🇬🇭</span>Ghana Premier League</a>
+</aside>
+<main class="main"><div class="headline"><h1>Football scores</h1><span class="date" id="today"></span></div>
+<div class="tabs"><button class="tab active">ALL</button><button class="tab">LIVE</button><button class="tab">UPCOMING</button><button class="tab">FINISHED</button></div>
+<div class="panel status"><span class="dot"></span><span><b>Live data not connected yet.</b> GOALZONE is ready for a verified football data feed.</span></div>
+<section class="panel matchgroup" id="fixtures"><div class="grouphead"><span>⚽ MATCH CENTRE</span><span>STATUS</span></div><div class="match"><div class="time">—</div><div class="teams"><div class="team"><span class="crest">⚽</span>Live scores will appear here</div><div class="team muted"><span class="crest">＋</span>Fixtures and results load after API setup</div></div><div class="score muted">—</div></div></section>
+<div class="panel status">GOALZONE will show confirmed scores, kickoff times, match events and competition tables. No sample scores are being presented as live results.</div>
+</main>
+<aside class="panel right"><h3>ABOUT GOALZONE</h3><p>Your football companion for live scores, fixtures, results and match statistics.</p><div class="feature"><b>Live match centre</b><span>Goals, cards, substitutions and match clock</span></div><div class="feature"><b>League tables</b><span>Standings, form and team records</span></div><div class="feature"><b>Match details</b><span>Possession, shots and key events where provided</span></div></aside>
+</div>
+<footer>GOALZONE · Football information, clearly presented.</footer>
+<script>document.getElementById('today').textContent=new Intl.DateTimeFormat(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(new Date());document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));</script>
+</body></html>
