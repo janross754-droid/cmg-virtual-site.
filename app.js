@@ -12,9 +12,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
   };
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
   const packages = {
-    "Starter Plan": { name: "Starter Plan", credits: 5, price: 10 },
-    "Pro Plan": { name: "Pro Plan", credits: 15, price: 20 },
-    "Elite Plan": { name: "Elite Plan", credits: 50, price: 30 }
+    "Starter Plan": { name: "Starter Plan", credits: 3, price: 150 },
+    "Pro Plan": { name: "Pro Plan", credits: 15, price: 600 },
+    "Elite Plan": { name: "Elite Plan", credits: 30, price: 1200 }
   };
 
   document.addEventListener("DOMContentLoaded", async () => {
@@ -277,14 +277,26 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         if (!pkg) return;
         selectedPackage = pkg;
         $("selectedPackageName").textContent = pkg.name;
-        $("selectedPackageTokens").textContent = `${pkg.credits} tokens`;
-        $("selectedPackagePrice").textContent = `GH₵${pkg.price}`;
-        $("paymentAmountText").textContent = `Amount to send: GH₵${pkg.price}`;
+        $("selectedPackageTokens").textContent = `${pkg.credits} credits · predicts 2 games`;
+        $("selectedPackagePrice").textContent = `GH₵${pkg.price.toLocaleString("en-GH")}`;
+        $("paymentAmountText").textContent = `GH₵${pkg.price.toLocaleString("en-GH")}`;
         $("paymentForm").reset();
         $("proofPreview").classList.add("hidden");
         setMessage("paymentMsg", "");
         setStep(4);
       });
+    });
+
+    // Copy the receiving wallet number and selected amount.
+    document.querySelectorAll("[data-copy-payment]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(button.dataset.copyPayment); button.textContent = "Copied"; }
+        catch (_) { button.textContent = "Select number"; }
+      });
+    });
+    $("copyAmountBtn").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText($("paymentAmountText").textContent); $("copyAmountBtn").textContent = "Copied"; }
+      catch (_) { $("copyAmountBtn").textContent = "Select amount"; }
     });
 
     // Step 4: upload proof, then create a pending payment request. Tokens are never added here.
@@ -311,7 +323,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       const reference = $("txRef").value.trim() || null;
       const proof = $("paymentScreenshot").files[0];
       if (payerName.length < 2) { setMessage("paymentMsg", "Enter the sender's full name.", true); return; }
-      if (!/^\d{9}$/.test(payerPhoneDigits)) { setMessage("paymentMsg", "Enter the sender's Ghana MoMo number using 9 digits after +233.", true); return; }
+      if (!/^0\d{9}$/.test(payerPhoneDigits)) { setMessage("paymentMsg", "Enter your 10-digit Ghana MoMo number starting with 0.", true); return; }
       if (!proof) { setMessage("paymentMsg", "Please upload your payment screenshot.", true); return; }
       if (proof.size > 5 * 1024 * 1024 || !["image/png", "image/jpeg", "image/webp"].includes(proof.type)) {
         setMessage("paymentMsg", "The screenshot must be PNG, JPG or WEBP and no larger than 5 MB.", true); return;
@@ -342,10 +354,10 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           user_id: currentUser.id,
           package_id: pkg.id,
           amount: pkg.price,
-          network: "MTN MoMo",
+          network: "Telecel / Vodafone",
           transaction_reference: reference,
           payer_name: payerName,
-          payer_phone: "+233" + payerPhoneDigits,
+          payer_phone: "+233" + payerPhoneDigits.slice(1),
           screenshot_path: uploadedPath,
           status: "pending"
         });
@@ -532,7 +544,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
             ["Tokens", `${payment.credits || 0}`],
             ["Sender number", payment.payer_phone || "Not supplied"],
             ["Transaction ID", payment.transaction_reference || "Not supplied"],
-            ["Network", payment.network || "MTN MoMo"],
+            ["Network", payment.network || "Telecel / Vodafone"],
             ["Submitted", payment.created_at ? new Date(payment.created_at).toLocaleString() : ""]
           ];
           info.forEach(([label, value]) => {
