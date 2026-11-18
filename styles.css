@@ -1608,3 +1608,197 @@ body.landing-mode .marketing-home { display:block; }
 .compact-prediction-disclaimer {
   font-size: 10px;
 }
+
+
+/* CMG VIRTUAL — unified charcoal, coral and warm amber theme */
+:root {
+  color-scheme: dark;
+  --bg: #0b0a0e;
+  --surface: #17141b;
+  --surface2: #211b23;
+  --text: #f8f4f6;
+  --muted: #aaa0aa;
+  --line: #39303a;
+  --cyan: #ff5875;
+  --blue: #ff9a62;
+  --danger: #ff647c;
+  --red: #ff4968;
+  --shadow: 0 22px 60px rgba(0,0,0,.42);
+}
+html, body {
+  background: #0b0a0e;
+  color: var(--text);
+}
+body {
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(255,73,104,.13), transparent 34%),
+    radial-gradient(ellipse at 95% 18%, rgba(255,154,98,.09), transparent 30%),
+    linear-gradient(145deg,#0b0a0e 0%,#100d13 55%,#0b0a0e 100%);
+}
+.topbar {
+  background: rgba(11,10,14,.93);
+  border-bottom-color: rgba(255,88,117,.22);
+}
+.brand-mark {
+  background: linear-gradient(135deg,#ff4968,#ff965e);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(255,73,104,.2);
+}
+.nav-links a:hover, .admin-link, .eyebrow, .step-kicker,
+.step-intro .step-kicker, .system-status, .panel-tag {
+  color: #ff7188;
+}
+.pulse, .live-dot {
+  background: #ff5875;
+  box-shadow: 0 0 12px #ff5875;
+}
+.gradient-text {
+  background: linear-gradient(90deg,#ff5875,#ffad70);
+  background-clip: text;
+  color: transparent;
+}
+.btn.primary, .signup-card #authSubmit {
+  background: linear-gradient(110deg,#ff4968,#ff895b);
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(255,73,104,.2);
+}
+.btn.secondary { color: #ff8297; border-color: #51313e; }
+.hero-panel, .card, .feature-card, .balance-card, .hacker-panel,
+.plan-card, .payment-card, .package-balance, .auth-card {
+  background: linear-gradient(145deg,#1b1720,#110f15);
+  border-color: #39303a;
+}
+.auth-switch, .tabs { background: #100e14; }
+.auth-tab.active, .tab.active {
+  color: #fff;
+  background: linear-gradient(110deg,#ff4968,#ff895b);
+}
+input, select, textarea, .phone-input,
+.signup-card form input, .signup-card form select {
+  background: #100e14;
+  border-color: #403541;
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus,
+.signup-card form input:focus, .signup-card form select:focus {
+  border-color: #ff5875;
+  box-shadow: 0 0 0 3px rgba(255,88,117,.12);
+}
+label { color: #e4d9e0; }
+.text-btn, .message, .info-symbol, .price,
+.credit-box strong, .scanner-metrics strong,
+.compact-prediction-heading span, .compact-pick > b {
+  color: #ff7188;
+}
+.credit-box {
+  border-color: #56303e;
+  background: linear-gradient(120deg,#301923,#1a1119);
+}
+.upload-zone, .hacker-upload {
+  border-color: rgba(255,88,117,.52);
+  background: rgba(255,88,117,.045);
+}
+.upload-icon, .hacker-icon { color: #ff7188; }
+.hacker-icon {
+  border-color: rgba(255,88,117,.35);
+  background: rgba(255,88,117,.09);
+  box-shadow: 0 0 35px rgba(255,88,117,.1);
+}
+.hacker-panel:before, .scan-line {
+  background: linear-gradient(90deg,transparent,#ff5875,#ffad70,transparent);
+  box-shadow: 0 0 12px rgba(255,88,117,.45);
+}
+.scan-terminal {
+  border-color: #4a303b;
+  background: #100d13;
+}
+.terminal-top, .scan-terminal p span { color: #ff8297; }
+.scan-terminal p { color: #c8b5c0; }
+.scanner-step-number {
+  color: #ff7188;
+  background: rgba(255,88,117,.13);
+}
+.scanner-balance-row { border-bottom-color: var(--line); }
+.scanner-topup {
+  color: #ff8297;
+  border-color: rgba(255,88,117,.4);
+  background: rgba(255,88,117,.09);
+}
+.marketing-home {
+  --accent: #ff5875;
+  --accent2: #ff9a62;
+}
+.signup-card {
+  border-color: #403541;
+  background: linear-gradient(155deg,#1b1720,#110f15);
+}
+.signup-card form input, .signup-card form select, .country-phone {
+  background: #100e14;
+  border-color: #403541;
+}
+.dashboard-balance {
+  border-color: #403541;
+  background: linear-gradient(120deg,#211720,#141119);
+}
+.dashboard-balance .balance-label, .dashboard-welcome h1 span,
+.dashboard-section-title .dashboard-live-dot i {
+  color: #ff8297;
+}
+.dashboard-buy, .game-action {
+  background: linear-gradient(110deg,#ff4968,#ff895b);
+  color: #fff;
+}
+.game-card, .game-card-featured, .game-card-aviator {
+  border-color: #39303a;
+  background: linear-gradient(150deg,#1b1720,#110f15);
+}
+.game-card-featured {
+  border-color: rgba(255,88,117,.42);
+  background: radial-gradient(ellipse at 90% 0%,rgba(255,73,104,.13),transparent 50%),linear-gradient(150deg,#21151e,#110f15);
+}
+.game-card-aviator {
+  background: radial-gradient(ellipse at 90% 0%,rgba(255,154,98,.12),transparent 50%),linear-gradient(150deg,#1c171a,#110f15);
+}
+.popular-tag { color:#ff8297; background:rgba(255,73,104,.13); }
+.upload-locked {
+  border-color: rgba(255,154,98,.3);
+  background: rgba(255,154,98,.055);
+}
+.lock-symbol { color:#ffad7a; border-color:rgba(255,154,98,.35); }
+.history-clear-btn {
+  border-color:rgba(255,104,122,.3);
+  background:rgba(255,104,122,.08);
+  color:#ff8da0;
+}
+footer { background:#09080c; }
+body.light {
+  color-scheme: light;
+  --bg:#f7f2f4;
+  --surface:#fff;
+  --surface2:#f2e8ec;
+  --text:#241820;
+  --muted:#756671;
+  --line:#e6d7df;
+  --cyan:#d93659;
+  --blue:#e87943;
+  --danger:#c52d4d;
+  --shadow:0 18px 45px rgba(80,35,55,.09);
+  background:#f7f2f4;
+}
+body.light .topbar { background:rgba(255,250,252,.94); }
+body.light .hero-panel, body.light .card, body.light .feature-card,
+body.light .balance-card, body.light .hacker-panel,
+body.light .plan-card, body.light .payment-card,
+body.light .package-balance, body.light .auth-card,
+body.light .signup-card, body.light .game-card {
+  background:#fff;
+  color:#241820;
+}
+body.light input, body.light select, body.light textarea,
+body.light .signup-card form input, body.light .signup-card form select {
+  background:#fff8fa;
+  color:#241820;
+  border-color:#e4d3dc;
+}
+body.light .scan-terminal { background:#211820; }
+body.light .marketing-home { color:#f8f4f6; }
