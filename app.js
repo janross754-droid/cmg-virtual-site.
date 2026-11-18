@@ -64,7 +64,10 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       const signup = mode === "signup";
       $("signupFields").classList.toggle("hidden", !signup);
       $("loginFields").classList.toggle("hidden", signup);
-      $("authSubmit").textContent = signup ? "Create free account" : "Log in to dashboard";
+      $("authSubmit").textContent = signup ? "CREATE FREE ACCOUNT" : "LOG IN TO DASHBOARD";
+      $("signupHeading").classList.toggle("hidden", !signup);
+      $("authSwitchPrompt").textContent = signup ? "Already have an account?" : "New to CMG VIRTUAL?";
+      $("authSwitchBtn").textContent = signup ? "Log In" : "Create Account";
       $("forgotBtn").classList.toggle("hidden", signup);
       document.querySelectorAll(".auth-tab").forEach((tab) => {
         const active = tab.dataset.mode === mode;
@@ -74,6 +77,31 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       setMessage("authMsg", "");
     }
     document.querySelectorAll(".auth-tab").forEach((button) => button.addEventListener("click", () => setAuthMode(button.dataset.mode)));
+    $("authSwitchBtn").addEventListener("click", () => setAuthMode(authMode === "signup" ? "login" : "signup"));
+    document.querySelectorAll("[data-toggle-password]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const field = $(button.dataset.togglePassword);
+        const showing = field.type === "text";
+        field.type = showing ? "password" : "text";
+        button.textContent = showing ? "Show" : "Hide";
+      });
+    });
+    const countrySettings = {
+      GH: { prefix: "+233", label: "🇬🇭 +233", digits: 9, flag: "🇬🇭" },
+      NG: { prefix: "+234", label: "🇳🇬 +234", digits: 10, flag: "🇳🇬" }
+    };
+    function updatePhoneCountry() {
+      const country = countrySettings[$("country").value] || countrySettings.GH;
+      $("phonePrefix").textContent = country.label;
+      $("phoneNumber").maxLength = country.digits;
+      $("phoneNumber").placeholder = "Enter " + country.digits + " digits";
+      const digits = $("phoneNumber").value.replace(/\\D/g, "").slice(0, country.digits);
+      $("phoneNumber").value = digits;
+      $("phonePreview").textContent = "Saved as " + country.prefix + digits;
+    }
+    $("country").addEventListener("change", updatePhoneCountry);
+    $("phoneNumber").addEventListener("input", updatePhoneCountry);
+    updatePhoneCountry();
 
     async function loadProfile() {
       const { data, error } = await db.from("profiles")
@@ -182,7 +210,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
             password,
             options: {
               emailRedirectTo: window.location.origin,
-              data: { full_name: fullName, phone_number: "+233" + phoneDigits }
+              data: { full_name: fullName, phone_number: country.prefix + phoneDigits, country: countryCode, referral_code: $("referralCode").value.trim() }
             }
           });
         } else {
