@@ -175,6 +175,16 @@
       </div>
       <p id="dashboardNotice" class="dashboard-notice" role="status" aria-live="polite"></p>
 
+      <div class="dashboard-bottom"><span id="profileMsg" class="message"></span><button id="backToAccount" class="text-btn" type="button">Account settings / log out</button></div>
+    </section>
+
+       <!-- STEP 5: Instant virtual football analysis workspace -->
+    <section id="step5" class="flow-step hidden" aria-labelledby="instantPageTitle">
+      <div class="step-intro">
+        <span class="step-kicker">CMG VIRTUAL · INSTANT FOOTBALL</span>
+        <h1 id="instantPageTitle">AI PREDICTION WORKSPACE</h1>
+        <p>Upload your SportyBet screenshot, review the extracted fixtures and odds, and view your saved predictions.</p>
+      </div>
       <div id="instantScanner" class="hacker-panel dashboard-scanner">
 <div class="scanner-balance-row"><strong><span id="scannerCreditCount">0</span> credits</strong><button id="scannerTopUp" class="scanner-topup" type="button">+ Top up</button></div>
 <div class="hacker-title scanner-main-title"><span class="step-kicker">CMG VIRTUAL · INSTANT FOOTBALL</span><h2>UPLOAD SPORTYBET SCREENSHOT</h2><p>We read the fixtures from your screenshot and give you 2 games to review · 1 credit per screenshot.</p></div>
@@ -185,10 +195,11 @@
 <button id="analyseBtn" class="btn primary full hacker-button" type="button" disabled>GET PREDICTION · 1 CREDIT</button><p id="analysisMsg" class="message" role="status" aria-live="polite"></p><div id="analysisResult" class="analysis-result hidden"></div>
 </div>
 <div id="analysisHistory" class="card history-card"><div class="history-heading"><div class="section-title-left"><span class="eyebrow">YOUR ACCOUNT</span><h2>YOUR PREDICTIONS (<span id="predictionCount">0</span>)</h2></div><button id="clearHistoryBtn" class="history-clear-btn" type="button">Clear history</button></div><div id="historyList" class="history-list"><p class="muted">No predictions yet. Upload a screenshot to get started.</p></div></div>
-<div class="dashboard-bottom"><span id="profileMsg" class="message"></span><button id="backToAccount" class="text-btn" type="button">Account settings / log out</button></div>
+
+      <button id="backToGames" class="btn ghost full back-btn" type="button">← Back to game hub</button>
     </section>
 
-   <!-- STEP 3: Packages, deliberately stacked vertically -->
+<!-- STEP 3: Packages, deliberately stacked vertically -->
     <section id="step3" class="flow-step hidden" aria-labelledby="step3Title">
       <div class="step-intro"><span class="step-kicker">STEP 3 OF 4</span><h1 id="step3Title">Prediction Packages</h1><p>Registration is free. Buy a package to get credits — each package sets how many games are predicted from your screenshot.</p></div>
       <div class="package-balance"><span>YOUR CURRENT BALANCE</span><strong><b id="packageBalance">0</b> credits</strong></div>
