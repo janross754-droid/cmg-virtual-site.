@@ -80,40 +80,45 @@
 
     <!-- STEP 1: Account creation / existing-user login -->
     <section id="step1" class="flow-step active" aria-labelledby="step1Title">
-      <div class="step-intro">
-        <span class="step-kicker">STEP 1 OF 4</span>
-        <h1 id="step1Title">Create your free account</h1>
-        <p>Join CMG VIRTUAL to access your dashboard, credit balance and analysis workspace.</p>
-      </div>
-      <div class="card auth-card">
-        <div class="auth-switch" role="tablist" aria-label="Account options">
-          <button type="button" class="auth-tab active" data-mode="signup" role="tab" aria-selected="true">Create account</button>
-          <button type="button" class="auth-tab" data-mode="login" role="tab" aria-selected="false">Log in</button>
+      <div class="card auth-card signup-card">
+        <div id="signupHeading" class="signup-heading">
+          <span class="step-kicker">CMG VIRTUAL · FREE MEMBERSHIP</span>
+          <h1 id="step1Title">CREATE YOUR ACCOUNT</h1>
+          <p>Sign up to access winning predictions</p>
+          <div class="free-ribbon"><strong>100% FREE</strong><span>No registration fee — you only pay when you buy a prediction package</span></div>
         </div>
         <form id="authForm" novalidate>
           <div id="signupFields">
-            <label for="fullName">Full name</label>
+            <label for="fullName">FULL NAME</label>
             <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Enter your full name" maxlength="100" required>
-            <label for="email">Email address</label>
+            <label for="email">EMAIL ADDRESS</label>
             <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-            <label for="phoneNumber">Phone number</label>
-            <div class="phone-input"><span>🇬🇭 +233</span><input id="phoneNumber" name="phoneNumber" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Enter 9 digits" maxlength="9" required></div>
-            <small class="field-hint">Enter your Ghana number without the first 0.</small>
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" autocomplete="new-password" minlength="6" placeholder="At least 6 characters" required>
-            <label for="confirmPassword">Confirm password</label>
-            <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Enter your password again" required>
+            <label for="country">COUNTRY</label>
+            <select id="country" name="country" class="country-select" required>
+              <option value="GH">🇬🇭 Ghana</option>
+              <option value="NG">🇳🇬 Nigeria</option>
+            </select>
+            <label for="phoneNumber">PHONE NUMBER</label>
+            <div class="phone-input country-phone"><span id="phonePrefix">🇬🇭 +233</span><input id="phoneNumber" name="phoneNumber" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Enter phone number" maxlength="10" required></div>
+            <small id="phonePreview" class="field-hint">Saved as +233</small>
+            <label for="password">PASSWORD</label>
+            <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="new-password" minlength="6" placeholder="Create a password" required><button class="password-toggle" type="button" data-toggle-password="password">Show</button></div>
+            <label for="confirmPassword">CONFIRM PASSWORD</label>
+            <div class="password-wrap"><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Enter password again" required><button class="password-toggle" type="button" data-toggle-password="confirmPassword">Show</button></div>
+            <label for="referralCode">REFERRAL CODE <span class="optional">(OPTIONAL)</span></label>
+            <input id="referralCode" name="referralCode" type="text" placeholder="Enter referral code if you have one" maxlength="40">
           </div>
           <div id="loginFields" class="hidden">
-            <label for="loginEmail">Email address</label>
+            <label for="loginEmail">EMAIL ADDRESS</label>
             <input id="loginEmail" type="email" autocomplete="email" placeholder="you@example.com">
-            <label for="loginPassword">Password</label>
+            <label for="loginPassword">PASSWORD</label>
             <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Your password">
           </div>
-          <button id="authSubmit" class="btn primary full" type="submit">Create free account</button>
+          <button id="authSubmit" class="btn primary full" type="submit">CREATE FREE ACCOUNT</button>
           <button id="forgotBtn" class="text-btn hidden" type="button">Forgot password?</button>
           <p id="authMsg" class="message" role="status" aria-live="polite"></p>
         </form>
+        <p class="auth-switch-line"><span id="authSwitchPrompt">Already have an account?</span> <button id="authSwitchBtn" type="button">Log In</button></p>
         <p class="fine-print">By creating an account, you confirm that you are 18 or older. Please use CMG VIRTUAL responsibly.</p>
       </div>
     </section>
