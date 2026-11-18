@@ -18,29 +18,30 @@ alter table public.payments
 
 -- Keep the package IDs stable where possible; update the old starter price/credit amount.
 update public.packages
-set name = 'Starter Plan', price = 10, credits = 5, active = true
+set name = 'Starter Plan', price = 150, credits = 3, active = true
 where name = 'Starter Package'
   and not exists (select 1 from public.packages p2 where p2.name = 'Starter Plan');
 
 update public.packages
-set price = 10, credits = 5, active = true
+set price = 150, credits = 3, active = true
 where name = 'Starter Plan';
 
 insert into public.packages (name, price, credits, active)
-select 'Starter Plan', 10, 5, true
+select 'Starter Plan', 150, 3, true
 where not exists (select 1 from public.packages where name = 'Starter Plan');
 
 insert into public.packages (name, price, credits, active)
-select 'Pro Plan', 20, 15, true
+select 'Pro Plan', 600, 15, true
 where not exists (select 1 from public.packages where name = 'Pro Plan');
 
 insert into public.packages (name, price, credits, active)
-select 'Elite Plan', 30, 50, true
+select 'Elite Plan', 1200, 30, true
 where not exists (select 1 from public.packages where name = 'Elite Plan');
 
-update public.packages set price = 20, credits = 15, active = true where name = 'Pro Plan';
+update public.packages set price = 600, credits = 15, active = true where name = 'Pro Plan';
 update public.packages set active = false where name = 'Starter Package';
-update public.packages set price = 30, credits = 50, active = true where name = 'Elite Plan';
+update public.packages set active = false where name = 'Starter Plan' and credits <> 3;
+update public.packages set price = 1200, credits = 30, active = true where name = 'Elite Plan';
 
 -- Private bucket: customers can upload only into their own user-ID folder.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
