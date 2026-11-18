@@ -1516,3 +1516,16 @@ body.landing-mode .marketing-home { display:block; }
 .copy-payment-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .copy-payment-btn { border:1px solid var(--line); border-radius:9px; padding:8px 13px; color:var(--text); background:rgba(255,255,255,.06); font:700 11px 'DM Sans'; cursor:pointer; }
 .copy-payment-btn:active { transform:scale(.97); }
+
+.scanner-balance-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 0 16px;border-bottom:1px solid var(--line)}
+.scanner-balance-row strong{font:700 22px 'Space Grotesk';color:var(--text)}.scanner-balance-row strong span{color:var(--cyan)}
+.scanner-topup{border:1px solid rgba(57,230,163,.4);border-radius:10px;padding:10px 16px;background:rgba(57,230,163,.09);color:var(--cyan);font:700 12px 'DM Sans';cursor:pointer}
+.scanner-main-title{padding:25px 0 20px}.scanner-main-title h2{margin:9px 0;font-size:clamp(20px,4vw,28px)}.scanner-main-title p{max-width:500px;margin:0 auto;color:var(--muted);font-size:13px;line-height:1.6;letter-spacing:0}
+.scanner-step{display:flex;align-items:center;gap:12px;margin:12px 0;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025)}
+.scanner-step-number{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:rgba(57,230,163,.12);color:var(--cyan);font-weight:800}
+.scanner-step strong,.scanner-step small{display:block}.scanner-step strong{font-size:12px;letter-spacing:.06em}.scanner-step small{margin-top:4px;color:var(--muted);font-size:10px}
+.upload-locked{display:grid;justify-items:center;gap:9px;padding:24px 18px;margin:12px 0;border:1px solid rgba(255,145,90,.3);border-radius:15px;background:rgba(255,125,75,.055);text-align:center}
+.lock-symbol{display:grid;place-items:center;width:43px;height:43px;border:1px solid rgba(255,145,90,.35);border-radius:50%;color:#ffad7a;font-size:23px}
+.upload-locked>strong{font-size:16px}.upload-locked p{margin:0;color:var(--muted);font-size:12px}.upload-locked .lock-balance{color:var(--text)}.upload-locked .btn{max-width:320px;margin:5px 0}.upload-locked>small{color:var(--muted);font-size:10px;line-height:1.5}
+.prediction-step{margin-top:20px}.hacker-upload{margin:12px 0}
+@media(max-width:420px){.scanner-balance-row strong{font-size:19px}.upload-locked{padding:20px 13px}}
