@@ -95,7 +95,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       $("phonePrefix").textContent = country.label;
       $("phoneNumber").maxLength = country.digits;
       $("phoneNumber").placeholder = "Enter " + country.digits + " digits";
-      const digits = $("phoneNumber").value.replace(/\\D/g, "").slice(0, country.digits);
+      const digits = $("phoneNumber").value.replace(/\D/g, "").slice(0, country.digits);
       $("phoneNumber").value = digits;
       $("phonePreview").textContent = "Saved as " + country.prefix + digits;
     }
