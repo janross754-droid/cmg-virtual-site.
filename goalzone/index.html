@@ -117,7 +117,7 @@ async function loadStandings(){
  try{
   const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+season);
   const d=await r.json();
-  if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error(d.error||'Standings could not be loaded.');
+  if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error(d.error||('Provider response: '+JSON.stringify(d.errors||d.message||d)));
   const groups=d.response?.[0]?.league?.standings||[];
   const rows=groups.flat();
   if(!rows.length){tableStatus.textContent='No published standings were returned for this competition and season.';tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Standings are not available yet.</td></tr>';return;}
