@@ -45,6 +45,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
 
     function setStep(step) {
       if (![1, 2, 3, 4, 5].includes(step)) return;
+      try { sessionStorage.setItem("cmg-active-step", String(step)); } catch (_) {}
       [1, 2, 3, 4, 5].forEach((number) => {
         const panel = $("step" + number);
         if (!panel) return;
@@ -278,8 +279,14 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         await saveProfileDetails();
         await loadProfile();
         await loadHistory();
-        setStep(2);
+        let rememberedStep = 2;
+        try {
+          const savedStep = Number(sessionStorage.getItem("cmg-active-step"));
+          if (savedStep === 5) rememberedStep = 5;
+        } catch (_) {}
+        setStep(rememberedStep);
       } else {
+        try { sessionStorage.removeItem("cmg-active-step"); } catch (_) {}
         currentCredits = 0;
         $("creditCount").textContent = "0";
         $("packageBalance").textContent = "0";
