@@ -181,9 +181,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       const heading = document.createElement("div");
       heading.className = "compact-prediction-heading";
       const title = document.createElement("strong");
-      title.textContent = picks.length ? "READY · " + picks.length + (picks.length === 1 ? " PICK" : " PICKS") : "ANALYSIS RESULT";
+      title.textContent = picks.length ? picks.length + (picks.length === 1 ? " MARKET FAVOURITE" : " MARKET FAVOURITES") : "ANALYSIS RESULT";
       const tag = document.createElement("span");
-      tag.textContent = picks.length ? "MARKET FAVOURITES" : (/NO CLEAR PICK/i.test(source) ? "NO CLEAR PICK" : "REVIEW");
+      tag.textContent = picks.length ? "NOT OUTCOME PREDICTIONS" : (/NO CLEAR PICK/i.test(source) ? "NO CLEAR PICK" : "REVIEW");
       heading.append(title, tag);
       wrap.append(heading);
       const providerSection = source.match(/PROVIDER CHECK[\s\S]*?(?=\n\s*(?:6\)|FINAL CALL)|$)/i);
@@ -226,6 +226,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       }
       const disclaimer = document.createElement("small");
       disclaimer.className = "compact-prediction-disclaimer";
+      disclaimer.textContent = picks.length
+        ? "Important: these are rankings from visible betting odds only. The screenshot provides no verified signal of the next virtual result. A market favourite can still lose; do not treat these as safe bets."
+        : "Only use selections when the screenshot provides enough readable market evidence. No result is guaranteed.";
 
       wrap.append(disclaimer);
       return wrap;
