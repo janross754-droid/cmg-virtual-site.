@@ -158,25 +158,52 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         .order("created_at", { ascending: false }).limit(8);
       if (error) {
         $("historyList").innerHTML = '<p class="muted">Analysis history is not available yet.</p>';
+        $("clearHistoryBtn")?.classList.add("hidden");
         return;
       }
       $("historyList").replaceChildren();
       $("predictionCount").textContent = String(data?.length || 0);
+      $("clearHistoryBtn")?.classList.toggle("hidden", !data?.length);
       if (!data?.length) {
         $("historyList").innerHTML = '<p class="muted">No predictions yet. Upload a screenshot to get started.</p>';
         return;
       }
       data.forEach((item) => {
         const article = document.createElement("article");
-        article.className = "history-item";
+        article.className = "history-item history-result-card";
+        const head = document.createElement("div");
+        head.className = "history-result-head";
+        const status = document.createElement("span");
+        status.className = "history-status";
+        status.textContent = "ANALYSIS READY";
         const date = document.createElement("small");
-        date.textContent = new Date(item.created_at).toLocaleString();
-        const body = document.createElement("p");
-        body.textContent = (item.analysis || "").slice(0, 700);
-        article.append(date, body);
+        date.textContent = item.created_at ? new Date(item.created_at).toLocaleString() : "Saved prediction";
+        head.append(status, date);
+
+        const report = document.createElement("div");
+        report.className = "history-report";
+        report.textContent = (item.analysis || "No analysis text was saved.").trim();
+        article.append(head, report);
         $("historyList").append(article);
       });
     }
+
+    $("clearHistoryBtn")?.addEventListener("click", async () => {
+      if (!currentUser) return;
+      const button = $("clearHistoryBtn");
+      if (!window.confirm("Clear all your saved prediction history? This cannot be undone.")) return;
+      button.disabled = true;
+      try {
+        const { error } = await db.from("predictions").delete().eq("user_id", currentUser.id);
+        if (error) throw error;
+        await loadHistory();
+        setMessage("analysisMsg", "Your prediction history has been cleared.");
+      } catch (error) {
+        setMessage("analysisMsg", "History could not be cleared. Your database may not allow deleting saved predictions yet.", true);
+      } finally {
+        button.disabled = false;
+      }
+    });
 
     async function refreshSession() {
       const { data, error } = await db.auth.getSession();
