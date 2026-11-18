@@ -213,27 +213,35 @@
 
    <!-- STEP 3: Packages, deliberately stacked vertically -->
     <section id="step3" class="flow-step hidden" aria-labelledby="step3Title">
-      <div class="step-intro"><span class="step-kicker">STEP 3 OF 4</span><h1 id="step3Title">Prediction Packages</h1><p>Choose the token package that suits you. Your balance increases only after an administrator verifies your payment.</p></div>
-      <div class="package-balance"><span>YOUR CURRENT BALANCE</span><strong><b id="packageBalance">0</b> tokens</strong></div>
+      <div class="step-intro"><span class="step-kicker">STEP 3 OF 4</span><h1 id="step3Title">Prediction Packages</h1><p>Registration is free. Buy a package to get credits — each package sets how many games are predicted from your screenshot.</p></div>
+      <div class="package-balance"><span>YOUR CURRENT BALANCE</span><strong><b id="packageBalance">0</b> credits</strong></div>
+      <p class="package-empty-note">You need at least 1 credit to unlock a prediction. Pick a package below.</p>
       <div id="packageList" class="package-list">
-        <article class="plan-card"><div class="plan-top"><div><span class="plan-label">STARTER PLAN</span><h2>5 <small>Tokens</small></h2></div><strong class="plan-price">GH₵10</strong></div><p>Great for getting started.</p><button class="btn secondary full choose-package" data-package="Starter Plan" type="button">BUY STARTER</button></article>
-        <article class="plan-card featured"><span class="popular-tag">POPULAR CHOICE</span><div class="plan-top"><div><span class="plan-label">PRO PLAN</span><h2>15 <small>Tokens</small></h2></div><strong class="plan-price">GH₵20</strong></div><p>More tokens for regular analysis.</p><button class="btn primary full choose-package" data-package="Pro Plan" type="button">BUY PRO</button></article>
-        <article class="plan-card"><div class="plan-top"><div><span class="plan-label">ELITE PLAN</span><h2>50 <small>Tokens</small></h2></div><strong class="plan-price">GH₵30</strong></div><p>Best value for a larger token balance.</p><button class="btn secondary full choose-package" data-package="Elite Plan" type="button">BUY ELITE</button></article>
+        <article class="plan-card"><div class="plan-top"><div><span class="plan-label">STARTER</span><h2>3 <small>credits</small></h2></div><strong class="plan-price">🇬🇭 GH₵150</strong></div><p>3 credits added after payment<br>Predicts 2 games from each screenshot<br>Mixed markets: GG/NG, overs & unders, 1X2, double chance & more<br><br>🇳🇬 ₦15,000</p><button class="btn secondary full choose-package" data-package="Starter Plan" type="button">BUY STARTER</button></article>
+        <article class="plan-card featured"><span class="popular-tag">MOST POPULAR</span><div class="plan-top"><div><span class="plan-label">PRO</span><h2>15 <small>credits</small></h2></div><strong class="plan-price">🇬🇭 GH₵600</strong></div><p>15 credits added after payment<br>Predicts 2 games from each screenshot<br>Mixed markets: GG/NG, overs & unders, 1X2, double chance & more<br><br>🇳🇬 ₦80,000</p><button class="btn primary full choose-package" data-package="Pro Plan" type="button">BUY PRO</button></article>
+        <article class="plan-card"><span class="popular-tag">BEST VALUE</span><div class="plan-top"><div><span class="plan-label">ELITE</span><h2>30 <small>credits</small></h2></div><strong class="plan-price">🇬🇭 GH₵1,200</strong></div><p>30 credits added after payment<br>Predicts 2 games from each screenshot<br>Mixed markets: GG/NG, overs & unders, 1X2, double chance & more<br><br>🇳🇬 ₦150,000</p><button class="btn secondary full choose-package" data-package="Elite Plan" type="button">BUY ELITE</button></article>
       </div>
+      <p class="package-payment-note">Payment is submitted with proof for admin verification. Credits are added after approval.</p>
       <button id="backToDashboard" class="btn ghost full back-btn" type="button">← Back to dashboard</button>
     </section>
 
     <!-- STEP 4: Payment -->
     <section id="step4" class="flow-step hidden" aria-labelledby="step4Title">
-      <div class="step-intro"><span class="step-kicker">STEP 4 OF 4</span><h1 id="step4Title">Complete your payment</h1><p>Send the exact package amount, then submit your payment details for admin verification.</p></div>
+      <div class="step-intro"><span class="step-kicker">STEP 4 OF 4 · FINAL STEP</span><h1 id="step4Title">PAY VIA MOBILE MONEY</h1><p>Send the exact amount to the payment number below, then upload your payment screenshot.</p></div>
       <div class="card payment-card">
-        <div class="selected-package"><div><span class="eyebrow">SELECTED PACKAGE</span><h2 id="selectedPackageName">Starter Plan</h2><p id="selectedPackageTokens">5 tokens</p></div><strong id="selectedPackagePrice">GH₵10</strong></div>
-        <div class="payment-details"><div class="momo-logo">MTN <b>MoMo</b></div><span class="eyebrow">SEND PAYMENT TO</span><strong class="momo-number">0550204222</strong><strong class="momo-name">PRINCE AFFUL</strong><p>Network: MTN Mobile Money</p><p id="paymentAmountText">Amount to send: GH₵10</p><small>Before confirming your transfer, check that the recipient name in your MoMo app is PRINCE AFFUL.</small></div>
+        <div class="selected-package"><div><span class="eyebrow">SELECTED PACKAGE</span><h2 id="selectedPackageName">Starter Plan</h2><p id="selectedPackageTokens">3 credits · predicts 2 games</p></div><strong id="selectedPackagePrice">GH₵150</strong></div>
+        <div class="payment-details">
+          <span class="eyebrow">NETWORK</span><strong class="momo-name">TELECEL OR VODAFONE</strong>
+          <span class="eyebrow">MOMO NUMBER</span><div class="copy-payment-row"><strong class="momo-number">0205634803</strong><button class="copy-payment-btn" type="button" data-copy-payment="0205634803">Copy</button></div>
+          <span class="eyebrow">NAME</span><strong class="momo-name">PRINCE EKOW SAM</strong>
+          <span class="eyebrow">AMOUNT</span><div class="copy-payment-row"><strong id="paymentAmountText" class="momo-number">GH₵150</strong><button id="copyAmountBtn" class="copy-payment-btn" type="button">Copy</button></div>
+          <small>Confirm the recipient name and amount in your MoMo app before sending.</small>
+        </div>
         <form id="paymentForm" novalidate>
-          <label for="senderName">Sender's full name</label><input id="senderName" type="text" autocomplete="name" placeholder="Name used to make the payment" required>
-          <label for="senderPhone">Sender's account number</label><div class="phone-input"><span>🇬🇭 +233</span><input id="senderPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="MoMo number used" required></div>
-          <label for="txRef">Transaction ID <span class="optional">(optional)</span></label><input id="txRef" type="text" placeholder="Enter transaction ID if available">
-          <label for="paymentScreenshot">Payment screenshot</label><input id="paymentScreenshot" class="file-input" type="file" accept="image/png,image/jpeg,image/webp" required><small class="field-hint">Upload a clear screenshot of the completed payment (PNG, JPG or WEBP, up to 5 MB).</small>
+          <label for="txRef">TRANSACTION ID <span class="optional">(OPTIONAL)</span></label><input id="txRef" type="text" placeholder="000012345678">
+          <label for="senderName">SENDER NAME *</label><input id="senderName" type="text" autocomplete="name" placeholder="King" required>
+          <label for="senderPhone">YOUR MOMO NUMBER *</label><div class="phone-input"><span>🇬🇭 +233</span><input id="senderPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="0241234567" required></div>
+          <label for="paymentScreenshot">PAYMENT SCREENSHOT *</label><input id="paymentScreenshot" class="file-input" type="file" accept="image/png,image/jpeg,image/webp" required><small class="field-hint">Tap to upload a clear payment screenshot (PNG, JPG or WEBP, up to 5 MB).</small>
           <div id="proofPreview" class="proof-preview hidden"></div>
           <button id="submitPaymentBtn" class="btn primary full" type="submit">SUBMIT PAYMENT FOR APPROVAL</button>
           <p id="paymentMsg" class="message" role="status" aria-live="polite"></p>
