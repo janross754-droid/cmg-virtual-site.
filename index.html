@@ -194,6 +194,22 @@
 <div class="scanner-step prediction-step"><span class="scanner-step-number">2</span><div><strong>GET YOUR PREDICTION</strong><small>We analyse the visible fixtures and return two selections to review.</small></div></div>
 <button id="analyseBtn" class="btn primary full hacker-button" type="button" disabled>GET PREDICTION · 1 CREDIT</button><p id="analysisMsg" class="message" role="status" aria-live="polite"></p><div id="analysisResult" class="analysis-result hidden"></div>
 </div>
+<section id="historicalPerformance" class="card history-card">
+  <div class="history-heading"><div class="section-title-left"><span class="eyebrow">RESULTS TRACKER</span><h2>HISTORICAL PERFORMANCE</h2></div><button id="refreshHistoricalBtn" class="history-clear-btn" type="button">Refresh</button></div>
+  <p class="muted">Import settled ticket selections to measure actual results. Standard 1X2 statistics exclude 1X2 - 1UP records.</p>
+  <div class="historical-stats">
+    <div><strong id="historicalTotal">—</strong><small>1X2 selections</small></div>
+    <div><strong id="historicalHitRate">—</strong><small>Observed hit rate</small></div>
+    <div><strong id="historicalDrawMisses">—</strong><small>Draws missed</small></div>
+  </div>
+  <label for="historicalImport">PASTE SETTLED FIXTURES</label>
+  <textarea id="historicalImport" rows="6" placeholder="One fixture per line, tab-separated:\nTicketID[TAB]YYYY-MM-DD[TAB]League[TAB]Fixture[TAB]Market[TAB]Home/Draw/Away[TAB]Odds[TAB]HomeFT[TAB]AwayFT"></textarea>
+  <small class="field-hint">Example: 350162 · 2026-11-18 · England · MCI vs IPS · 1X2 · Home · 1.45 · 2 · 1. For unknown dates, leave the date field blank. Use the ticket ID to prevent duplicate imports.</small>
+  <button id="importHistoricalBtn" class="btn primary full" type="button">SAVE SETTLED RESULTS</button>
+  <p id="historicalMsg" class="message" role="status" aria-live="polite"></p>
+  <div id="historicalRows" class="history-list"><p class="muted">No historical results loaded yet.</p></div>
+  <small class="compact-prediction-disclaimer">These are results from records you import, not all matches played. They cannot establish future winning chances. 1X2 - 1UP is stored separately and excluded from standard 1X2 hit rate.</small>
+</section>
 <div id="analysisHistory" class="card history-card"><div class="history-heading"><div class="section-title-left"><span class="eyebrow">YOUR ACCOUNT</span><h2>YOUR PREDICTIONS (<span id="predictionCount">0</span>)</h2></div><button id="clearHistoryBtn" class="history-clear-btn" type="button">Clear history</button></div><div id="historyList" class="history-list"><p class="muted">No predictions yet. Upload a screenshot to get started.</p></div></div>
 
       <button id="backToGames" class="btn ghost full back-btn" type="button">← Back to game hub</button>
