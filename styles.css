@@ -1413,3 +1413,10 @@ body.light .admin-payment-card > .muted {
   .marketing-steps article { min-height:0; }
   .marketing-bottom { padding:35px 17px; }
 }
+
+
+/* Landing-first flow: keep the existing application out of the homepage until entry. */
+body.landing-mode .app-shell,
+body.landing-mode footer { display:none !important; }
+body.landing-mode .marketing-home { display:block; }
+.marketing-home[hidden] { display:none !important; }
