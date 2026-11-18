@@ -1504,3 +1504,15 @@ body.landing-mode .marketing-home { display:block; }
  .dashboard-credit-line strong { font-size:31px; }
  .dashboard-section-title h2 { font-size:19px; }
 }
+
+
+/* Updated package and Telecel/Vodafone payment presentation */
+.package-empty-note,.package-payment-note { color:var(--muted); text-align:center; font-size:12px; margin:0 0 16px; }
+.package-payment-note { margin:18px 0 0; }
+.plan-card p { line-height:1.75; }
+.plan-price { font-size:clamp(16px,2vw,21px); }
+.payment-details { display:grid; gap:8px; }
+.payment-details .eyebrow { margin-top:7px; }
+.copy-payment-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.copy-payment-btn { border:1px solid var(--line); border-radius:9px; padding:8px 13px; color:var(--text); background:rgba(255,255,255,.06); font:700 11px 'DM Sans'; cursor:pointer; }
+.copy-payment-btn:active { transform:scale(.97); }
