@@ -594,7 +594,10 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           headers: { "Content-Type": "application/json", "Authorization": "Bearer " + sessionData.session.access_token },
           body: JSON.stringify({ image: base64, mimeType: file.type })
         });
-        const result = await response.json();
+        const responseText = await response.text();
+        let result;
+        try { result = JSON.parse(responseText); }
+        catch (_) { throw new Error("The analysis server returned an unreadable response (HTTP " + response.status + "). Please retry once; no successful analysis was recorded."); }
         if (!response.ok && /AI provider account has run out of API credits|AI analysis is not configured/i.test(result.error || "")) {
           const localReport = await runLocalSlipScan(file);
           $("analysisResult").replaceChildren(compactPredictionCard(localReport));
@@ -602,7 +605,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           setMessage("analysisMsg", "Free local OCR scan completed. The full AI service needs its server API billing configured. No token was charged.");
           return;
         }
-        if (!response.ok) throw new Error(result.error || "Analysis failed.");
+        if (!response.ok) throw new Error((result.error || "Analysis failed.") + (result.stage ? " [Stage: " + result.stage + "; HTTP " + (result.httpStatus || response.status) + "]" : " [HTTP " + response.status + "]"));
         $("analysisResult").replaceChildren(compactPredictionCard(result.analysis));
         $("analysisResult").classList.remove("hidden");
         setMessage("analysisMsg", "Analysis complete. Your token balance has been updated.");
