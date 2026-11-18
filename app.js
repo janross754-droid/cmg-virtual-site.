@@ -671,7 +671,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         const { data } = await db.auth.getSession();
         if (!data.session) throw new Error("Please log in again.");
         const entries = raw.split(/\r?\n/).filter(Boolean).map((line, index) => {
-          const cells = line.split("\\t").map(value => value.trim());
+          const cells = line.split("\t").map(value => value.trim());
           if (cells.length !== 9) throw new Error("Line " + (index + 1) + " must contain 9 tab-separated fields.");
           return {
             ticket_id: cells[0], match_date: cells[1] || null, league: cells[2],
