@@ -74,6 +74,5 @@ async function load(){
 }
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeFilter=b.textContent.trim();render();}));
 load();
-setInterval(load,60000);
 </script>
 </body></html>
