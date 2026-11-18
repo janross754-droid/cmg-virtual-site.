@@ -115,6 +115,15 @@ async function loadStandings(){
  tableStatus.textContent='Checking seasons available on the API-Football free plan…';
  tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Loading…</td></tr>';
  try{
+  if(league==='2'){
+   const currentResponse=await fetch(API_URL+'?endpoint=ucl-standings');
+   const currentRows=await currentResponse.json();
+   if(!currentResponse.ok||!Array.isArray(currentRows))throw new Error(currentRows.error||'The 2026/27 Champions League feed is not ready.');
+   if(!currentRows.length)throw new Error('No 2026/27 Champions League standings have been returned yet.');
+   tableStatus.textContent='UEFA Champions League · 2026-27 season · Current standings · '+currentRows.length+' clubs';
+   tableBody.innerHTML=currentRows.map(t=>'<tr><td>'+safe(t.league_rank??'—')+'</td><td><div class="club-cell"><span>'+safe(t.team?.name||'Unknown club')+'</span></div></td><td>'+safe(t.games_played??'—')+'</td><td>'+safe(t.wins??'—')+'</td><td>'+safe(t.draws??'—')+'</td><td>'+safe(t.losses??'—')+'</td><td>'+safe(t.goal_difference??'—')+'</td><td><b>'+safe(t.points??'—')+'</b></td></tr>').join('');
+   return;
+  }
   let d=null,seasonUsed=null,lastError='';
   for(const season of [2024,2023,2022]){
    const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+season);
