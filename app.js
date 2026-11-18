@@ -637,6 +637,37 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         $("historicalTotal").textContent = String(result.total);
         $("historicalHitRate").textContent = result.hitRate === null ? "—" : result.hitRate + "%";
         $("historicalDrawMisses").textContent = String(result.drawMisses);
+        const insightBox = $("historicalInsights");
+        if (insightBox) {
+          const standard = (result.rows || []).filter(row => !/1UP/i.test(String(row.market || "")) && /^1X2$/i.test(String(row.market || "")));
+          const groups = ["Home", "Draw", "Away"].map(selection => {
+            const rows = standard.filter(row => String(row.selection || "").toLowerCase() === selection.toLowerCase());
+            const wins = rows.filter(row => row.selection_correct).length;
+            return { selection, total: rows.length, wins, rate: rows.length ? Math.round(wins / rows.length * 100) : null };
+          });
+          const bands = [{label:"1.00–1.49",min:1,max:1.49},{label:"1.50–1.99",min:1.5,max:1.99},{label:"2.00+",min:2,max:100}].map(band => {
+            const rows = standard.filter(row => Number(row.odds) >= band.min && Number(row.odds) <= band.max);
+            const wins = rows.filter(row => row.selection_correct).length;
+            return { ...band, total:rows.length, wins, rate:rows.length ? Math.round(wins/rows.length*100) : null };
+          });
+          insightBox.replaceChildren();
+          const heading=document.createElement("strong"); heading.textContent="PERFORMANCE BREAKDOWN"; insightBox.append(heading);
+          const note=document.createElement("p"); note.className="muted"; note.textContent="Calculated from your saved standard 1X2 records currently returned by the tracker. These are retrospective results, not future win probabilities."; insightBox.append(note);
+          const makeGroup=(title,items)=> {
+            const section=document.createElement("div"); section.className="historical-breakdown";
+            const label=document.createElement("strong"); label.textContent=title; section.append(label);
+            items.forEach(item=>{
+              const row=document.createElement("div"); row.className="historical-breakdown-row";
+              const name=document.createElement("span"); name.textContent=item.selection || item.label;
+              const value=document.createElement("b"); value.textContent=item.total ? item.wins+"/"+item.total+" · "+item.rate+"%" : "No records";
+              row.append(name,value); section.append(row);
+            });
+            insightBox.append(section);
+          };
+          makeGroup("BY SELECTION",groups);
+          makeGroup("BY ODDS RANGE",bands);
+          const caution=document.createElement("small"); caution.className="compact-prediction-disclaimer"; caution.textContent="Small, user-selected samples can be biased. Odds bands and selection rates do not prove an edge or reveal virtual RNG outcomes."; insightBox.append(caution);
+        }
         list.replaceChildren();
         if (!result.rows.length) {
           const empty = document.createElement("p");
