@@ -115,7 +115,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       if ($("scannerCreditCount")) $("scannerCreditCount").textContent = String(currentCredits);
       if ($("lockedCreditCount")) $("lockedCreditCount").textContent = String(currentCredits);
       $("analyseBtn").disabled = !unlocked || !fileInput?.files.length;
-      $("analyseBtn").textContent = "GET PREDICTION · 1 CREDIT";
+      $("analyseBtn").textContent = "ANALYSE SCREENSHOT · 1 CREDIT";
     }
     async function loadProfile() {
       const { data, error } = await db.from("profiles")
@@ -631,32 +631,34 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       });
       const text = String(result?.data?.text || "").trim();
       if (!text) throw new Error("No readable text was found. Try a sharper screenshot with the odds enlarged.");
-      const odds = [...new Set((text.match(/\b(?:1\.0[1-9]|[1-9]\d?\.\d{2})\b/g) || [])
-        .map(Number).filter((value) => value > 1 && value <= 100))].sort((a, b) => a - b);
+      const rows = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+      const oddsPattern = /\b(?:1\.0[1-9]|[1-9]\d?\.\d{2})\b/g;
       const lines = [
         "CMG VIRTUAL — FREE LOCAL OCR REPORT",
         "",
         "SCREENSHOT TEXT",
         text.slice(0, 2600),
         "",
-        "ODDS SCAN"
+        "ODDS FOUND ON THE SAME OCR LINE"
       ];
-      if (odds.length) {
-        odds.slice(0, 20).forEach((odd, index) => {
-          lines.push((index + 1) + ". " + odd.toFixed(2) + " odds — raw implied probability " + (100 / odd).toFixed(1) + "%");
-        });
-        lines.push("", "PRICE ORDER: the shortest visible decimal prices are listed first. This is a bookmaker-price comparison only.");
-      } else {
-        lines.push("No clear decimal odds were detected. Please upload a sharper image.");
-      }
-      lines.push("", "IMPORTANT: This free local scan reads visible text and sorts detected odds. It does not identify hidden virtual results or calculate a verified chance of winning. Check each extracted price against the original slip.");
+      let lineMatches = 0;
+      rows.forEach((row, index) => {
+        const matches = [...row.matchAll(oddsPattern)].map(match => Number(match[0])).filter(value => value > 1 && value <= 100);
+        if (matches.length) {
+          lineMatches += matches.length;
+          lines.push("OCR line " + (index + 1) + ": " + row.slice(0, 220));
+          lines.push("  Visible price candidates: " + matches.map(value => value.toFixed(2)).join(", "));
+        }
+      });
+      if (!lineMatches) lines.push("No clear decimal odds were detected. Please upload a sharper screenshot.");
+      lines.push("", "IMPORTANT: Repeated prices are preserved, not removed. This local OCR report does not rank selections or assume which price belongs to which team or market. Verify every line against the original screenshot.");
       return lines.join("\n");
     }
 
     $("analyseBtn").addEventListener("click", async () => {
       const file = $("slipFile").files[0];
       if (!currentUser || !file) return;
-      if (currentCredits < 1) { setMessage("analysisMsg", "Uploads are locked. Buy at least 1 credit to get a prediction.", true); syncUploadAccess(); return; }
+      if (currentCredits < 1) { setMessage("analysisMsg", "Uploads are locked. Buy at least 1 credit to analyse a screenshot.", true); syncUploadAccess(); return; }
       const button = $("analyseBtn");
       button.disabled = true;
       setMessage("analysisMsg", "Analysing screenshot. Please wait…");
