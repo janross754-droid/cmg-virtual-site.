@@ -43,7 +43,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       try { localStorage.setItem("cmg-theme", document.body.classList.contains("light") ? "light" : "dark"); } catch (_) {}
     });
 
-    function setStep(step) {
+    function setStep(step, options = {}) {
       if (![1, 2, 3, 4, 5].includes(step)) return;
       try { sessionStorage.setItem("cmg-active-step", String(step)); } catch (_) {}
       [1, 2, 3, 4, 5].forEach((number) => {
@@ -59,7 +59,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         dot.classList.toggle("current", number === step);
         dot.classList.toggle("complete", number < Math.min(step, 4));
       });
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (!options.preserveScroll) window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function setAuthMode(mode) {
@@ -284,7 +284,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           const savedStep = Number(sessionStorage.getItem("cmg-active-step"));
           if (savedStep === 5) rememberedStep = 5;
         } catch (_) {}
-        setStep(rememberedStep);
+        setStep(rememberedStep, { preserveScroll: true });
       } else {
         try { sessionStorage.removeItem("cmg-active-step"); } catch (_) {}
         currentCredits = 0;
