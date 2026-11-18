@@ -28,12 +28,52 @@
 </aside>
 <main class="main"><div class="headline"><h1>Football scores</h1><span class="date" id="today"></span></div>
 <div class="tabs"><button class="tab active">ALL</button><button class="tab">LIVE</button><button class="tab">UPCOMING</button><button class="tab">FINISHED</button></div>
-<div class="panel status"><span class="dot"></span><span><b>Live data not connected yet.</b> GOALZONE is ready for a verified football data feed.</span></div>
-<section class="panel matchgroup" id="fixtures"><div class="grouphead"><span>⚽ MATCH CENTRE</span><span>STATUS</span></div><div class="match"><div class="time">—</div><div class="teams"><div class="team"><span class="crest">⚽</span>Live scores will appear here</div><div class="team muted"><span class="crest">＋</span>Fixtures and results load after API setup</div></div><div class="score muted">—</div></div></section>
+<div class="panel status" id="feedStatus"><span class="dot"></span><span><b>Connecting to football data…</b> Please wait.</span></div>
+<section id="fixtureList"><div class="panel matchgroup"><div class="grouphead">⚽ MATCH CENTRE</div><div class="match"><div class="time">—</div><div class="teams"><div class="team">Loading verified fixtures…</div></div><div class="score muted">—</div></div></div></section>
 <div class="panel status">GOALZONE will show confirmed scores, kickoff times, match events and competition tables. No sample scores are being presented as live results.</div>
 </main>
 <aside class="panel right"><h3>ABOUT GOALZONE</h3><p>Your football companion for live scores, fixtures, results and match statistics.</p><div class="feature"><b>Live match centre</b><span>Goals, cards, substitutions and match clock</span></div><div class="feature"><b>League tables</b><span>Standings, form and team records</span></div><div class="feature"><b>Match details</b><span>Possession, shots and key events where provided</span></div></aside>
 </div>
 <footer>GOALZONE · Football information, clearly presented.</footer>
-<script>document.getElementById('today').textContent=new Intl.DateTimeFormat(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(new Date());document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));</script>
+<script>
+const API_URL='https://qusfqdtnfxbbubcekroc.supabase.co/functions/v1/goalzone-football';
+const today=new Date().toLocaleDateString('en-CA');
+document.getElementById('today').textContent=new Intl.DateTimeFormat(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(new Date());
+let activeFilter='ALL', allFixtures=[];
+const statusBox=document.getElementById('feedStatus'), list=document.getElementById('fixtureList');
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function isLive(x){return ['1H','HT','2H','ET','P','LIVE','INT'].includes(x.fixture?.status?.short);}
+function isFinished(x){return ['FT','AET','PEN'].includes(x.fixture?.status?.short);}
+function isUpcoming(x){return ['NS','TBD'].includes(x.fixture?.status?.short);}
+function render(){
+ const rows=allFixtures.filter(x=>activeFilter==='ALL'||(activeFilter==='LIVE'&&isLive(x))||(activeFilter==='FINISHED'&&isFinished(x))||(activeFilter==='UPCOMING'&&isUpcoming(x)));
+ if(!rows.length){list.innerHTML='<div class="panel empty">No matches found for this filter today.</div>';return;}
+ const groups=new Map();
+ rows.forEach(x=>{const name=x.league?.name||'Football';if(!groups.has(name))groups.set(name,[]);groups.get(name).push(x)});
+ list.innerHTML=[...groups.entries()].map(([league,matches])=>'<section class="panel matchgroup"><div class="grouphead"><span>'+safe(league)+'</span><span>'+matches.length+' MATCH'+(matches.length===1?'':'ES')+'</span></div>'+matches.map(x=>{
+ const status=x.fixture?.status?.short||'—', elapsed=x.fixture?.status?.elapsed, live=isLive(x), finished=isFinished(x);
+ const time=live?(elapsed!=null?elapsed+"'":status):finished?'FT':new Date(x.fixture.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+ const home=x.teams?.home||{},away=x.teams?.away||{},goals=x.goals||{};
+ return '<div class="match"><div class="time">'+safe(time)+'</div><div class="teams"><div class="team"><span class="crest">'+(home.logo?'<img alt="" src="'+safe(home.logo)+'" style="width:20px;height:20px;object-fit:contain">':'⚽')+'</span>'+safe(home.name)+'</div><div class="team"><span class="crest">'+(away.logo?'<img alt="" src="'+safe(away.logo)+'" style="width:20px;height:20px;object-fit:contain">':'⚽')+'</span>'+safe(away.name)+'</div></div><div class="score">'+(goals.home??'—')+'<br>'+(goals.away??'—')+'</div></div>';
+ }).join('')+'</section>').join('');
+}
+async function load(){
+ statusBox.innerHTML='<span class="dot"></span><span><b>Loading verified football data…</b></span>';
+ try{
+  const r=await fetch(API_URL+'?endpoint=fixtures&date='+encodeURIComponent(today));
+  const data=await r.json();
+  if(!r.ok||data.errors&&Object.keys(data.errors).length)throw new Error(data.error||JSON.stringify(data.errors));
+  allFixtures=Array.isArray(data.response)?data.response:[];
+  const count=allFixtures.length;
+  statusBox.innerHTML='<span class="dot" style="background:#16a36a"></span><span><b>Football data connected.</b> '+count+' match'+(count===1?'':'es')+' returned for today. Scores are from API-Football.</span>';
+  render();
+ }catch(e){
+  statusBox.innerHTML='<span class="dot" style="background:#e34d59"></span><span><b>Football feed needs setup.</b> '+safe(e.message||'Please check the API key and try again.')+'</span>';
+  list.innerHTML='<div class="panel empty">No live data is being shown until the secure API connection is configured.</div>';
+ }
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeFilter=b.textContent.trim();render();}));
+load();
+setInterval(load,60000);
+</script>
 </body></html>
