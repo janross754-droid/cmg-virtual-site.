@@ -470,9 +470,9 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
           head.className = "admin-payment-head";
           const customer = document.createElement("div");
           const name = document.createElement("strong");
-          name.textContent = payment.payer_name || payment.profile_name || payment.user_email || payment.user_id;
+          name.textContent = payment.payer_name || payment.profile_name || "Customer account";
           const email = document.createElement("small");
-          email.textContent = payment.user_email || "";
+          email.textContent = payment.user_email || "Account details not supplied";
           customer.append(name, email);
           const status = document.createElement("span");
           const paymentStatus = String(payment.status || "unknown").toLowerCase();
