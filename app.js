@@ -198,11 +198,14 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         if (authMode === "signup") {
           const fullName = $("fullName").value.trim();
           const email = $("email").value.trim();
+          const countryCode = $("country").value;
+          const country = countrySettings[countryCode] || countrySettings.GH;
           const phoneDigits = $("phoneNumber").value.replace(/\D/g, "");
           const password = $("password").value;
           const confirm = $("confirmPassword").value;
           if (fullName.length < 2) throw new Error("Please enter your full name.");
-          if (!/^\d{9}$/.test(phoneDigits)) throw new Error("Enter a valid Ghana phone number using 9 digits after +233.");
+          if (!email) throw new Error("Please enter your email address.");
+          if (phoneDigits.length !== country.digits || !/^\d+$/.test(phoneDigits)) throw new Error("Enter a valid " + (countryCode === "GH" ? "Ghana" : "Nigeria") + " phone number using " + country.digits + " digits after " + country.prefix + ".");
           if (password.length < 6) throw new Error("Your password must contain at least 6 characters.");
           if (password !== confirm) throw new Error("Your passwords do not match.");
           result = await db.auth.signUp({
