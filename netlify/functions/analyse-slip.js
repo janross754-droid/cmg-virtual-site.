@@ -76,12 +76,14 @@ exports.handler = async (event) => {
     return json(503, { error: "AI analysis is not configured yet. The administrator must add the private server environment variables in Netlify." });
   }
 
+  let stage = "authentication";
   try {
     const token = getToken(event);
     if (!token) return json(401, { error: "Please log in first." });
     const user = await getUser(token, url, anon);
     if (!user) return json(401, { error: "Your session has expired. Please log in again." });
 
+    stage = "image validation";
     const body = JSON.parse(event.body || "{}");
     if (!body.image || !["image/png", "image/jpeg", "image/webp"].includes(body.mimeType)) {
       return json(400, { error: "Upload a PNG, JPG or WEBP screenshot." });
@@ -89,6 +91,7 @@ exports.handler = async (event) => {
     if (body.image.length > 8_500_000) return json(413, { error: "Image is too large. Please use an image under 6 MB." });
 
     const imageUrl = "data:" + body.mimeType + ";base64," + body.image;
+    stage = "OpenAI request";
     const aiResponse = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + openai },
@@ -110,7 +113,13 @@ exports.handler = async (event) => {
       })
     });
 
-    const aiData = await aiResponse.json();
+    const responseText = await aiResponse.text();
+    let aiData;
+    try { aiData = JSON.parse(responseText); }
+    catch (_) {
+      const preview = responseText.slice(0, 300).replace(/\s+/g, " ").trim();
+      throw new Error("OpenAI returned a non-JSON response (HTTP " + aiResponse.status + "). " + (preview || "Empty response."));
+    }
     if (!aiResponse.ok) {
       const apiMessage = aiData.error?.message || "AI analysis service failed.";
       if (/insufficient_quota|billing|credits|quota/i.test(apiMessage)) {
@@ -119,12 +128,14 @@ exports.handler = async (event) => {
       throw new Error(apiMessage);
     }
 
+    stage = "AI response validation";
     const analysis = (aiData.output || []).flatMap((item) => item.content || [])
       .filter((item) => item.type === "output_text")
       .map((item) => item.text).join("\n").trim();
     if (!analysis) throw new Error("The AI did not return an analysis. Please try a clearer screenshot.");
 
     // Charge one token only after a successful AI response and successful record operation.
+    stage = "saving analysis and updating credits";
     const saved = await supabase("/rest/v1/rpc/record_slip_analysis", {
       method: "POST",
       body: JSON.stringify({ p_user_id: user.id, p_analysis: analysis })
@@ -135,6 +146,7 @@ exports.handler = async (event) => {
     const lower = message.toLowerCase();
     const status = lower.includes("insufficient credits") ? 402 :
       lower.includes("api credits") ? 503 : 500;
-    return json(status, { error: message });
+    console.error("[analyse-slip]", JSON.stringify({ stage, status, message }));
+    return json(status, { error: message, stage, httpStatus: status });
   }
 };
