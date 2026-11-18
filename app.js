@@ -186,6 +186,18 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       tag.textContent = picks.length ? "MARKET FAVOURITES" : (/NO CLEAR PICK/i.test(source) ? "NO CLEAR PICK" : "REVIEW");
       heading.append(title, tag);
       wrap.append(heading);
+      const providerSection = source.match(/PROVIDER CHECK[\\s\\S]*?(?=\\n\\s*(?:6\\)|FINAL CALL)|$)/i);
+      if (providerSection) {
+        const providerNote = document.createElement("p");
+        providerNote.className = "compact-prediction-note";
+        providerNote.textContent = providerSection[0]
+          .replace(/^PROVIDER CHECK\\s*/i, "")
+          .split(/\\r?\\n/)
+          .map(line => line.replace(/^\\s*[-*•]\\s*/, "").trim())
+          .filter(Boolean)
+          .join(" ");
+        if (providerNote.textContent) wrap.append(providerNote);
+      }
       if (picks.length) {
         picks.slice(0, 3).forEach((pick) => {
           const row = document.createElement("div");
