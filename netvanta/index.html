@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35"><meta name="description" content="NetVanta — simple, reliable data bundles in Ghana.">
+<title>NetVanta | Data made easy</title>
+<style>
+:root{--navy:#071a35;--blue:#1769ff;--cyan:#26c6da;--ink:#10213d;--muted:#64748b;--line:#e6edf5;--bg:#f5f8fc;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}button,input{font:inherit}
+.top{background:var(--navy);color:white}.nav{max-width:1120px;margin:auto;padding:18px 22px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:21px;letter-spacing:-.7px}.logo{width:35px;height:35px;border-radius:12px;background:linear-gradient(135deg,#2b82ff,#20d5d0);display:grid;place-items:center;color:#061a34;font-weight:950}.navtag{font-size:12px;color:#c6d6ed;border:1px solid #355071;padding:7px 11px;border-radius:99px}
+.hero{max-width:1120px;margin:auto;padding:55px 22px 70px;display:grid;grid-template-columns:1.15fr .85fr;gap:35px;align-items:center}.eyebrow{color:#65d9e4;font-weight:750;text-transform:uppercase;letter-spacing:1.5px;font-size:11px}.hero h1{font-size:clamp(38px,6vw,62px);line-height:1.03;letter-spacing:-2.8px;margin:14px 0;color:white}.hero h1 span{color:#63dce5}.hero p{color:#c4d3e7;line-height:1.7;max-width:500px;margin:0 0 25px}.pills{display:flex;gap:9px;flex-wrap:wrap}.pill{border:1px solid #365273;color:#e4efff;border-radius:99px;padding:8px 12px;font-size:12px}.heroCard{background:linear-gradient(145deg,#153b70,#0d2850);border:1px solid #31527b;border-radius:24px;padding:24px;box-shadow:0 22px 50px #0003}.heroCard small{color:#a8c1df}.heroCard strong{display:block;color:white;font-size:25px;margin:8px 0}.signal{display:flex;align-items:end;gap:7px;height:90px;margin:18px 0 10px}.signal i{display:block;flex:1;border-radius:7px 7px 2px 2px;background:linear-gradient(#36d4d9,#2879ff)}.signal i:nth-child(1){height:30%}.signal i:nth-child(2){height:45%}.signal i:nth-child(3){height:60%}.signal i:nth-child(4){height:76%}.signal i:nth-child(5){height:92%}.signal i:nth-child(6){height:100%}
+main{max-width:1120px;margin:-27px auto 0;padding:0 22px 60px;position:relative}.panel{background:white;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 14px 40px #0b2b5010}.sectionHead{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.sectionHead h2{font-size:23px;letter-spacing:-.7px;margin:0}.sectionHead p{margin:5px 0 0;color:var(--muted);font-size:13px}.step{font-size:11px;font-weight:800;color:#1769ff;background:#edf4ff;border-radius:99px;padding:7px 10px}
+.networks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.network{border:1.5px solid var(--line);border-radius:15px;background:#fff;padding:15px;text-align:left;cursor:pointer;transition:.15s}.network:hover{transform:translateY(-2px);border-color:#9bbcf4}.network.active{border-color:#1769ff;background:#f2f7ff;box-shadow:0 0 0 3px #1769ff12}.network b{display:block;font-size:15px;margin:8px 0 3px}.network small{color:var(--muted);font-size:11px}.netlogo{height:33px;width:33px;border-radius:10px;display:grid;place-items:center;font-size:11px;font-weight:900;color:white}.mtn{background:#ffcc00;color:#171717}.telecel{background:#e52354}.at{background:#153b70}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:23px}.field label{display:block;font-size:12px;font-weight:750;margin-bottom:8px}.field input,.field select{width:100%;height:48px;border:1px solid #dce5ef;border-radius:12px;padding:0 13px;background:white;color:var(--ink);outline:none}.field input:focus,.field select:focus{border-color:#1769ff;box-shadow:0 0 0 3px #1769ff14}.hint{font-size:11px;color:var(--muted);margin-top:7px}.bundleList{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.bundle{border:1px solid var(--line);background:white;border-radius:13px;padding:13px 10px;text-align:center;cursor:pointer}.bundle.active{border-color:#1769ff;background:#f2f7ff}.bundle b{display:block;font-size:17px}.bundle small{color:var(--muted);font-size:10px}.status{margin-top:20px;padding:13px 15px;background:#fff8e8;border:1px solid #f5e4b9;border-radius:12px;color:#805b12;font-size:12px;line-height:1.55}.submit{width:100%;height:51px;margin-top:17px;border:0;border-radius:13px;background:#1769ff;color:white;font-weight:800;cursor:pointer}.submit:disabled{background:#9db7e7;cursor:not-allowed}.foot{max-width:1120px;margin:auto;padding:0 22px 35px;color:#7b8ba1;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.toast{display:none;margin-top:12px;padding:12px;border-radius:10px;background:#eef6ff;color:#174b91;font-size:12px}
+@media(max-width:720px){.hero{grid-template-columns:1fr;padding:42px 20px 58px;gap:24px}.heroCard{max-width:440px}.hero h1{font-size:44px}.panel{padding:19px}.networks{gap:8px}.network{padding:11px}.formgrid{grid-template-columns:1fr}.bundleList{grid-template-columns:repeat(2,1fr)}main{padding:0 14px 45px}.nav{padding:15px 18px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <nav class="nav"><div class="brand"><div class="logo">N</div>NetVanta</div><div class="navtag">GHANA · DATA BUNDLES</div></nav>
+ <section class="hero">
+  <div><div class="eyebrow">Stay connected, effortlessly</div><h1>Data that keeps<br>you <span>moving.</span></h1><p>Your next bundle, made simple. Choose your network, pick a data size and send it to the number you want.</p><div class="pills"><span class="pill">MTN</span><span class="pill">Telecel</span><span class="pill">AT</span><span class="pill">Built for Ghana</span></div></div>
+  <div class="heroCard"><small>YOUR CONNECTION, YOUR WAY</small><strong>More data. Less hassle.</strong><div class="signal"><i></i><i></i><i></i><i></i><i></i><i></i></div><small>Simple bundle selection · Clear order flow</small></div>
+ </section>
+</header>
+<main>
+ <section class="panel">
+  <div class="sectionHead"><div><h2>Get a data bundle</h2><p>Choose your network and enter the recipient details.</p></div><span class="step">STEP 1 OF 3</span></div>
+  <div class="networks" role="group" aria-label="Choose network">
+   <button class="network active" data-net="MTN"><span class="netlogo mtn">MTN</span><b>MTN</b><small>Mobile data</small></button>
+   <button class="network" data-net="Telecel"><span class="netlogo telecel">T</span><b>Telecel</b><small>Mobile data</small></button>
+   <button class="network" data-net="AT"><span class="netlogo at">AT</span><b>AT</b><small>Mobile data</small></button>
+  </div>
+  <div class="formgrid">
+   <div class="field"><label for="phone">Recipient phone number</label><input id="phone" type="tel" inputmode="tel" placeholder="e.g. 024 123 4567" maxlength="15"><div class="hint">Enter the Ghana number that should receive the data.</div></div>
+   <div class="field"><label for="bundle">Choose data size</label><select id="bundle"><option value="">Select a bundle size</option><option>1 GB</option><option>2 GB</option><option>5 GB</option><option>10 GB</option><option>20 GB</option></select><div class="hint">Available packages and prices will be confirmed with our supplier.</div></div>
+  </div>
+  <div class="status"><b>Preview mode:</b> NetVanta is being set up. Supplier approval, verified bundle prices and secure Mobile Money checkout are not connected yet. No payment can be taken on this page.</div>
+  <button class="submit" id="continue" disabled>Continue — coming soon</button>
+  <div class="toast" id="toast" role="status"></div>
+ </section>
+</main>
+<footer class="foot"><span>© 2026 NetVanta. Made for Ghana.</span><span>Secure payments and automatic delivery will be enabled after supplier approval.</span></footer>
+<script>
+let network='MTN', size='';
+document.querySelectorAll('.network').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.network').forEach(x=>x.classList.remove('active'));btn.classList.add('active');network=btn.dataset.net;update()}));
+document.getElementById('bundle').addEventListener('change',e=>{size=e.target.value;update()});
+document.getElementById('phone').addEventListener('input',update);
+function update(){const phone=document.getElementById('phone').value.replace(/\D/g,'');document.getElementById('continue').disabled=!(phone.length>=9&&size);document.getElementById('continue').textContent=phone.length>=9&&size?'Continue — preview only':'Continue — coming soon'}
+document.getElementById('continue').addEventListener('click',()=>{const t=document.getElementById('toast');t.style.display='block';t.textContent='Your selection: '+network+' · '+size+'. Checkout will be enabled after Techlink GH approves our API access and we verify live bundle prices.'});
+</script>
+</body></html>
