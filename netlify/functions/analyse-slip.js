@@ -42,7 +42,7 @@ For each pick, give ONE short reason based on visible odds and complete-market c
 Use up to THREE short bullets for meaningful issues only: incomplete markets, unclear OCR, unusually high bookmaker margin, conflicting prices, or lack of independent evidence. If none are visible, say no obvious screenshot/price issue was detected; do not imply the outcome is safe.
 
 5) FINAL CALL
-One or two sentences naming the strongest market favourite, or NO CLEAR PICK. State briefly that virtual outcomes remain uncertain and no win is guaranteed.
+One or two sentences naming the strongest market favourite, or NO CLEAR PICK.
 
 TONE
 Plain, direct, brief and useful on a phone screen. Prioritize ranked picks over calculations. Never invent team form, live statistics, hidden RNG access, verified accuracy or guaranteed outcomes.`;
