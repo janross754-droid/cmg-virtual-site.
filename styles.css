@@ -1544,3 +1544,67 @@ body.landing-mode .marketing-home { display:block; }
 .history-status:before{content:"";width:6px;height:6px;border-radius:50%;background:#ff5875;box-shadow:0 0 9px rgba(255,88,117,.7)}
 .history-report{color:var(--text);font-size:12px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
 @media(max-width:420px){.history-result-card{padding:12px}.history-result-head{align-items:flex-start}.history-result-head small{max-width:58%;font-size:9px}}
+
+
+/* Compact prediction-only results */
+.compact-prediction {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+.compact-prediction-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.compact-prediction-heading strong {
+  font: 700 14px 'Space Grotesk', sans-serif;
+  letter-spacing: .03em;
+}
+.compact-prediction-heading span {
+  color: var(--cyan);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.compact-pick {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface);
+}
+.compact-pick > strong {
+  font: 700 15px 'Space Grotesk', sans-serif;
+}
+.compact-pick > span {
+  grid-column: 1;
+  color: var(--muted);
+  font-size: 12px;
+}
+.compact-pick > b {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  color: var(--cyan);
+  font-size: 13px;
+}
+.compact-pick > small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 10px;
+}
+.compact-prediction-note,
+.compact-prediction-disclaimer {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+.compact-prediction-disclaimer {
+  font-size: 10px;
+}
