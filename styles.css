@@ -1450,3 +1450,57 @@ body.landing-mode .marketing-home { display:block; }
 @media(max-width:520px) {
   .signup-card { margin-top:12px; padding:23px 18px; border-radius:15px; }
 }
+
+
+/* Step 2 dashboard — compact game hub */
+.dashboard-welcome { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:4px 0 23px; }
+.dashboard-welcome h1 { margin:9px 0 6px;color:#fff;font:800 clamp(26px,6vw,38px)/1.05 'Space Grotesk';letter-spacing:-.045em; }
+.dashboard-welcome h1 span { color:#ff5875; }
+.dashboard-welcome p { margin:0;color:#aaa6b1;font-size:13px;line-height:1.6; }
+.dashboard-balance { display:flex;align-items:center;justify-content:space-between;gap:18px;padding:19px 20px;margin-bottom:30px;border:1px solid #38313b;border-radius:15px;background:linear-gradient(120deg,#19151e,#111119);box-shadow:0 15px 38px rgba(0,0,0,.2); }
+.dashboard-balance .balance-label { color:#ff8095;font-size:9px;font-weight:900;letter-spacing:.15em; }
+.dashboard-credit-line { display:flex;align-items:baseline;gap:9px;margin-top:5px; }
+.dashboard-credit-line strong { color:#fff;font:800 35px 'Space Grotesk'; }
+.dashboard-credit-line span,.dashboard-balance-copy p { color:#aaa5b1;font-size:11px; }
+.dashboard-balance-copy p { margin:1px 0 0; }
+.dashboard-buy { min-width:90px;min-height:42px;padding:0 17px;border:0;border-radius:9px;background:linear-gradient(110deg,#ff3158,#ff704d);color:white;font-size:12px;font-weight:900;cursor:pointer; }
+.dashboard-buy span { margin-left:8px;font-size:16px; }
+.dashboard-section-title { display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 0 14px; }
+.dashboard-section-title h2 { margin:5px 0 0;color:#fff;font:800 21px 'Space Grotesk';letter-spacing:-.025em; }
+.dashboard-live-dot { display:flex;align-items:center;gap:7px;color:#a9a4af;font-size:9px;font-weight:800;letter-spacing:.1em; }
+.dashboard-live-dot i { width:7px;height:7px;border-radius:50%;background:#ff4968;box-shadow:0 0 10px #ff4968; }
+.game-card-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:9px; }
+.game-card { min-width:0;display:flex;flex-direction:column;padding:16px;border:1px solid #302c36;border-radius:14px;background:linear-gradient(150deg,#17151d,#0e0e14);box-shadow:0 12px 30px rgba(0,0,0,.16); }
+.game-card-featured { border-color:rgba(255,65,101,.42);background:radial-gradient(ellipse at 90% 0%,rgba(255,49,88,.14),transparent 50%),linear-gradient(150deg,#1b151d,#0e0e14); }
+.game-card-aviator { background:radial-gradient(ellipse at 90% 0%,rgba(255,151,65,.12),transparent 50%),linear-gradient(150deg,#19161a,#0e0e14); }
+.game-card-top { display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:35px; }
+.game-emoji { font-size:25px; }
+.game-tag { padding:5px 7px;border-radius:5px;font-size:8px;font-weight:900;letter-spacing:.07em;white-space:nowrap; }
+.popular-tag { color:#ff8296;background:rgba(255,49,88,.13); }
+.code-tag { color:#f7c16f;background:rgba(247,193,111,.1); }
+.aviator-tag { color:#ffad71;background:rgba(255,151,65,.11); }
+.game-card-copy { margin:17px 0 15px; }
+.game-category { color:#ff7088;font-size:9px;font-weight:900;letter-spacing:.13em; }
+.game-card-copy h3 { margin:6px 0 0;color:#f8f6fa;font:700 14px/1.35 'Space Grotesk'; }
+.game-card-stats { display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;margin-bottom:13px; }
+.game-card-stats span { padding:5px 7px;border:1px solid #34303a;border-radius:6px;color:#b8b2be;font-size:9px; }
+.game-action { display:flex;align-items:center;justify-content:space-between;min-height:39px;padding:0 12px;border:0;border-radius:8px;background:linear-gradient(110deg,#ff3158,#ff674f);color:#fff;font-size:11px;font-weight:900;cursor:pointer; }
+.game-action span { font-size:16px; }
+.game-action.secondary-action { border:1px solid #47404a;background:#211c25;color:#f3edf3; }
+.game-card-foot { margin-top:10px;color:#8f8995;font-size:9px;letter-spacing:.04em; }
+.dashboard-notice { min-height:0;margin:8px 0 18px;color:#ff9aac;font-size:11px;line-height:1.6; }
+.dashboard-notice:empty { display:none; }
+.dashboard-scanner { margin-top:23px; }
+@media(max-width:720px) {
+ .game-card-grid { grid-template-columns:1fr;gap:10px; }
+ .game-card { padding:15px; }
+ .game-card-copy { margin:12px 0; }
+ .game-card-stats { margin-bottom:11px; }
+}
+@media(max-width:420px) {
+ .dashboard-welcome { gap:8px; }
+ .dashboard-welcome .btn { padding:8px 10px;font-size:10px; }
+ .dashboard-balance { padding:16px; }
+ .dashboard-credit-line strong { font-size:31px; }
+ .dashboard-section-title h2 { font-size:19px; }
+}
