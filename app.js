@@ -211,7 +211,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       }
       const disclaimer = document.createElement("small");
       disclaimer.className = "compact-prediction-disclaimer";
-      disclaimer.textContent = "Odds-based market ranking only · virtual outcomes remain uncertain.";
+
       wrap.append(disclaimer);
       return wrap;
     }
