@@ -44,15 +44,15 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
     });
 
     function setStep(step, options = {}) {
-      if (![1, 2, 3, 4, 5].includes(step)) return;
+      if (![1, 2, 3, 4, 5, 6].includes(step)) return;
       try { sessionStorage.setItem("cmg-active-step", String(step)); } catch (_) {}
-      [1, 2, 3, 4, 5].forEach((number) => {
+      [1, 2, 3, 4, 5, 6].forEach((number) => {
         const panel = $("step" + number);
         if (!panel) return;
         panel.classList.toggle("hidden", number !== step);
         panel.classList.toggle("active", number === step);
       });
-      $("headerStep").textContent = step === 5 ? "INSTANT FOOTBALL" : `STEP ${step} OF 4`;
+      $("headerStep").textContent = step === 5 ? "INSTANT FOOTBALL" : step === 6 ? "AVIATOR TRACKER" : `STEP ${step} OF 4`;
       $("stepTrackFill").style.width = `${(Math.min(step, 4) - 1) / 3 * 100}%`;
       document.querySelectorAll("[data-step-dot]").forEach((dot) => {
         const number = Number(dot.dataset.stepDot);
@@ -394,10 +394,86 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         } else if (action === "codes") {
           notice.textContent = "Code Drop requests are not connected yet. This section is a preview; no booking code is currently issued or verified.";
         } else if (action === "aviator") {
-          notice.textContent = "Aviator outcomes are unpredictable. CMG does not provide guaranteed crash points or cash-out signals.";
+          notice.textContent = "";
+          setStep(6);
+          renderAviatorTracker();
         }
       });
     });
+
+    // Local-only Aviator tracker: historical summaries, never predictions.
+    const AVIATOR_HISTORY_KEY = "cmg-aviator-rounds-v1";
+    const AVIATOR_SESSION_KEY = "cmg-aviator-session-v1";
+    let aviatorRounds = [];
+    let aviatorSession = { limit: "", spent: "" };
+    function loadAviatorData() {
+      try {
+        const rows = JSON.parse(localStorage.getItem(AVIATOR_HISTORY_KEY) || "[]");
+        aviatorRounds = Array.isArray(rows) ? rows.filter(r => Number.isFinite(Number(r.multiplier)) && Number(r.multiplier) >= 1) : [];
+        const session = JSON.parse(localStorage.getItem(AVIATOR_SESSION_KEY) || "{}");
+        aviatorSession = { limit: session.limit ?? "", spent: session.spent ?? "" };
+      } catch (_) { aviatorRounds = []; aviatorSession = { limit: "", spent: "" }; }
+    }
+    function saveAviatorData() {
+      try {
+        localStorage.setItem(AVIATOR_HISTORY_KEY, JSON.stringify(aviatorRounds.slice(-200)));
+        localStorage.setItem(AVIATOR_SESSION_KEY, JSON.stringify(aviatorSession));
+      } catch (_) { setMessage("aviatorRoundMsg", "Could not save tracker data on this device.", true); }
+    }
+    function renderAviatorTracker() {
+      loadAviatorData();
+      const values = aviatorRounds.map(r => Number(r.multiplier));
+      const sorted = [...values].sort((x,y) => x-y);
+      const avg = values.length ? values.reduce((sum,x)=>sum+x,0)/values.length : null;
+      const med = sorted.length ? (sorted.length%2 ? sorted[(sorted.length-1)/2] : (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2) : null;
+      const fmt = x => x === null ? "—" : x.toFixed(2)+"x";
+      $("aviatorRoundCount").textContent=String(values.length);
+      $("aviatorAverage").textContent=fmt(avg);
+      $("aviatorMedian").textContent=fmt(med);
+      $("aviatorHighest").textContent=fmt(sorted.length ? sorted[sorted.length-1] : null);
+      $("aviatorLowest").textContent=fmt(sorted.length ? sorted[0] : null);
+      [[1,1.5,"aviatorBandLow"],[1.5,2,"aviatorBandMid"],[2,5,"aviatorBandHigh"],[5,Infinity,"aviatorBandTop"]].forEach(([lo,hi,id])=>{
+        const n=values.filter(x=>x>=lo&&x<hi).length;
+        $(id).textContent=n+" · "+(values.length?Math.round(n/values.length*100):0)+"%";
+      });
+      const list=$("aviatorRoundsList"); list.replaceChildren();
+      if (!aviatorRounds.length) { const p=document.createElement("p");p.className="muted";p.textContent="No rounds recorded yet.";list.append(p); }
+      else aviatorRounds.slice(-12).reverse().forEach(r=>{
+        const row=document.createElement("div");row.className="aviator-round-row";
+        const val=document.createElement("strong");val.textContent=Number(r.multiplier).toFixed(2)+"x";
+        const date=document.createElement("small");date.textContent=new Date(r.createdAt).toLocaleString();
+        row.append(val,date);list.append(row);
+      });
+      $("aviatorLimit").value=aviatorSession.limit;
+      $("aviatorSpent").value=aviatorSession.spent;
+      updateAviatorLimitStatus();
+    }
+    function updateAviatorLimitStatus() {
+      const limit=Number(aviatorSession.limit),spent=Number(aviatorSession.spent),el=$("aviatorLimitStatus");
+      el.classList.remove("warning","reached");
+      if (!aviatorSession.limit || !Number.isFinite(limit) || limit<=0 || aviatorSession.spent==="") el.textContent="Set a limit and enter your session spending.";
+      else if (Number.isFinite(spent)&&spent>=limit) { el.textContent="Your session limit has been reached. Stop playing for this session.";el.classList.add("reached"); }
+      else if (Number.isFinite(spent)&&spent>=limit*.8) { el.textContent="You are close to your session limit. Consider stopping now.";el.classList.add("warning"); }
+      else if (Number.isFinite(spent)&&spent>=0) el.textContent="Recorded spending: GH₵"+spent.toFixed(2)+" of GH₵"+limit.toFixed(2)+". Stay within your limit.";
+    }
+    $("aviatorRoundForm").addEventListener("submit",event=>{
+      event.preventDefault();const value=Number($("aviatorMultiplier").value);
+      if (!Number.isFinite(value)||value<1||value>100000) { setMessage("aviatorRoundMsg","Enter a valid completed multiplier of 1.00x or higher.",true);return; }
+      aviatorRounds.push({multiplier:Number(value.toFixed(2)),createdAt:new Date().toISOString()});
+      saveAviatorData();$("aviatorMultiplier").value="";
+      setMessage("aviatorRoundMsg","Completed round saved on this device. This does not predict future rounds.");
+      renderAviatorTracker();
+    });
+    $("clearAviatorRounds").addEventListener("click",()=>{
+      if(!window.confirm("Delete all Aviator round history saved on this device?"))return;
+      aviatorRounds=[];saveAviatorData();renderAviatorTracker();setMessage("aviatorRoundMsg","Round history cleared.");
+    });
+    ["aviatorLimit","aviatorSpent"].forEach(id=>$(id).addEventListener("input",()=>{
+      aviatorSession[id==="aviatorLimit"?"limit":"spent"]=$(id).value;saveAviatorData();updateAviatorLimitStatus();
+    }));
+    $("resetAviatorSession").addEventListener("click",()=>{aviatorSession={limit:"",spent:""};saveAviatorData();renderAviatorTracker();});
+    $("backFromAviator").addEventListener("click",()=>setStep(2));
+
     $("backToDashboard").addEventListener("click", () => setStep(2));
     $("backToGames").addEventListener("click", () => setStep(2));
     $("backToPackages").addEventListener("click", () => setStep(3));
