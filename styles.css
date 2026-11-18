@@ -1944,3 +1944,14 @@ a, .gradient-text, .eyebrow, .step-kicker, .game-category,
 .historical-row { display:flex; flex-direction:column; gap:3px; padding:10px 0; border-bottom:1px solid #30272d; }
 .historical-row strong { font-size:14px; }
 #historicalPerformance { margin-top:18px; }
+
+
+/* Historical performance breakdown */
+.historical-insights{margin:16px 0;padding:14px;border:1px solid var(--border-color,rgba(255,255,255,.14));border-radius:14px;background:var(--card-inner,rgba(0,0,0,.12))}
+.historical-insights>strong{display:block;color:var(--text,#fff);font-size:.82rem;letter-spacing:.08em;margin-bottom:8px}
+.historical-insights>p{font-size:.78rem;line-height:1.5;margin:0 0 12px}
+.historical-breakdown{margin-top:12px}
+.historical-breakdown>strong{display:block;font-size:.72rem;letter-spacing:.08em;color:var(--muted,#999);margin-bottom:6px}
+.historical-breakdown-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-color,rgba(255,255,255,.1));font-size:.85rem}
+.historical-breakdown-row b{color:var(--accent,#ff3030);font-variant-numeric:tabular-nums}
+.historical-insights .compact-prediction-disclaimer{display:block;margin-top:12px;line-height:1.5}
