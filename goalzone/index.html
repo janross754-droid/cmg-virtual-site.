@@ -110,12 +110,29 @@ list.addEventListener('keydown',e=>{const row=e.target.closest('[data-fixture-id
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeFilter=b.textContent.trim();render();}));
 
 const leagueSelect=document.getElementById('leagueSelect'),tableBody=document.getElementById('tableBody'),tableStatus=document.getElementById('tableStatus');
+let currentLeagueSeasonsPromise;
+async function getCurrentLeagueSeason(leagueId){
+ if(!currentLeagueSeasonsPromise){
+  currentLeagueSeasonsPromise=fetch(API_URL+'?endpoint=leagues&current=true').then(async r=>{
+   const d=await r.json();
+   if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error('Could not check the competition season.');
+   return Array.isArray(d.response)?d.response:[];
+  });
+ }
+ const leagues=await currentLeagueSeasonsPromise;
+ const entry=leagues.find(x=>String(x.league?.id)===String(leagueId));
+ const current=entry?.seasons?.find(s=>s.current===true);
+ if(!current?.year)throw new Error('The provider has not confirmed the current season for this competition.');
+ return current.year;
+}
 async function loadStandings(){
- const league=leagueSelect.value,season=new Date().getFullYear();
- tableStatus.textContent='Loading verified standings…';
+ const league=leagueSelect.value;
+ tableStatus.textContent='Checking the official current season…';
  tableBody.innerHTML='<tr><td colspan="8" class="table-empty">Loading…</td></tr>';
  try{
-  const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+season);
+  const season=await getCurrentLeagueSeason(league);
+  tableStatus.textContent='Loading verified standings…';
+  const r=await fetch(API_URL+'?endpoint=standings&league='+encodeURIComponent(league)+'&season='+encodeURIComponent(season));
   const d=await r.json();
   if(!r.ok||d.errors&&Object.keys(d.errors).length)throw new Error(d.error||('Provider response: '+JSON.stringify(d.errors||d.message||d)));
   const groups=d.response?.[0]?.league?.standings||[];
