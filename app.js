@@ -153,6 +153,69 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       if (error) console.warn("Profile details could not be updated yet:", error.message);
     }
 
+    function compactPredictionCard(analysis) {
+      const source = String(analysis || "");
+      const picksSection = source.match(/TOP PICKS[\\s\\S]*?(?=\\n\\s*(?:3\\)|WHY THESE PICKS|WHY|RISK CHECK|FINAL CALL)|$)/i);
+      const section = picksSection ? picksSection[0] : source;
+      const picks = [];
+      for (const line of section.split(/\\r?\\n/)) {
+        const clean = line.replace(/^\\s*[-*•]\\s*/, "").trim();
+        if (!clean || /^(?:RANK|[-| ]+)$/.test(clean) || /^\\|?\\s*RANK\\b/i.test(clean)) continue;
+        const cells = clean.split("|").map(x => x.trim()).filter(Boolean);
+        if (cells.length >= 4 && /^\\d+$/.test(cells[0])) {
+          const fixture = cells[1];
+          const pick = cells[2];
+          const odds = cells[3].match(/\\d+(?:\\.\\d+)?/)?.[0];
+          const share = cells[4]?.match(/\\d+(?:\\.\\d+)?%?/)?.[0] || "";
+          if (fixture && pick && odds) picks.push({ fixture, pick, odds, share });
+          continue;
+        }
+        const match = clean.match(/^\\d+\\s*[.)|]\\s*([A-Z0-9]+\\s+vs\\s+[A-Z0-9]+)\\s*[|—-]+\\s*(.+?)\\s*[|@]+\\s*(\\d+(?:\\.\\d+)?)(?:\\s*[|—-]+\\s*(\\d+(?:\\.\\d+)?%?))?$/i);
+        if (match) picks.push({ fixture: match[1], pick: match[2], odds: match[3], share: match[4] || "" });
+      }
+      const wrap = document.createElement("div");
+      wrap.className = "compact-prediction";
+      const heading = document.createElement("div");
+      heading.className = "compact-prediction-heading";
+      const title = document.createElement("strong");
+      title.textContent = picks.length ? "READY · " + picks.length + (picks.length === 1 ? " PICK" : " PICKS") : "ANALYSIS RESULT";
+      const tag = document.createElement("span");
+      tag.textContent = picks.length ? "MARKET FAVOURITES" : (/NO CLEAR PICK/i.test(source) ? "NO CLEAR PICK" : "REVIEW");
+      heading.append(title, tag);
+      wrap.append(heading);
+      if (picks.length) {
+        picks.slice(0, 3).forEach((pick) => {
+          const row = document.createElement("div");
+          row.className = "compact-pick";
+          const fixture = document.createElement("strong");
+          fixture.textContent = pick.fixture.toUpperCase();
+          const selection = document.createElement("span");
+          selection.textContent = pick.pick;
+          const odds = document.createElement("b");
+          odds.textContent = "ODDS " + pick.odds;
+          row.append(fixture, selection, odds);
+          if (pick.share) {
+            const share = document.createElement("small");
+            share.textContent = "Market share " + pick.share;
+            row.append(share);
+          }
+          wrap.append(row);
+        });
+      } else {
+        const note = document.createElement("p");
+        note.className = "compact-prediction-note";
+        note.textContent = /NO CLEAR PICK/i.test(source)
+          ? "The screenshot does not provide enough evidence for a clear market favourite."
+          : "No ranked picks were identified. Please upload a clear screenshot showing fixtures and odds.";
+        wrap.append(note);
+      }
+      const disclaimer = document.createElement("small");
+      disclaimer.className = "compact-prediction-disclaimer";
+      disclaimer.textContent = "Odds-based market ranking only · virtual outcomes remain uncertain.";
+      wrap.append(disclaimer);
+      return wrap;
+    }
+
     async function loadHistory() {
       const { data, error } = await db.from("predictions").select("id,analysis,created_at")
         .order("created_at", { ascending: false }).limit(8);
@@ -182,7 +245,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
 
         const report = document.createElement("div");
         report.className = "history-report";
-        report.textContent = (item.analysis || "No analysis text was saved.").trim();
+        report.append(compactPredictionCard(item.analysis || "No analysis text was saved."));
         article.append(head, report);
         $("historyList").append(article);
       });
@@ -512,13 +575,13 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         const result = await response.json();
         if (!response.ok && /AI provider account has run out of API credits|AI analysis is not configured/i.test(result.error || "")) {
           const localReport = await runLocalSlipScan(file);
-          $("analysisResult").textContent = localReport;
+          $("analysisResult").replaceChildren(compactPredictionCard(localReport));
           $("analysisResult").classList.remove("hidden");
           setMessage("analysisMsg", "Free local OCR scan completed. The full AI service needs its server API billing configured. No token was charged.");
           return;
         }
         if (!response.ok) throw new Error(result.error || "Analysis failed.");
-        $("analysisResult").textContent = result.analysis;
+        $("analysisResult").replaceChildren(compactPredictionCard(result.analysis));
         $("analysisResult").classList.remove("hidden");
         setMessage("analysisMsg", "Analysis complete. Your token balance has been updated.");
         await loadProfile();
