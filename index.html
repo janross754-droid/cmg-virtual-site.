@@ -125,88 +125,91 @@
 
     <!-- STEP 2: Dashboard -->
     <section id="step2" class="flow-step hidden" aria-labelledby="step2Title">
-  <div class="dashboard-heading">
-    <div>
-      <span class="step-kicker">CMG VIRTUAL · NEURAL SYSTEM</span>
-      <h1 id="step2Title">Welcome, <span id="userName">there</span></h1>
-      <p>Your virtual analysis command centre.</p>
-    </div>
-    <button id="logoutBtn" class="btn ghost small" type="button">Log out</button>
-  </div>
-
-   <div class="balance-card">
-    <div>
-      <span id="balanceStatus" class="balance-label low-balance">TOKEN BALANCE</span>
-      <strong id="creditCount">0</strong>
-      <span class="balance-sub">Available tokens</span>
-    </div>
-    <button id="buyTokensBtn" class="btn primary full" type="button">BUY TOKENS →</button>
-  </div>
-
-  <div class="hacker-panel">
-    <div class="hacker-header">
-      <span class="eyebrow">⌬ CMG NEURAL SCANNER</span>
-      <span class="system-status">● SYSTEM ONLINE</span>
-    </div>
-
-    <div class="hacker-title">
-      <div class="hacker-icon">⌬</div>
-      <h2>VIRTUAL INTELLIGENCE</h2>
-      <p>VIRTUAL FOOTBALL · NEURAL INTELLIGENCE</p>
-    </div>
-
-    <div class="scan-terminal">
-      <div class="terminal-top">
-        <span>CMG://NEURAL/CORE</span>
-        <span>READY</span>
+      <div class="dashboard-welcome">
+        <div>
+          <span class="step-kicker">CMG VIRTUAL · YOUR DASHBOARD</span>
+          <h1 id="step2Title">HEY, <span id="userName">KING</span> 👋</h1>
+          <p>Choose a game and let AI help you analyse your options.</p>
+        </div>
+        <button id="logoutBtn" class="btn ghost small" type="button">Log out</button>
       </div>
-      <p><span>01</span> SLIP OCR & FIXTURE EXTRACTION READY</p>
-      <p><span>02</span> ODDS NORMALIZATION ENGINE READY</p>
-      <p><span>03</span> MARKET FAVOURITE RANKING READY</p>
-      <p><span>04</span> RISK & MISSING-DATA SCAN READY</p>
-      <div class="scan-line"></div>
-    </div>
 
-    <div class="scanner-metrics">
-      <div><strong>OCR</strong><span>EXTRACT</span></div>
-      <div><strong>AI</strong><span>COMPARE</span></div>
-      <div><strong>TOP 3</strong><span>RANK</span></div>
-    </div>
+      <div class="dashboard-balance">
+        <div class="dashboard-balance-copy">
+          <span id="balanceStatus" class="balance-label low-balance">LOW BALANCE</span>
+          <div class="dashboard-credit-line"><strong id="creditCount">0</strong><span>available tokens</span></div>
+          <p>Top up to unlock predictions.</p>
+        </div>
+        <button id="buyTokensBtn" class="dashboard-buy" type="button">Buy <span>↗</span></button>
+      </div>
 
-    <label class="upload-zone hacker-upload" for="slipFile">
-      <span class="upload-icon">⌁</span>
-      <strong>UPLOAD VIRTUAL SLIP</strong>
-      <span>PNG · JPG · WEBP · MAXIMUM 6 MB</span>
-      <input id="slipFile" type="file" accept="image/png,image/jpeg,image/webp">
-    </label>
+      <div class="dashboard-section-title">
+        <div><span class="step-kicker">PICK YOUR GAME</span><h2>LIVE GAMES</h2></div>
+        <span class="dashboard-live-dot"><i></i> GAME HUB</span>
+      </div>
 
-    <button id="analyseBtn" class="btn primary full hacker-button" type="button" disabled>
-      ⌬ START NEURAL SCAN · 1 TOKEN
-    </button>
+      <div class="game-card-grid">
+        <article class="game-card game-card-featured">
+          <div class="game-card-top"><span class="game-emoji">⚽</span><span class="game-tag popular-tag">🔥 POPULAR</span></div>
+          <div class="game-card-copy"><span class="game-category">INSTANT VIRTUAL</span><h3>Football · AI Prediction</h3></div>
+          <div class="game-card-stats"><span>Live mode</span><span>7 Markets</span><span>Odds review</span></div>
+          <button class="game-action" type="button" data-game-action="instant">Play <span>→</span></button>
+          <div class="game-card-foot">Upload → Predict</div>
+        </article>
 
-    <p id="analysisMsg" class="message" role="status" aria-live="polite"></p>
-    <div id="analysisResult" class="analysis-result hidden"></div>
+        <article class="game-card">
+          <div class="game-card-top"><span class="game-emoji">🎯</span><span class="game-tag code-tag">CODE DROP</span></div>
+          <div class="game-card-copy"><span class="game-category">EFOOTBALL</span><h3>Booking Code · Manual Review</h3></div>
+          <div class="game-card-stats"><span>Get code</span><span>Manual</span><span>Review first</span></div>
+          <button class="game-action secondary-action" type="button" data-game-action="codes">Get <span>→</span></button>
+          <div class="game-card-foot">Request → Review</div>
+        </article>
 
-    <div class="hacker-disclaimer">
-      Smart slip scan: reads visible fixtures and odds, calculates market-implied probabilities, ranks the strongest market favourites and flags risk. It cannot access hidden result-generation data.
-    </div>
-  </div>
+        <article class="game-card game-card-aviator">
+          <div class="game-card-top"><span class="game-emoji">✈️</span><span class="game-tag aviator-tag">LIVE GAME</span></div>
+          <div class="game-card-copy"><span class="game-category">AVIATOR</span><h3>Crash game · Risk guide</h3></div>
+          <div class="game-card-stats"><span>Cash-out basics</span><span>Risk info</span></div>
+          <button class="game-action secondary-action" type="button" data-game-action="aviator">Explore <span>→</span></button>
+          <div class="game-card-foot">Learn → Play responsibly</div>
+        </article>
+      </div>
+      <p id="dashboardNotice" class="dashboard-notice" role="status" aria-live="polite"></p>
 
-  <div id="analysisHistory" class="card history-card hidden">
-    <div class="section-title-left">
-      <span class="eyebrow">SYSTEM RECORDS</span>
-      <h2>Recent analysis</h2>
-    </div>
-    <div id="historyList" class="history-list">
-      <p class="muted">No analyses yet.</p>
-    </div>
-  </div>
+      <div id="instantScanner" class="hacker-panel dashboard-scanner">
+        <div class="hacker-header">
+          <span class="eyebrow">⌬ CMG AI FOOTBALL SCANNER</span>
+          <span class="system-status">● READY</span>
+        </div>
+        <div class="hacker-title">
+          <div class="hacker-icon">⌬</div>
+          <h2>INSTANT VIRTUAL ANALYSIS</h2>
+          <p>Upload your virtual football slip for an AI-assisted odds review.</p>
+        </div>
+        <div class="scan-terminal">
+          <div class="terminal-top"><span>CMG://ANALYSIS/CORE</span><span>READY</span></div>
+          <p><span>01</span> SLIP OCR & FIXTURE EXTRACTION</p>
+          <p><span>02</span> ODDS NORMALIZATION</p>
+          <p><span>03</span> MARKET FAVOURITE RANKING</p>
+          <p><span>04</span> RISK & MISSING-DATA SCAN</p>
+          <div class="scan-line"></div>
+        </div>
+        <div class="scanner-metrics"><div><strong>OCR</strong><span>EXTRACT</span></div><div><strong>AI</strong><span>COMPARE</span></div><div><strong>TOP 3</strong><span>RANK</span></div></div>
+        <label class="upload-zone hacker-upload" for="slipFile">
+          <span class="upload-icon">⌁</span><strong>UPLOAD VIRTUAL SLIP</strong><span>PNG · JPG · WEBP · MAXIMUM 6 MB</span>
+          <input id="slipFile" type="file" accept="image/png,image/jpeg,image/webp">
+        </label>
+        <button id="analyseBtn" class="btn primary full hacker-button" type="button" disabled>⌬ START AI ANALYSIS · 1 TOKEN</button>
+        <p id="analysisMsg" class="message" role="status" aria-live="polite"></p>
+        <div id="analysisResult" class="analysis-result hidden"></div>
+        <div class="hacker-disclaimer">CMG reads visible fixtures and odds, compares market-implied probabilities and highlights risks. It cannot access hidden result-generation data or guarantee outcomes.</div>
+      </div>
 
-  <div class="dashboard-bottom">
-    <span id="profileMsg" class="message"></span>
-    <button id="backToAccount" class="text-btn" type="button">Account settings / log out</button>
-  </div>
-</section>
+      <div id="analysisHistory" class="card history-card hidden">
+        <div class="section-title-left"><span class="eyebrow">SYSTEM RECORDS</span><h2>Recent analysis</h2></div>
+        <div id="historyList" class="history-list"><p class="muted">No analyses yet.</p></div>
+      </div>
+      <div class="dashboard-bottom"><span id="profileMsg" class="message"></span><button id="backToAccount" class="text-btn" type="button">Account settings / log out</button></div>
+    </section>
 
    <!-- STEP 3: Packages, deliberately stacked vertically -->
     <section id="step3" class="flow-step hidden" aria-labelledby="step3Title">
