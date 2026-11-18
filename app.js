@@ -44,17 +44,19 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
     });
 
     function setStep(step) {
-      if (![1, 2, 3, 4].includes(step)) return;
-      [1, 2, 3, 4].forEach((number) => {
-        $("step" + number).classList.toggle("hidden", number !== step);
-        $("step" + number).classList.toggle("active", number === step);
+      if (![1, 2, 3, 4, 5].includes(step)) return;
+      [1, 2, 3, 4, 5].forEach((number) => {
+        const panel = $("step" + number);
+        if (!panel) return;
+        panel.classList.toggle("hidden", number !== step);
+        panel.classList.toggle("active", number === step);
       });
-      $("headerStep").textContent = `STEP ${step} OF 4`;
-      $("stepTrackFill").style.width = `${((step - 1) / 3) * 100}%`;
+      $("headerStep").textContent = step === 5 ? "INSTANT FOOTBALL" : `STEP ${step} OF 4`;
+      $("stepTrackFill").style.width = `${(Math.min(step, 4) - 1) / 3 * 100}%`;
       document.querySelectorAll("[data-step-dot]").forEach((dot) => {
         const number = Number(dot.dataset.stepDot);
         dot.classList.toggle("current", number === step);
-        dot.classList.toggle("complete", number < step);
+        dot.classList.toggle("complete", number < Math.min(step, 4));
       });
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -364,8 +366,8 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
         const action = button.dataset.gameAction;
         const notice = $("dashboardNotice");
         if (action === "instant") {
-          notice.textContent = "Upload a clear virtual football screenshot below to start your AI-assisted analysis.";
-          $("instantScanner").scrollIntoView({ behavior: "smooth", block: "start" });
+          notice.textContent = "";
+          setStep(5);
         } else if (action === "codes") {
           notice.textContent = "Code Drop requests are not connected yet. This section is a preview; no booking code is currently issued or verified.";
         } else if (action === "aviator") {
@@ -374,6 +376,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8cXtkeNzls3yrLJkSFIo-g_EKJKRQbD
       });
     });
     $("backToDashboard").addEventListener("click", () => setStep(2));
+    $("backToGames").addEventListener("click", () => setStep(2));
     $("backToPackages").addEventListener("click", () => setStep(3));
 
     document.querySelectorAll(".choose-package").forEach((button) => {
